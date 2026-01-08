@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+"use client";
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useEffect, useState } from "react";
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+type Reservable = {
+  id: string;
+  name: string;
+  type: "ROOM" | "EQUIPMENT";
+  isActive: boolean
 }
 
-export default App
+
+export default function App() {
+  const [reservables, setReservables] = useState<Reservable[]>([]);
+
+  console.log("描画");
+  useEffect(() => {
+    // APIを叩く
+    // JSONを取得する
+    const fetchdata = async () => {
+      try {
+        console.log("データ取得中...");
+        const res = await fetch("http://localhost:3000/");
+        const data = await res.json();
+        setReservables(data);
+      } catch (error) {
+        console.error("エラー発生", error);
+      }
+    }
+    fetchdata();
+  }, [])
+
+  return (
+    <div>
+      <h1>予約システム</h1>
+      <ul>
+        {reservables.map((item) => (
+          <li key={item.id}>
+            {item.name} - {item.type}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+}
