@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import "./App.css"
 
 type Reservable = {
   id: string;
