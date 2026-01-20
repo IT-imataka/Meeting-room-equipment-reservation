@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 // ビジネスロジックをインポート
 import * as reservationService from "../services/reservationService";
+import { Reservation } from "../types/models";
 
 export const createReservation = (req: Request, res: Response) => {
   // Serviceで返ってきたエラーをここでハンドリングしてステータスコードを返す
@@ -29,5 +30,18 @@ export const createReservation = (req: Request, res: Response) => {
     } else {
       res.status(500).json({ message: "予期せぬエラーが発生しました" });
     }
+  }
+};
+
+// コントローラーで受け取り受付から割り振る
+export const getAll = (req: Request, res: Response) => {
+  try {
+    // ビジネスロジックからデータを貰う
+    const Allresev = reservationService.getAllreservations();
+    res.status(200).json(Allresev);
+  } catch (error) {
+    // ビジネスロジックでエラーが起きても止まらないように
+    console.error("エラーになります", error);
+    res.status(500).json({ message: "予期せぬエラー" });
   }
 };
