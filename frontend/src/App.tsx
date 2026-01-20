@@ -14,6 +14,8 @@ type Reservable = {
 
 export default function App() {
   const [reservables, setReservables] = useState<Reservable[]>([]);
+  const [startTime, setstartTime] = useState<string>("");
+  const [endTime, setendTime] = useState<string>("");
 
   useEffect(() => {
     // APIを叩く
@@ -34,6 +36,14 @@ export default function App() {
   // 予約処理の関数
   const handleReserve = async (reserveId: string) => {
     // APIを叩く
+    if (!startTime || !endTime) {
+      window.alert("開始時刻と終了時刻を入力してください！");
+      return;
+    }
+    if (startTime >= endTime) {
+      window.alert("終了時刻は開始時刻よりも前を設定してください");
+      return;
+    }
     try {
       const res = await fetch("http://localhost:3000/reservations", {
         method: "POST",
@@ -43,8 +53,8 @@ export default function App() {
         body: JSON.stringify({
           useId: reserveId,
           userId: "XXXX",
-          startTime: "2026-01-01",
-          endTime: "2026-01-02"
+          startTime: startTime,
+          endTime: endTime,
         })
       });
       if (!res.ok) {
@@ -61,6 +71,10 @@ export default function App() {
   return (
     <div>
       <h1>予約システム</h1>
+      <label htmlFor="stTime">開始時刻</label>
+      <input type="datetime-local" name="stTime" value={startTime} onChange={(e) => { setstartTime(e.target.value) }} />
+      <label htmlFor="edTime">終了時刻</label>
+      <input type="datetime-local" name="edTime" value={endTime} onChange={(e) => { setendTime(e.target.value) }} />
       <ul>
         {reservables.map((item) => (
           <li key={item.id}>
@@ -71,6 +85,6 @@ export default function App() {
           </li>
         ))}
       </ul>
-    </div>
+    </div >
   );
 }
