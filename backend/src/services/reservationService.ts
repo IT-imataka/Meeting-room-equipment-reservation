@@ -5,6 +5,7 @@ import { Reservation } from "../types/models";
 import * as reservationRepo from "../repositories/reservationRepositories";
 import { error } from "node:console";
 import { exit } from "node:process";
+import { findAll } from "../repositories/reservableRepositories";
 
 // クライアントからくるデータの形
 type CreateReservationRequest = {
@@ -14,6 +15,7 @@ type CreateReservationRequest = {
   endTime: string;
 };
 
+// 作成と加工、コントローラーに渡す
 export const createReservation = (
   data: CreateReservationRequest,
 ): Reservation => {
@@ -53,4 +55,9 @@ export const createReservation = (
 
   // 作成したデータを返す
   return newreservation;
+};
+
+// 予約状況の表示のためリストをAPIから取得する
+export const getAllreservations = (): Reservation[] => {
+  return reservationRepo.findAll();
 };
