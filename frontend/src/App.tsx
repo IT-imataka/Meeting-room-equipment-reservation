@@ -65,11 +65,19 @@ export default function App() {
       return;
     }
     try {
+      // fetchで統一する設計思想　データの設計図をexpressに渡す
+      // 誰が、いつ、どうしたいかを荷物にして伝票を送っているイメージ
       const res = await fetch("http://localhost:3000/reservations", {
+
+        // 配送の種類
         method: "POST",
+
+        // 品名
         headers: {
           "Content-type": "application/json"
         },
+
+        // 中身
         body: JSON.stringify({
           useId: reserveId,
           userId: "XXXX",
@@ -94,18 +102,47 @@ export default function App() {
     }
   };
 
+  // 削除処理の関数
+  const handleCancel = async (reservationId: string) => {
+    // if (window.confirm("本当に消しますか？")) {
+    //   await fetch(`http://localhost:3000/reservations${reservationId}`, {
+    //     method: "DELETE",
+    //   })
+    //   fetchReservations();
+    // }
+
+    // ↑でもよいが、インデントが深くなるので、ダメなら弾く、okなら通すでガード
+
+    if (!window.confirm("本当にキャンセルしますか？")) {
+      return;
+    }
+    try {
+      // methodの更新だけのため、変数にはいれない
+      await fetch(`http://localhost:3000/reservations/${reservationId}`, {
+        method: "DELETE",
+      });
+
+      alert("キャンセル完了");
+      fetchReservations();
+
+    } catch (error) {
+      console.error("キャンセルできませんでした", error);
+    }
+  }
+
   return (
     <div>
       <h1>予約システム</h1>
       <label htmlFor="stTime">開始時刻</label>
+      {/* ユーザしか知らない時刻等はイベントオブジェクトとして渡したものをセットする必要がある */}
       <input type="datetime-local" name="stTime" value={startTime} onChange={(e) => { setstartTime(e.target.value) }} />
       <label htmlFor="edTime">終了時刻</label>
       <input type="datetime-local" name="edTime" value={endTime} onChange={(e) => { setendTime(e.target.value) }} />
       <ul>
-        {reservables.map((item) => (
-          <li key={item.id}>
-            {item.name} - {item.type}
-            <button onClick={() => handleReserve(item.id)}
+        {reservables.map((reservable) => (
+          <li key={reservable.id}>
+            {reservable.name} - {reservable.type}
+            <button onClick={() => handleReserve(reservable.id)}
               style={{ marginLeft: '10px' }}>予約する
             </button>
           </li>
@@ -114,7 +151,9 @@ export default function App() {
       <ul>
         {reservations.map((reservation) => (
           <li key={reservation.id}>予約者：{reservation.userId} <br />
-            開始時刻：{reservation.startTime} - 終了時刻：{reservation.endTime}</li>
+            開始時刻：{reservation.startTime} - 終了時刻：{reservation.endTime}
+            <button onClick={() => handleCancel(reservation.id)}>キャンセル</button>
+          </li>
         ))}
       </ul>
     </div >

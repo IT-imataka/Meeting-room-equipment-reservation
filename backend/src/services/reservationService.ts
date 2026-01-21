@@ -61,3 +61,12 @@ export const createReservation = (
 export const getAllreservations = (): Reservation[] => {
   return reservationRepo.findAll();
 };
+
+// MVCSのためデータの保存場所を触るために一度ビジネスロジックを経由する
+// そのあとはControllerにつなげる
+export const cancelReservation = (id: string): void => {
+  const cancelId = reservationRepo.deleteById(id);
+  if (!cancelId) {
+    throw new Error("IDが見つかりませんでした");
+  }
+};

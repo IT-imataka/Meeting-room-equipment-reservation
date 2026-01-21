@@ -11,4 +11,7 @@ router.post("/", reservationControllers.createReservation);
 // 2.予約一覧の取得
 router.get("/", reservationControllers.getAll);
 
+// 3.予約内容の削除
+router.delete("/:id", reservationControllers.cancel);
+
 export default router;
