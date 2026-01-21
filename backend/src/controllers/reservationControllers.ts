@@ -33,7 +33,7 @@ export const createReservation = (req: Request, res: Response) => {
   }
 };
 
-// コントローラーで受け取り受付から割り振る
+// Controllerで受け取り受付から割り振る
 export const getAll = (req: Request, res: Response) => {
   try {
     // ビジネスロジックからデータを貰う
@@ -43,5 +43,21 @@ export const getAll = (req: Request, res: Response) => {
     // ビジネスロジックでエラーが起きても止まらないように
     console.error("エラーになります", error);
     res.status(500).json({ message: "予期せぬエラー" });
+  }
+};
+
+// 削除したい予約の内容だけを削除する関数
+export const cancel = (req: Request, res: Response) => {
+  const id = req.params.id;
+  // ここで代入したidはexpressの仕様上未設定もあり得るらしい。なので存在確認をして早期returnを必ず挟む
+  if (!id) {
+    res.status(400).json({ message: "IDが必要です" });
+    return;
+  }
+  try {
+    reservationService.cancelReservation(id);
+    res.status(204).send();
+  } catch (error) {
+    res.status(404).json({ message: "削除に失敗しました" });
   }
 };
