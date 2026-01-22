@@ -63,10 +63,30 @@ export const getAllreservations = (): Reservation[] => {
 };
 
 // MVCSのためデータの保存場所を触るために一度ビジネスロジックを経由する
-// そのあとはControllerにつなげる
+// そのあとはRepoにつなげる
 export const cancelReservation = (id: string): void => {
   const cancelId = reservationRepo.deleteById(id);
   if (!cancelId) {
     throw new Error("IDが見つかりませんでした");
   }
+};
+
+// ビジネスロジックを経由してControllerからRepoを呼ぶ
+// 窓口作成
+export const updateReservation = (
+  id: string,
+  startTime: string,
+  endTime: string,
+): Reservation => {
+  // Repoに渡す時の型にも同様にPartialを使う
+  const newData: Partial<Reservation> = {
+    id: id,
+    startTime: startTime,
+    endTime: endTime,
+  };
+  const updated = reservationRepo.update(id, newData);
+  if (!updated) {
+    throw new Error("更新内容が見つかりません。");
+  }
+  return updated;
 };
