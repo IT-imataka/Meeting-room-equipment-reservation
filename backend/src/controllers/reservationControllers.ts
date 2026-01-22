@@ -33,6 +33,7 @@ export const createReservation = (req: Request, res: Response) => {
   }
 };
 
+// 全予約状況の取得
 // Controllerで受け取り受付から割り振る
 export const getAll = (req: Request, res: Response) => {
   try {
@@ -59,5 +60,27 @@ export const cancel = (req: Request, res: Response) => {
     res.status(204).send();
   } catch (error) {
     res.status(404).json({ message: "削除に失敗しました" });
+  }
+};
+
+// 更新したい予約の内容だけを更新する関数
+export const update = (req: Request, res: Response) => {
+  // 更新する情報を用意する
+  const id = req.params.id;
+  // console.log("id", id);
+  const { startTime, endTime } = req.body;
+  // console.log("【Controller】受け取ったID:", id);
+  // console.log("【Controller】受け取ったBody:", req.body);
+  // ガード節
+  if (!id || !startTime || !endTime) {
+    res.status(400).json({ message: "id,startTime,endTimeは必須です" });
+    return;
+  }
+  try {
+    const updata = reservationService.updateReservation(id, startTime, endTime);
+    res.status(200).json(updata);
+  } catch (error) {
+    res.status(404).json({ message: "更新失敗:予約が見つかりません" });
+    // console.error("更新が見つかりません", error);
   }
 };
