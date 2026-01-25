@@ -18,14 +18,6 @@ export type Reservation = {
   endTime: string;
 };
 
-// const [startTime, setstartTime] = useState<string>("");
-// const [endTime, setendTime] = useState<string>("");
-
-// 予約編集モーダル用
-// const [editId, setEditId] = useState<string | null>(null);
-// const [newstartTime, setnewStartTime] = useState("");
-// const [newendTime, setnewEndTime] = useState("");
-
 // 何を予約するのかを取得する関数
 export const fetchReservables = async (): Promise<Reservable[]> => {
   console.log("データ取得中...");

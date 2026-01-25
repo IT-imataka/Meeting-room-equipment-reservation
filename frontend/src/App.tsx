@@ -144,11 +144,11 @@ export default function App() {
       <div style={{
         display: "flex",
         flexWrap: "wrap",
-        gap: "1rem",
+        gap: "2rem",
         justifyContent: "center",
       }}>
         {reservables.map((reservable) => (
-          <article style={{ flex: "1 1 300px", maxWidth: "400px", }} key={reservable.id}>
+          <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservable.id}>
             <header><strong>{reservable.name}</strong></header>
             <p>タイプ：{reservable.type}</p>
             <footer>
@@ -163,11 +163,11 @@ export default function App() {
       <div style={{
         display: "flex",
         flexWrap: "wrap",
-        gap: "1rem",
+        gap: "2rem",
         justifyContent: "center",
       }}>
         {reservations.map((reservation) => (
-          <article style={{ flex: "1 1 300px", maxWidth: "400px", }} key={reservation.id}>
+          <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservation.id}>
             <header>予約者：{reservation.userId} </header>
             <span style={{ display: "inline-block" }}>開始時刻：{reservation.startTime}</span>
             <span style={{ display: "inline-block" }}>終了時刻：{reservation.endTime}</span>
