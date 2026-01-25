@@ -190,11 +190,11 @@ export default function App() {
             display: "flex", justifyContent: "center", alignItems: "center"
           }}>
             <div style={{
-              backgroundColor: "white", padding: "20px", borderRadius: "8px", width: "300px",
+              backgroundColor: "white", padding: "30px", borderRadius: "8px", width: "300px",
               boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
             }}>
               {/* 中身 */}
-              <h3 style={{ marginTop: 0, color: "#000" }}>予約時間の変更</h3>
+              <h3 style={{ marginBlock: 0, color: "#000" }}>予約時間の変更</h3>
               <div style={{ marginBottom: "10px" }}>
                 <label> 開始時間：</label>
                 <input type="datetime-local"
@@ -212,7 +212,7 @@ export default function App() {
               </div>
 
               {/* 更新の実行か、キャンセルかのボタン */}
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", fontSize: "16px" }}>
                 <button onClick={() => { setEditId(null) }}>キャンセル</button>
                 {/* 引数がなければ関数式を渡して、起動してという命令でok
                 引数がある場合等はラムダ式でワンクッション挟み、実行まで命令する必要がある
