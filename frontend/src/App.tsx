@@ -196,18 +196,20 @@ export default function App() {
               {/* 中身 */}
               <h3 style={{ marginBlock: 0, color: "#000" }}>予約時間の変更</h3>
               <div style={{ marginBottom: "10px" }}>
-                <label> 開始時間：</label>
+                <label style={{ color: "#000" }}> 開始時間</label>
                 <input type="datetime-local"
                   value={newstartTime}
                   onChange={(event) => { setnewStartTime(event.target.value) }}
+                  onClick={e => { e.currentTarget.showPicker() }}
                   style={{ width: "100%", padding: "5px", }} />
               </div>
 
               <div style={{ marginBottom: "20px" }}>
-                <label> 終了時間：</label>
+                <label style={{ color: "#000" }}> 終了時間</label>
                 <input type="datetime-local"
                   value={newendTime}
                   onChange={event => { setnewEndTime(event.target.value) }}
+                  onClick={e => { e.currentTarget.showPicker() }}
                   style={{ width: "100%", padding: "5px", }} />
               </div>
 
