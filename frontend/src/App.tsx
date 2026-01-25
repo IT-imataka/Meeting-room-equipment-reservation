@@ -134,7 +134,7 @@ export default function App() {
 
   return (
     <div>
-      <h1>予約システム</h1>
+      <h2>予約システム&nbsp;v1.0</h2>
       <label htmlFor="stTime">開始時刻</label>
       {/* ユーザしか知らない時刻等はイベントオブジェクトとして渡したものをセットする必要がある */}
       <input type="datetime-local" name="stTime" value={startTime} onChange={(e) => { setstartTime(e.target.value) }} />
