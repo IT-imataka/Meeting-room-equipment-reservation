@@ -1,121 +1,120 @@
-// "use client";
+// State と APIを分けるのがコツ
 
-// import { useState } from "react";
+const API_BASE_PORT = 3000;
+const API_env_URL = `http://localhost:${API_BASE_PORT}`;
 
-// type Reservable = {
-//   id: string;
-//   name: string;
-//   type: "ROOM" | "EQUIPMENT";
-//   isActive: boolean;
-// };
+export type Reservable = {
+  id: string;
+  name: string;
+  type: "ROOM" | "EQUIPMENT";
+  isActive: boolean;
+};
 
-// type Reservation = {
-//   id: string;
-//   useId: string;
-//   userId: string;
-//   startTime: string;
-//   endTime: string;
-// };
+export type Reservation = {
+  id: string;
+  useId: string;
+  userId: string;
+  startTime: string;
+  endTime: string;
+};
 
-// const [reservables, setReservables] = useState<Reservable[]>([]);
-// const [reservations, setReservations] = useState<Reservation[]>([]);
 // const [startTime, setstartTime] = useState<string>("");
 // const [endTime, setendTime] = useState<string>("");
 
-// // 何を予約するのかを取得する関数
-// export const fetchReservables = async () => {
-//   try {
-//     console.log("データ取得中...");
-//     const res = await fetch("http://localhost:3000/");
-//     const data = await res.json();
-//     setReservables(data);
-//   } catch (error) {
-//     console.error("エラー発生", error);
-//   }
-// };
+// 予約編集モーダル用
+// const [editId, setEditId] = useState<string | null>(null);
+// const [newstartTime, setnewStartTime] = useState("");
+// const [newendTime, setnewEndTime] = useState("");
 
-// // 予約データ取得関数は、予約した時点以外にも画面を開いたタイミングでも出てくるように
-// export const fetchReservations = async () => {
-//   try {
-//     const res = await fetch("http://localhost:3000/reservations");
-//     const data = await res.json();
-//     setReservations(data);
-//   } catch (error) {
-//     console.error("予約が取得できませんでした", error);
-//   }
-// };
+// 何を予約するのかを取得する関数
+export const fetchReservables = async (): Promise<Reservable[]> => {
+  console.log("データ取得中...");
+  const res = await fetch(API_env_URL);
 
-// // 予約処理の関数
-// export const handleReserve = async (reserveId: string) => {
-//   // APIを叩く
-//   // 入力時刻のバリデーション
-//   if (!startTime || !endTime) {
-//     window.alert("開始時刻と終了時刻を入力してください！");
-//     return;
-//   }
-//   if (startTime >= endTime) {
-//     window.alert("終了時刻は開始時刻よりも前を設定してください");
-//     return;
-//   }
-//   try {
-//     // fetchで統一する設計思想　データの設計図をexpressに渡す
-//     // 誰が、いつ、どうしたいかを荷物にして伝票を送っているイメージ
-//     const res = await fetch("http://localhost:3000/reservations", {
-//       // 配送の種類
-//       method: "POST",
+  // try-catchは削除し、ここでエラーを返すように
+  if (!res.ok) throw new Error("データ取得失敗");
 
-//       // 品名
-//       headers: {
-//         "Content-type": "application/json",
-//       },
+  // const data = await res.json();
+  // セットせず、値だけを返すようにリファクタ
+  // setReservables(data);
+  return res.json();
+};
 
-//       // 中身
-//       body: JSON.stringify({
-//         useId: reserveId,
-//         userId: "XXXX",
-//         startTime: startTime,
-//         endTime: endTime,
-//       }),
-//     });
-//     if (!res.ok) {
-//       throw new Error("予約失敗");
-//     }
-//     const data = await res.json();
-//     alert(`予約完了ID：${data.useId}`);
+// 予約データ取得関数は、予約した時点以外にも画面を開いたタイミングでも出てくるように
+export const fetchReservations = async (): Promise<Reservation[]> => {
+  const res = await fetch(`${API_env_URL}/reservations`);
 
-//     // 常に変わらないものは予約時に更新する必要がない(備品や会議室、プロジェクターなど)
-//     // fetchReservables();
+  if (!res.ok) throw new Error("予約データ取得失敗");
 
-//     // 誰がいつ、何を予約するのかは変化するため、更新する必要がある
-//     fetchReservations();
-//   } catch (error) {
-//     console.error("エラーです", error);
-//   }
-// };
+  // ここも同様に値だけを返すように
+  // const data = await res.json();
+  // setReservations(data);
+  return await res.json();
+};
 
-// // 削除処理の関数
-// export const handleCancel = async (reservationId: string) => {
-//   // if (window.confirm("本当に消しますか？")) {
-//   //   await fetch(`http://localhost:3000/reservations${reservationId}`, {
-//   //     method: "DELETE",
-//   //   })
-//   //   fetchReservations();
-//   // }
+// 予約処理の関数
+export const handleReserve = async (
+  reserveId: string,
+  startTime: string,
+  endTime: string,
+) => {
+  try {
+    // fetchで統一する設計思想　データの設計図をexpressに渡す
+    // 誰が、いつ、どうしたいかを荷物にして伝票を送っているイメージ
+    const res = await fetch(`${API_env_URL}/reservations`, {
+      // 配送の種類
+      method: "POST",
+      // 品名
+      headers: {
+        "Content-type": "application/json",
+      },
+      // 中身
+      body: JSON.stringify({
+        useId: reserveId,
+        userId: "XXXX",
+        startTime: startTime,
+        endTime: endTime,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error("予約失敗");
+    }
+    // データを受け取らず、値だけを返す
+    // const data = await res.json();
+    return await res.json();
 
-//   // ↑でもよいが、インデントが深くなるので、ダメなら弾く、okなら通すでガード
+    // 常に変わらないものは予約時に更新する必要がない(備品や会議室、プロジェクターなど)
+    // × fetchReservables();
+  } catch (error) {
+    console.error("エラーです", error);
+  }
+};
 
-//   if (!window.confirm("本当にキャンセルしますか？")) {
-//     return;
-//   }
-//   try {
-//     // methodの更新だけのため、変数にはいれない
-//     await fetch(`http://localhost:3000/reservations/${reservationId}`, {
-//       method: "DELETE",
-//     });
+// 削除処理の関数
+export const handleCancel = async (reservationId: string) => {
+  // methodの更新だけだが,App.tsxに返すため変数に入れる
+  const res = await fetch(`${API_env_URL}/reservations/${reservationId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("キャンセルできませんでした");
+  return true;
+};
 
-//     alert("キャンセル完了");
-//     fetchReservations();
-//   } catch (error) {
-//     console.error("キャンセルできませんでした", error);
-//   }
-// };
+// 予約更新
+export const handleUpdate = async (
+  id: string,
+  startTime: string,
+  endTime: string,
+) => {
+  const res = await fetch(`${API_env_URL}/reservations/${id}`, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({
+      startTime: startTime,
+      endTime: endTime,
+    }),
+  });
+  // const data = await res.json();
+  if (!res.ok) throw new Error("エラー：予約を更新できませんでした");
+  return await res.json();
+};
