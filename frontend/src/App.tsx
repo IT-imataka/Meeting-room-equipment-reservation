@@ -141,28 +141,45 @@ export default function App() {
       <label htmlFor="edTime">終了時刻</label>
       <input type="datetime-local" name="edTime" value={endTime} onChange={(e) => { setendTime(e.target.value) }} />
       {/* 何を予約するか */}
-      <ul>
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "2rem",
+        justifyContent: "center",
+      }}>
         {reservables.map((reservable) => (
-          <li key={reservable.id}>
-            {reservable.name} - {reservable.type}
-            <button onClick={() => handleReserve(reservable.id)}
-              style={{ marginLeft: '10px' }}>予約する
-            </button>
-          </li>
+          <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservable.id}>
+            <header><strong>{reservable.name}</strong></header>
+            <p>タイプ：{reservable.type}</p>
+            <footer>
+              <button onClick={() => handleReserve(reservable.id)}
+                style={{ marginLeft: '10px' }}>予約する
+              </button>
+            </footer>
+          </article>
         ))}
-      </ul>
+      </div>
       {/* いつ、誰が、何を予約したか */}
-      <ul>
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "2rem",
+        justifyContent: "center",
+      }}>
         {reservations.map((reservation) => (
-          <li key={reservation.id}>予約者：{reservation.userId} <br />
-            開始時刻：{reservation.startTime} - 終了時刻：{reservation.endTime}
-            <button onClick={() => handleCancel(reservation.id)}>キャンセル</button>
-            <button onClick={() => { handleEditClick(reservation) }}>
-              編集用ボタンテスト
-            </button>
-          </li>
+          <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservation.id}>
+            <header>予約者：{reservation.userId} </header>
+            <span style={{ display: "inline-block" }}>開始時刻：{reservation.startTime}</span>
+            <span style={{ display: "inline-block" }}>終了時刻：{reservation.endTime}</span>
+            <footer>
+              <button onClick={() => { handleEditClick(reservation) }} style={{ backgroundColor: "cyan", color: "black" }}>
+                内容を変更
+              </button>
+              <button onClick={() => handleCancel(reservation.id)}>キャンセル</button>
+            </footer>
+          </article>
         ))}
-      </ul>
+      </div>
       {/* モーダルのパーツ */}
       {
         editId && (
@@ -177,7 +194,7 @@ export default function App() {
               boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
             }}>
               {/* 中身 */}
-              <h3 style={{ marginTop: 0, color: "#000" }}>予約の編集</h3>
+              <h3 style={{ marginTop: 0, color: "#000" }}>予約時間の変更</h3>
               <div style={{ marginBottom: "10px" }}>
                 <label> 開始時間：</label>
                 <input type="datetime-local"

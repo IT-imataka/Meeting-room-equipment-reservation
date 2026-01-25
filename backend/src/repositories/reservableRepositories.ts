@@ -4,13 +4,13 @@ import { Reservable } from "../types/models";
 const reservable: Reservable[] = [
   {
     id: "1",
-    name: "example",
+    name: "プロジェクター",
     type: "EQUIPMENT",
     isActive: true,
   },
   {
     id: "2",
-    name: "example",
+    name: "A会議室",
     type: "ROOM",
     isActive: true,
   },
