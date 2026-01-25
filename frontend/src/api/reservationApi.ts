@@ -53,6 +53,7 @@ export const fetchReservations = async (): Promise<Reservation[]> => {
 };
 
 // 予約処理の関数
+// 時間あればまた型明示する
 export const handleReserve = async (
   reserveId: string,
   startTime: string,
@@ -91,6 +92,7 @@ export const handleReserve = async (
 };
 
 // 削除処理の関数
+// 時間あればまた型明示する
 export const handleCancel = async (reservationId: string) => {
   // methodの更新だけだが,App.tsxに返すため変数に入れる
   const res = await fetch(`${API_env_URL}/reservations/${reservationId}`, {
@@ -101,6 +103,7 @@ export const handleCancel = async (reservationId: string) => {
 };
 
 // 予約更新
+// 時間あればまた型明示する
 export const handleUpdate = async (
   id: string,
   startTime: string,
