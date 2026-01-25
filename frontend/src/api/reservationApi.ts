@@ -1,7 +1,8 @@
 // State と APIを分けるのがコツ
 
 const API_BASE_PORT = 3000;
-const API_env_URL = `http://localhost:${API_BASE_PORT}`;
+const API_env_URL =
+  import.meta.env.VITE_API_URL || `http://localhost:${API_BASE_PORT}`;
 
 export type Reservable = {
   id: string;
