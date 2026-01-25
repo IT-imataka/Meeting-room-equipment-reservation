@@ -2,25 +2,14 @@
 
 import { useEffect, useState } from "react";
 import "./App.css"
-
-type Reservable = {
-  id: string;
-  name: string;
-  type: "ROOM" | "EQUIPMENT";
-  isActive: boolean
-}
-
-type Reservation = {
-  id: string;
-  useId: string;
-  userId: string;
-  startTime: string;
-  endTime: string;
-}
+import * as reservationAPI from "./api/reservationApi"
+import { type Reservable, type Reservation } from "./api/reservationApi";
 
 export default function App() {
   const [reservables, setReservables] = useState<Reservable[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
+
+  // 入力フォーム用
   const [startTime, setstartTime] = useState<string>("");
   const [endTime, setendTime] = useState<string>("");
 
@@ -30,32 +19,20 @@ export default function App() {
   const [newendTime, setnewEndTime] = useState("");
 
   useEffect(() => {
-    fetchReservables();
-    fetchReservations();
+    // 非同期でデータを貰い、Stateの更新だけを行うように変更
+    const loadData = async () => {
+      try {
+        const reservablesData = await reservationAPI.fetchReservables();
+        const reservationData = await reservationAPI.fetchReservations();
+
+        setReservables(reservablesData);
+        setReservations(reservationData);
+      } catch (error) {
+        console.error("データ取得エラー", error);
+      }
+    }
+    loadData();
   }, [])
-
-  // 何を予約するのかを取得する関数
-  const fetchReservables = async () => {
-    try {
-      console.log("データ取得中...");
-      const res = await fetch("http://localhost:3000/");
-      const data = await res.json();
-      setReservables(data);
-    } catch (error) {
-      console.error("エラー発生", error);
-    }
-  }
-
-  // 予約データ取得関数は、予約した時点以外にも画面を開いたタイミングでも出てくるように
-  const fetchReservations = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/reservations");
-      const data = await res.json();
-      setReservations(data);
-    } catch (error) {
-      console.error("予約が取得できませんでした", error)
-    }
-  }
 
   // 予約処理
   const handleReserve = async (reserveId: string) => {
@@ -70,41 +47,23 @@ export default function App() {
       return;
     }
     try {
-      // fetchで統一する設計思想　データの設計図をexpressに渡す
-      // 誰が、いつ、どうしたいかを荷物にして伝票を送っているイメージ
-      const res = await fetch("http://localhost:3000/reservations", {
-        // 配送の種類
-        method: "POST",
-        // 品名
-        headers: {
-          "Content-type": "application/json"
-        },
-        // 中身
-        body: JSON.stringify({
-          useId: reserveId,
-          userId: "XXXX",
-          startTime: startTime,
-          endTime: endTime,
-        })
-      });
-      if (!res.ok) {
-        throw new Error("予約失敗");
-      }
-      const data = await res.json();
-      alert(`予約完了ID：${data.useId}`);
+      // 処理だけさせる
+      // const data = await reservationAPI.handleReserve(reserveId, startTime, endTime);
+      await reservationAPI.handleReserve(reserveId, startTime, endTime);
 
-      // 常に変わらないものは予約時に更新する必要がない(備品や会議室、プロジェクターなど)
-      // fetchReservables();
+      // 更新されたデータを再取得
+      const data = await reservationAPI.fetchReservations();
 
-      // 誰がいつ、何を予約するのかは変化するため、更新する必要がある
-      fetchReservations();
+      // 受け取ったデータで画面更新
+      setReservations(data);
+      alert(`予約完了`);
 
     } catch (error) {
       console.error("エラーです", error);
     }
   };
 
-  // 削除処理
+  // // 削除処理
   const handleCancel = async (reservationId: string) => {
     // if (window.confirm("本当に消しますか？")) {
     //   await fetch(`http://localhost:3000/reservations${reservationId}`, {
@@ -118,43 +77,47 @@ export default function App() {
       return;
     }
     try {
-      // methodの更新だけのため、変数にはいれない
-      await fetch(`http://localhost:3000/reservations/${reservationId}`, {
-        method: "DELETE",
-      });
+      await reservationAPI.handleCancel(reservationId);
+
+      // 更新データを再取得
+      const data = await reservationAPI.fetchReservations();
+
+      // 受け取ったデータで画面更新
+      setReservations(data);
 
       alert("キャンセル完了");
-      fetchReservations();
 
     } catch (error) {
-      console.error("キャンセルできませんでした", error);
+      alert("キャンセルできませんでした");
+      console.error("エラー", error);
     }
   }
 
   // 予約更新
   const handleUpdate = async (id: string, startTime: string, endTime: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/reservations/${id}`, {
-        method: "PUT",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          startTime: startTime,
-          endTime: endTime,
-        })
-      });
-      const data = await res.json();
-      alert(`予約更新完了：${data.id}`)
-      fetchReservations();
+      await reservationAPI.handleUpdate(id, startTime, endTime);
+
+      // データ再取得
+      const data = await reservationAPI.fetchReservations();
+
+      // 受け取ったデータで画面更新
+      setReservations(data);
+
+      alert(`予約更新完了`);
+
     } catch (error) {
-      console.error("エラー：予約を更新できませんでした", error);
+      alert("エラー：予約を更新できませんでした");
     }
   }
+
   // 編集用ボタンを押した時の予約されている状態の情報をセットする関数
   const handleEditClick = (reservation: Reservation) => {
     setEditId(reservation.id);
     setnewStartTime(reservation.startTime);
     setnewEndTime(reservation.endTime);
   }
+
   const savingchange = async () => {
     // idの存在チェック
     console.log(editId);
