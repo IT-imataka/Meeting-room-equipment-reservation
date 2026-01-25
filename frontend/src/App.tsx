@@ -3,22 +3,7 @@
 import { useEffect, useState } from "react";
 import "./App.css"
 import * as reservationAPI from "./api/reservationApi"
-// import { Reservable, Reservation } from "./api/reservationApi";
-
-type Reservable = {
-  id: string;
-  name: string;
-  type: "ROOM" | "EQUIPMENT";
-  isActive: boolean
-}
-
-type Reservation = {
-  id: string;
-  useId: string;
-  userId: string;
-  startTime: string;
-  endTime: string;
-}
+import { type Reservable, type Reservation } from "./api/reservationApi";
 
 export default function App() {
   const [reservables, setReservables] = useState<Reservable[]>([]);
