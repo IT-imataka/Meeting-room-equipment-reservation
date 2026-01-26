@@ -2,4 +2,6 @@
 
 ## 現在開発中
 
-### API: https://meeting-room-equipment-reservation.onrender.com/reservations
+API: https://meeting-room-equipment-reservation.onrender.com/reservations
+
+![Architecture diagram ](./images/mermaid_mvcs_model.png)
