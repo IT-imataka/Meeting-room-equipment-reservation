@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 // ビジネスロジックをインポート
-// * as で名前空間としてインポートしていたオブジェクトたちを1つの箱としてインポートする
+// * as で名前空間としてインポートしていたオブジェクトたちをインスタンス化された1つの箱としてインポートする
 import reservationService from "../services/reservationService";
 import { Reservation } from "../types/models";
 

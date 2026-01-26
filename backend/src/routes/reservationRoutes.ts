@@ -1,6 +1,6 @@
 import { Router } from "express";
 // import getAll from "../controllers/"
-// * as で名前空間としてインポートしていたオブジェクトたちを1つの箱としてインポートする
+// * as で名前空間としてインポートしていたオブジェクトたちをインスタンス化された1つの箱としてインポートする
 import reservationControllers from "../controllers/reservationControllers";
 
 const router = Router();

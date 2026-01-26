@@ -1,7 +1,7 @@
 // まずは型定義をインポート
 import { Reservation } from "../types/models";
 
-// * as で名前空間としてインポートしていたオブジェクトたちを1つの箱としてインポートする
+// * as で名前空間としてインポートしていたオブジェクトたちをインスタンス化された1つの箱としてインポートする
 import reservationRepository from "../repositories/reservationRepositories";
 import { error } from "node:console";
 
