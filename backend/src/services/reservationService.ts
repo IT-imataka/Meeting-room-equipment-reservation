@@ -18,11 +18,14 @@ type CreateReservationRequest = {
 // privateは、そのクラスの中だけで使う秘密道具
 
 // 作成と加工、コントローラーに渡す
+// db経由による非同期処理への書き換え
 export class ReservationService {
-  createReservation(data: CreateReservationRequest): Reservation {
+  async createReservation(
+    data: CreateReservationRequest,
+  ): Promise<Reservation> {
     // こっからビジネスロジック
     // 既存予約の取得
-    const allReservations = reservationRepository.findAll();
+    const allReservations = await reservationRepository.findAll();
 
     // 重複チェック 既存予約それぞれにチェックを行う
     // 1. 会議室ID
@@ -60,37 +63,38 @@ export class ReservationService {
   }
 
   // 予約状況の表示のためリストをAPIから取得する
-  getAllreservations(): Reservation[] {
-    return reservationRepository.findAll();
+  // db経由による非同期処理への書き換え
+  async getAllreservations(): Promise<Reservation[]> {
+    return await reservationRepository.findAll();
   }
 
   // MVCSのためデータの保存場所を触るために一度ビジネスロジックを経由する
   // そのあとはRepoにつなげる
-  cancelReservation(id: string): void {
-    const cancelId = reservationRepository.deleteById(id);
-    if (!cancelId) {
-      throw new Error("IDが見つかりませんでした");
-    }
-  }
+  // async cancelReservation(id: string): Promise<void> {
+  //   const cancelId = await reservationRepository.deleteById(id);
+  //   if (!cancelId) {
+  //     throw new Error("IDが見つかりませんでした");
+  //   }
+  // }
 
   // ビジネスロジックを経由してControllerからRepoを呼ぶ
   // 窓口作成
-  updateReservation(
-    id: string,
-    startTime: string,
-    endTime: string,
-  ): Reservation {
-    // Repoに渡す時の型にも同様にPartialを使う
-    const newData: Partial<Reservation> = {
-      id: id,
-      startTime: startTime,
-      endTime: endTime,
-    };
-    const updated = reservationRepository.update(id, newData);
-    if (!updated) {
-      throw new Error("更新内容が見つかりません。");
-    }
-    return updated;
-  }
+  // async updateReservation(
+  //   id: string,
+  //   startTime: string,
+  //   endTime: string,
+  // ): Promise<Reservation> {
+  //   // Repoに渡す時の型にも同様にPartialを使う
+  //   const newData: Partial<Reservation> = {
+  //     id: id,
+  //     startTime: startTime,
+  //     endTime: endTime,
+  //   };
+  //   const updated = reservationRepository.update(id, newData);
+  //   if (!updated) {
+  //     throw new Error("更新内容が見つかりません。");
+  //   }
+  //   return updated;
+  // }
 }
 export default new ReservationService();

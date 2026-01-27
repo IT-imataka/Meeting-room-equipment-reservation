@@ -13,9 +13,9 @@ router.post("/", reservationControllers.createReservation);
 router.get("/", reservationControllers.getAll);
 
 // 3.予約内容の削除
-router.delete("/:id", reservationControllers.cancel);
+// router.delete("/:id", reservationControllers.cancel);
 
 // 4.予約内容の更新
-router.put("/:id", reservationControllers.update);
+// router.put("/:id", reservationControllers.update);
 
 export default router;
