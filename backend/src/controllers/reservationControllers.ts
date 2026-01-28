@@ -98,7 +98,7 @@ export class ReservationController {
         endTime,
       );
       if (!update) {
-        console.log("❌ IDが見つからないため 404 を返します");
+        console.log("IDが見つからないため 404 を返します");
         res.status(404).json({ message: "Reservation not found" });
         return;
       }
