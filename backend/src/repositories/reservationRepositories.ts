@@ -1,6 +1,7 @@
 // まず型定義から必要なものをインポート
 import { Reservation } from "../types/models";
 import pool from "../db";
+import { start } from "node:repl";
 
 export class ReservationRepository {
   // メモリ上のDB初期化
@@ -12,6 +13,7 @@ export class ReservationRepository {
     // this.reservations.push(reservation);
 
     // 保存クエリ発行
+    // $1~$5 プレースホルダー SQLインジェクション対策
     const query =
       "INSERT INTO reservations (id,use_id,user_id,start_time,end_time)VALUES($1,$2,$3,$4,$5)";
 
@@ -26,39 +28,46 @@ export class ReservationRepository {
   }
 
   // 予約削除機能
-  // deleteById(id: string): boolean {
-  //   // idを持つ予約が、配列の何番目にあるかを探す
-  //   // indexOfよりfindeIndexが使いやすそう。戻り値は該当配列の添え字
-  //   const indexId = this.reservations.findIndex((e) => e.id === id);
-  //   // findIndexは該当しなければ-1のため、-1を考慮できる判定にする
-  //   // if (indexId) reservations.splice(indexId,1);
-  //   if (indexId === -1) {
-  //     return false;
-  //   }
-  //   this.reservations.splice(indexId, 1);
-  //   return true;
-  // }
+  async deleteById(id: string): Promise<boolean> {
+    const query = `DELETE FROM reservations WHERE id = $1`;
+
+    // プレースホルダーにidを代入
+    const result = await pool.query(query, [id]);
+    // rowCount に削除された行数がはいる
+    // 1行以上の削除でtrue,0ならfalse
+    return (result.rowCount ?? 0) > 0;
+  }
 
   // 予約情報の更新機能
   // utility typeのPartialを使い、変更されるであろう各オブジェクトを任意にする
-  // update(id: string, newData: Partial<Reservation>): Reservation | null {
-  //   // 削除と同じ idと同じ予約が配列のどこにあるかを探す
-  //   const index = this.reservations.findIndex((element) => element.id === id);
-  //   if (index === -1) {
-  //     return null;
-  //   }
+  async update(
+    id: string,
+    newData: Partial<Reservation>,
+  ): Promise<Reservation | null> {
+    //
+    const query =
+      "UPDATE reservations SET start_time = $2,end_time = $3 WHERE id = $1 RETURNING *";
 
-  //   // データの上書き 型推論に任せず、アサーションで明示する
-  //   // idだけは変更されない可能性もあるため、受け取ったidでそのまま固定
-  //   const updateReservation = {
-  //     ...this.reservations[index],
-  //     ...newData,
-  //     id: id,
-  //   } as Reservation;
+    //
+    const value = [id, newData.startTime, newData.endTime];
 
-  //   this.reservations[index] = updateReservation;
-  //   return updateReservation;
-  // }
+    const result = await pool.query(query, value);
+
+    if (result.rowCount === 0) {
+      return null;
+    }
+
+    // スネークケースをキャメルケースに
+    // キャメル(key) : スネーク(value)
+    const row = result.rows[0];
+    return {
+      id: row.id,
+      useId: row.use_id,
+      userId: row.user_id,
+      startTime: row.start_time,
+      endTime: row.end_time,
+    };
+  }
 
   // 全予約を取得する機能
   async findAll(): Promise<Reservation[]> {

@@ -70,31 +70,32 @@ export class ReservationService {
 
   // MVCSのためデータの保存場所を触るために一度ビジネスロジックを経由する
   // そのあとはRepoにつなげる
-  // async cancelReservation(id: string): Promise<void> {
-  //   const cancelId = await reservationRepository.deleteById(id);
-  //   if (!cancelId) {
-  //     throw new Error("IDが見つかりませんでした");
-  //   }
-  // }
+  async cancelReservation(id: string): Promise<boolean> {
+    // const cancelId = await reservationRepository.deleteById(id);
+    // if (!cancelId) {
+    //   throw new Error("IDが見つかりませんでした");
+    // }
+    return await reservationRepository.deleteById(id);
+  }
 
   // ビジネスロジックを経由してControllerからRepoを呼ぶ
   // 窓口作成
-  // async updateReservation(
-  //   id: string,
-  //   startTime: string,
-  //   endTime: string,
-  // ): Promise<Reservation> {
-  //   // Repoに渡す時の型にも同様にPartialを使う
-  //   const newData: Partial<Reservation> = {
-  //     id: id,
-  //     startTime: startTime,
-  //     endTime: endTime,
-  //   };
-  //   const updated = reservationRepository.update(id, newData);
-  //   if (!updated) {
-  //     throw new Error("更新内容が見つかりません。");
-  //   }
-  //   return updated;
-  // }
+  async updateReservation(
+    id: string,
+    startTime: string,
+    endTime: string,
+  ): Promise<Reservation> {
+    // Repoに渡す時の型にも同様にPartialを使う
+    const newData: Partial<Reservation> = {
+      id: id,
+      startTime: startTime,
+      endTime: endTime,
+    };
+    const updated = await reservationRepository.update(id, newData);
+    if (!updated) {
+      throw new Error("更新内容が見つかりません。");
+    }
+    return updated;
+  }
 }
 export default new ReservationService();
