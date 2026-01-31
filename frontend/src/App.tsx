@@ -4,8 +4,9 @@ import "./App.css"
 import useReservations from "./hooks/useReservations";
 import Sidebar from "./components/Sidebar";
 import CalendarView from "./components/CalendarView";
-import ReservationCard from "./components/ReservationCard";
+// import ReservationCard from "./components/ReservationCard";
 import ReservationList from "./components/ReservationList";
+import ReservationModal from "./components/ReservationModal";
 
 export default function App() {
 
@@ -55,6 +56,8 @@ export default function App() {
             onEdit={handleEditClick} />
         </section>
       </main>
+      <ReservationModal
+      ></ReservationModal>
     </div >
     // <div>
     //   <h2>予約システム&nbsp;v1.0</h2>

@@ -1,4 +1,4 @@
-// type 型エイリアスで定義する記法
+// type 型エイリアス定義の練習
 import type { Reservation } from "../api/reservationApi";
 
 

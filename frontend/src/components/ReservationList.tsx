@@ -1,7 +1,7 @@
+// propsをインラインで受け取る記法の練習
 import { type Reservation } from "../api/reservationApi";
 import ReservationCard from "./ReservationCard";
 
-// propsをインラインで受け取る記法
 // 1.関数を渡しますと宣言
 // 2.該当の子コンポーネントに引数が渡されているか、その型定義がなされているかを確認しにいく
 // 3.その子コンポーネントの中の孫コンポーネントにしっかり配線されているか
