@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     // 画面
-    <div className="flex h-screen bg-slate-900 p-4 gap-4 text-slate-100 font-sans">
+    <div className="flex h-screen w-full bg-gradient-to-br from-gray-900 via-slate-800 to-black text-slate-100 font-sans p-4 gap-4 over-flow-hidden">
 
       {/* 左サイドバー */}
       <aside className="w-20 shrink-0">
@@ -49,7 +49,10 @@ export default function App() {
 
         {/* 予約リストエリア */}
         <section className="h-full">
-          <ReservationList />
+          <ReservationList
+            reservations={reservations}
+            onDelete={handleCancel}
+            onEdit={handleEditClick} />
         </section>
       </main>
     </div >
