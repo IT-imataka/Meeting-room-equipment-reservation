@@ -2,6 +2,7 @@
 
 // type 型エイリアス定義の練習
 import type { Reservation } from "../api/reservationApi";
+// import { Mic, Monitor } from 'lucide-react';
 
 
 type Props = {
@@ -19,25 +20,35 @@ type Props = {
 const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
   return (
     // すりガラス
-    <div className="group relative p-2 mb-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg transition-all hover:bg-white/10 ">
-      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-400 to-purpule-500 rounded-l-xl" />
-      <div className="pl-4 flex justify-between items-start">
-        <div className="min-w-0 flex-1">
-          <h4 className="text-lg font-bold text-white mb-1 trancate">
+    <div className="p-4 rounded-2xl flex items-center gap-4 shadow-sm border border-white/50 transition hover:shadow-md bg-white/80 group">
+      <div className="p-3 bg-white rounded-xl shadow-sm text-slate-600">
+        {/* アイコンはとりあえず固定ですが、種別があれば分岐可能 */}
+        {/* <Monitor size={20} /> */}
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <div className="flex justify-between items-start mb-1">
+          <h4 className="font-bold text-slate-700 text-base truncate pr-2">
             {/* 名称（会議室の名前など） */}
-            Meeting : {reservation.useId || "未設定"}
+            {reservation.useId || "未設定"}
           </h4>
-          {/* ユーザー名 */}
-          <p className="text-sm text-gray-300">User: {reservation.userId}</p>
-          {/* 日付 */}
-          <div className="mt-2 text-xs font-mono text-blue-200 bg-blue-500/20 px-2 py-1 rounded inline-block">
-            {new Date(reservation.startTime).toLocaleString()} ~
-          </div>
+          <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-orange-100 text-orange-600 shrink-0">
+            予約中
+          </span>
         </div>
-        {/* ボタン */}
-        <div className="flex gap-2 opcity-0 group-hover:opacity-100 transiton-opacity">
-          <button onClick={() => onEdit(reservation)} className="p-1.5 text-xs bg-cyan-500/20 text-cyan-300 rounded hover:bg-cyan-500/40 whitespace-nowrap">編集</button>
-          <button onClick={() => onDelete(reservation.id)} className="p-1.5 text-xs bg-red-500/20 text-red-300 rounded hover:bg-red-500/40 whitespace-nowrap">削除</button>
+
+        <div className="flex justify-between items-end mt-1">
+          <div>
+            <p className="text-xs text-slate-400 mb-0.5">Time</p>
+            <p className="text-sm font-medium text-slate-600">
+              {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </p>
+          </div>
+
+          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button onClick={() => onEdit(reservation)} className="text-xs font-bold text-blue-500 hover:text-blue-700">Edit</button>
+            <button onClick={() => onDelete(reservation.id)} className="text-xs font-bold text-red-400 hover:text-red-600">Del</button>
+          </div>
         </div>
       </div>
     </div>

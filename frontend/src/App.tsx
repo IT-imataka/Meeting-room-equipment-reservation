@@ -41,31 +41,46 @@ export default function App() {
 
   return (
     // 画面
-    <div className="flex h-screen w-full bg-gradient-to-br from-gray-900 via-slate-800 to-black text-slate-100 font-sans p-4 gap-4 over-flow-hidden">
+    <div className="min-h-screen w-full bg-[#0f172a] flex items-center justify-center p-4 sm:p-8 font-sans overflow-hidden relative">
 
-      {/* 左サイドバー */}
-      <aside className="w-20 shrink-0">
+      {/* --- 背景の幾何学的な光の演出（ロジックに影響しない装飾要素） --- */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/40 rounded-full blur-[120px]" />
+      <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-blue-600/40 rounded-full blur-[100px]" />
+      <div className="absolute top-[20%] right-[20%] w-[300px] h-[300px] bg-orange-500/30 rounded-full blur-[80px]" />
+
+      {/* メインのガラスボードコンテナ */}
+      <div className="w-full max-w-6xl h-[85vh] bg-white/10 backdrop-blur-xl border border-white/20 rounded-[30px] shadow-2xl flex overflow-hidden relative z-10 text-slate-100">
+
+        {/* 左サイドバー */}
         <Sidebar />
-      </aside>
 
-      {/* 残りのエリア */}
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-2gap-4">
+        {/* 残りのエリア */}
+        <main className="flex-1 flex flex-col p-8 overflow-y-auto">
 
-        {/* 中央のカレンダーエリア */}
-        <section className="h-full">
-          <CalendarView />
-        </section>
+          {/* ヘッダーエリア（タイトルと予約室bboardの表示位置調整） */}
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold tracking-wide text-white drop-shadow-md">予約室bboard</h1>
+          </div>
 
-        {/* 予約リストエリア */}
-        <section className="h-full">
-          <ReservationList
-            reservations={reservations}
-            // ※1 ボタンを押下したというpropsを渡す
-            onAddClick={() => setCreateOpen(true)}
-            onDelete={handleCancel}
-            onEdit={handleEditClick} />
-        </section>
-      </main>
+          <div className="flex flex-col lg:flex-row gap-6 h-full">
+            {/* 中央のカレンダーエリア */}
+            <div className="lg:w-5/12 h-full">
+              <CalendarView />
+            </div>
+
+            {/* 予約リストエリア */}
+            <div className="lg:w-7/12 h-full">
+              <ReservationList
+                reservations={reservations}
+                // ※1 ボタンを押下したというpropsを渡す
+                onAddClick={() => setCreateOpen(true)}
+                onDelete={handleCancel}
+                onEdit={handleEditClick} />
+            </div>
+          </div>
+        </main>
+      </div>
+
       {/* 新規予約用 */}
       <ReservationModal
         // Modalの表示可否の状態を渡す
@@ -98,102 +113,5 @@ export default function App() {
         saveTitle="変更を保存"
       ></ReservationModal>
     </div >
-    // <div>
-    //   <h2>予約システム&nbsp;v1.0</h2>
-    //   <label htmlFor="stTime">開始時刻</label>
-    //   {/* ユーザしか知らない時刻等はイベントオブジェクトとして渡したものをセットする必要がある */}
-    //   <input type="datetime-local" name="stTime" value={startTime} onChange={(e) => { setstartTime(e.target.value) }} />
-    //   <label htmlFor="edTime">終了時刻</label>
-    //   <input type="datetime-local" name="edTime" value={endTime} onChange={(e) => { setendTime(e.target.value) }} />
-    //   {/* 何を予約するか */}
-    //   <div style={{
-    //     display: "flex",
-    //     flexWrap: "wrap",
-    //     gap: "2rem",
-    //     justifyContent: "center",
-    //   }}>
-    //     {reservables.map((reservable) => (
-    //       <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservable.id}>
-    //         <header><strong>{reservable.name}</strong></header>
-    //         <p>タイプ：{reservable.type}</p>
-    //         <footer>
-    //           <button onClick={() => handleReserve(reservable.id)}
-    //             style={{ marginLeft: '10px' }}>予約する
-    //           </button>
-    //         </footer>
-    //       </article>
-    //     ))}
-    //   </div>
-    //   {/* いつ、誰が、何を予約したか */}
-    //   <div style={{
-    //     display: "flex",
-    //     flexWrap: "wrap",
-    //     gap: "2rem",
-    //     justifyContent: "center",
-    //   }}>
-    //     {reservations.map((reservation) => (
-    //       <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservation.id}>
-    //         <header>予約者：{reservation.userId} </header>
-    //         <span style={{ display: "inline-block" }}>開始時刻：{reservation.startTime}</span>
-    //         <span style={{ display: "inline-block" }}>終了時刻：{reservation.endTime}</span>
-    //         <footer>
-    //           <button onClick={() => { handleEditClick(reservation) }} style={{ backgroundColor: "cyan", color: "black" }}>
-    //             内容を変更
-    //           </button>
-    //           <button onClick={() => handleCancel(reservation.id)}>キャンセル</button>
-    //         </footer>
-    //       </article>
-    //     ))}
-    //   </div>
-    //   {/* モーダルのパーツ */}
-    //   {
-    //     editId && (
-    //       <div style={{
-    //         position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
-    //         // 背景を半透明の黒に
-    //         backgroundColor: "rgba(0,0,0,0.5)",
-    //         display: "flex", justifyContent: "center", alignItems: "center"
-    //       }}>
-    //         <div style={{
-    //           backgroundColor: "white", padding: "30px", borderRadius: "8px", width: "300px",
-    //           boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
-    //         }}>
-    //           {/* 中身 */}
-    //           <h3 style={{ marginBlock: 0, color: "#000" }}>予約時間の変更</h3>
-    //           <div style={{ marginBottom: "10px" }}>
-    //             <label style={{ color: "#000" }}> 開始時間</label>
-    //             <input type="datetime-local"
-    //               value={newstartTime}
-    //               onChange={(event) => { setnewStartTime(event.target.value) }}
-    //               onClick={e => { e.currentTarget.showPicker() }}
-    //               style={{ width: "100%", padding: "5px", }} />
-    //           </div>
-
-    //           <div style={{ marginBottom: "20px" }}>
-    //             <label style={{ color: "#000" }}> 終了時間</label>
-    //             <input type="datetime-local"
-    //               value={newendTime}
-    //               onChange={event => { setnewEndTime(event.target.value) }}
-    //               onClick={e => { e.currentTarget.showPicker() }}
-    //               style={{ width: "100%", padding: "5px", }} />
-    //           </div>
-
-    //           {/* 更新の実行か、キャンセルかのボタン */}
-    //           <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", fontSize: "16px" }}>
-    //             <button onClick={() => { setEditId(null) }}>キャンセル</button>
-    //             {/* 引数がなければ関数式を渡して、起動してという命令でok
-    //             引数がある場合等はラムダ式でワンクッション挟み、実行まで命令する必要がある
-    //             1. onClick={savingchange()} → 画面描画時瞬間にそのまま実行される
-    //             2. onClick={() => {savingchange} → ただ savingchange を確認してね（でも実行はしない）になる 
-    //             下は savingchange という行動をしてね、と命令している
-    //             一番は onClick = {savingchange} が可読性もよくスマート */}
-    //             <button onClick={() => { savingchange() }}
-    //               style={{ backgroundColor: "lightgreen", fontWeight: "bold" }}>予約更新</button>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     )
-    //   }
-    // </div >
   );
 }
