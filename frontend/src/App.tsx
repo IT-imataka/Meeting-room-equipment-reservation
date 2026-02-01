@@ -1,3 +1,4 @@
+// vercel認識用
 "use client";
 
 import { useEffect, useState } from "react";
