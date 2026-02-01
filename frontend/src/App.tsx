@@ -1,3 +1,4 @@
+// React難しすぎるでしょ
 "use client";
 
 import "./App.css"
@@ -15,21 +16,28 @@ export default function App() {
   const {
     reservables,
     reservations,
+    // 予約ボタンの開閉
+    isCreateOpen,
+    setCreateOpen,
+    onSaveCreate,
+    // 新規予約用
+    handleReserve,
     startTime,
     setstartTime,
     endTime,
     setendTime,
+    // 既存予約変更用
+    handleEditClick,
     editId,
     setEditId,
     newstartTime,
     setnewStartTime,
     newendTime,
     setnewEndTime,
-    handleReserve,
     handleCancel,
-    handleEditClick,
     savingchange,
   } = useReservations();
+
 
   return (
     // 画面
@@ -52,11 +60,42 @@ export default function App() {
         <section className="h-full">
           <ReservationList
             reservations={reservations}
+            // ※1 ボタンを押下したというpropsを渡す
+            onAddClick={() => setCreateOpen(true)}
             onDelete={handleCancel}
             onEdit={handleEditClick} />
         </section>
       </main>
+      {/* 新規予約用 */}
       <ReservationModal
+        // Modalの表示可否の状態を渡す
+        isOpen={isCreateOpen}
+        // 新規の時はその予約を保存し、開閉状態を更新する関数としてpropsを渡す
+        onSave={onSaveCreate}
+        // 新規の時はfalseを宣言した状態を更新する関数を渡して閉じる
+        onClose={() => setCreateOpen(false)}
+        startTime={startTime}
+        setstartTime={setstartTime}
+        endTime={endTime}
+        setendTime={setendTime}
+        title="新規予約"
+        saveTitle="新しく予約する"
+      >
+      </ReservationModal>
+      {/* modal用 */}
+      <ReservationModal
+        // Modalの表示可否の状態を渡す
+        isOpen={!!editId}
+        // 既存の時は対象の予約を変更し、開閉状態ではなく対象のidをnullにする事で閉じる
+        onSave={savingchange}
+        // 既存の時は変更対象の予約idをなかったことにして閉じる
+        onClose={() => setEditId(null)}
+        startTime={newstartTime}
+        setstartTime={setnewStartTime}
+        endTime={newendTime}
+        setendTime={setnewEndTime}
+        title="予約時間の変更"
+        saveTitle="変更を保存"
       ></ReservationModal>
     </div >
     // <div>

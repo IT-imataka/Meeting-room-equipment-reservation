@@ -10,6 +10,8 @@ export default function useReservations() {
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
   // 入力フォーム用
+  // 新規予約ボタン
+  const [isCreateOpen, setCreateOpen] = useState(false);
   const [startTime, setstartTime] = useState<string>("");
   const [endTime, setendTime] = useState<string>("");
 
@@ -17,6 +19,12 @@ export default function useReservations() {
   const [editId, setEditId] = useState<string | null>(null);
   const [newstartTime, setnewStartTime] = useState("");
   const [newendTime, setnewEndTime] = useState("");
+
+  // ※1 中身
+  const onSaveCreate = async () => {
+    await handleReserve("1");
+    setCreateOpen(false);
+  };
 
   useEffect(() => {
     // 非同期でデータを貰い、Stateの更新だけを行うように変更
@@ -135,20 +143,25 @@ export default function useReservations() {
   return {
     reservables,
     reservations,
+    // 新規予約用
+    isCreateOpen,
+    setCreateOpen,
+    onSaveCreate,
+    handleReserve,
     startTime,
     setstartTime,
     endTime,
     setendTime,
+    // 予約変更用
+    handleEditClick,
     editId,
     setEditId,
     newstartTime,
     setnewStartTime,
     newendTime,
     setnewEndTime,
-    handleReserve,
     handleCancel,
     handleUpdate,
-    handleEditClick,
     savingchange,
   };
 }

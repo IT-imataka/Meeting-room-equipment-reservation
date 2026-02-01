@@ -1,3 +1,5 @@
+// ReservationListの子コンポーネント、App.tsxの孫コンポーネント
+
 // type 型エイリアス定義の練習
 import type { Reservation } from "../api/reservationApi";
 
