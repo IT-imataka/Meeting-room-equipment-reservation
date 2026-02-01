@@ -14,14 +14,14 @@ export default function App() {
   // hooksに切り出した処理達分割代入でぶっこむ
 
   const {
-    reservables,
+    // reservables,
     reservations,
     // 予約ボタンの開閉
     isCreateOpen,
     setCreateOpen,
     onSaveCreate,
     // 新規予約用
-    handleReserve,
+    // handleReserve,
     startTime,
     setstartTime,
     endTime,
