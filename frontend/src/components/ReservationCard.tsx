@@ -2,7 +2,7 @@
 
 // type 型エイリアス定義の練習
 import type { Reservation } from "../api/reservationApi";
-import { Mic, Monitor } from 'lucide-react';
+import { Monitor } from 'lucide-react';
 
 
 type Props = {
