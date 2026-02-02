@@ -1,5 +1,7 @@
 // こちらはinterfaceで定義する記法の練習
 
+// import { X } from 'lucide-react';
+
 interface Props {
   // 新規予約でも使いまわすためにpropsを汎用化
   isOpen: boolean;
@@ -18,48 +20,53 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
   // 開いていないときはnullで早期リターン
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* 背景の暗幕 */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+      />
 
       {/* モーダル本体 */}
-      <div className="bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-2xl w-full max-w-sm mx-4">
+      <div className="relative w-full max-w-md bg-white/90 backdrop-blur-xl border border-white/50 rounded-3xl shadow-2xl p-6 transform transition-all scale-100">
 
-        <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-slate-800">{title}</h3>
+          <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full text-slate-500 transition">
+            {/* <X size={20} /> */}
+          </button>
+        </div>
 
         {/* 開始時間 */}
         <div className="mb-4">
-          <label className="block text-sm text-slate-400 mb-1">開始時間</label>
+          <label className="block text-sm font-medium text-slate-600 mb-1">開始時間</label>
           <input
             type="datetime-local"
             value={startTime}
             onChange={(e) => setstartTime(e.target.value)}
             onClick={(e) => e.currentTarget.showPicker()}
-            className="w-full bg-slate-900 text-white border border-slate-600 rounded p-2 focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 text-slate-700"
           />
         </div>
 
         {/* 終了時間 */}
         <div className="mb-6">
-          <label className="block text-sm text-slate-400 mb-1">終了時間</label>
+          <label className="block text-sm font-medium text-slate-600 mb-1">終了時間</label>
           <input
             type="datetime-local"
             value={endTime}
             onChange={(e) => setendTime(e.target.value)}
             onClick={(e) => e.currentTarget.showPicker()}
-            className="w-full bg-slate-900 text-white border border-slate-600 rounded p-2 focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 text-slate-700"
           />
         </div>
 
         {/* ボタンエリア */}
-        <div className="flex justify-end gap-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded transition-colors"
-          >
-            キャンセル
-          </button>
+        <div className="flex justify-end gap-3 pt-2">
+          {/* キャンセルボタンは上の×で代用できるため、ここは保存ボタンを強調 */}
           <button
             onClick={onSave}
-            className="px-4 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/30"
+            className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all"
           >
             {saveTitle}
           </button>
