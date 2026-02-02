@@ -1,6 +1,7 @@
 // React難しすぎるでしょ
 "use client";
 
+// import "./App.css" // ← スタイル崩れの原因になるのでコメントアウト推奨
 import useReservations from "./hooks/useReservations";
 import Sidebar from "./components/Sidebar";
 import CalendarView from "./components/CalendarView";
@@ -11,7 +12,6 @@ import ReservationModal from "./components/ReservationModal";
 export default function App() {
 
   // hooksに切り出した処理達分割代入でぶっこむ
-
   const {
     // reservables,
     reservations,
@@ -39,45 +39,64 @@ export default function App() {
 
 
   return (
-    // 画面: v0のグラデーション背景とflexコンテナを適用
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-purple-800 font-sans">
+    // 画面: V0のグラデーション背景を適用
+    <div className="flex h-screen w-full bg-gradient-to-br from-blue-900 via-purple-900 to-purple-800 text-slate-100 font-sans overflow-hidden relative">
 
-      {/* --- 背景の幾何学的な光の演出（v0の装飾スタイルを適用） --- */}
+      {/* --- 背景の装飾（V0のデザイン要素） --- */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-40 w-96 h-96 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-30"></div>
+        <div className="absolute top-20 right-40 w-96 h-96 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-20"></div>
         <div className="absolute -bottom-20 left-40 w-80 h-80 bg-gradient-to-tr from-blue-400 to-cyan-400 rounded-full blur-3xl opacity-20"></div>
       </div>
 
-      {/* メインコンテンツエリア: v0の構造（relative z-10 flex w-full）を適用 */}
-      <div className="relative z-10 flex w-full">
+      {/* メインコンテンツ（z-10で背景の上に表示） */}
+      <div className="relative z-10 flex w-full h-full">
 
-        {/* 左サイドバー: ガラスカードの外に出して配置 */}
-        <Sidebar />
+        {/* 左サイドバー */}
+        {/* 固定幅を与えてレイアウトの安定性を向上させる */}
+        <aside className=" shrink-0 h-full">
+          <Sidebar />
+        </aside>
 
-        {/* 残りのエリア: v0のパディングとスクロール設定を適用 */}
-        <main className="flex-1 flex flex-col p-8 overflow-hidden">
+        {/* 残りのエリア */}
+        <main className="flex-1 flex flex-col p-6 lg:p-8 gap-6 overflow-hidden min-w-0">
 
-          {/* ヘッダーエリア（タイトル） */}
-          <div className="flex justify-between items-center mb-6 shrink-0">
-            <h1 className="text-2xl font-bold tracking-wide text-white drop-shadow-md">Bboard</h1>
+          {/* ヘッダーエリア */}
+          <div className="flex justify-between items-center shrink-0">
+            <h1 className="text-2xl font-bold text-white drop-shadow-md">予約室bboard</h1>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 text-sm text-slate-200">
+                <input type="checkbox" className="w-10 h-5 rounded-full appearance-none bg-slate-600 checked:bg-blue-500 relative shadow-inner" />
+                <span className="ml-2 hidden sm:inline">Timeline</span>
+              </label>
+              <button
+                onClick={() => setCreateOpen(true)}
+                className="px-4 py-2 bg-white/10 text-white rounded-lg border border-white/20 hover:bg-white/20 transition"
+              >
+                New Reservation
+              </button>
+            </div>
           </div>
 
-          {/* v0の gap-6 レイアウトを適用 */}
-          <div className="flex-1 flex gap-6 overflow-hidden">
+          {/* コンテンツエリア：GridではなくFlexを使用 */}
+          <div className="flex flex-col lg:flex-row gap-6 h-full overflow-hidden">
+
             {/* 中央のカレンダーエリア */}
-            <div className="w-5/12 h-full">
+            {/* lg:w-[420px] のように固定幅を与えることで、画面が狭くなってもカレンダーが潰れるのを防ぎます */}
+            <section className="h-full w-full lg:w-[400px] xl:w-[450px] shrink-0">
               <CalendarView />
-            </div>
+            </section>
 
             {/* 予約リストエリア */}
-            <div className="w-7/12 h-full">
+            {/* flex-1 で残りの幅を全て使います。min-w-0 はFlexboxの子要素がはみ出すのを防ぐ魔法の呪文です */}
+            <section className="h-full flex-1 min-w-0">
               <ReservationList
                 reservations={reservations}
                 // ※1 ボタンを押下したというpropsを渡す
                 onAddClick={() => setCreateOpen(true)}
                 onDelete={handleCancel}
                 onEdit={handleEditClick} />
-            </div>
+            </section>
+
           </div>
         </main>
       </div>
