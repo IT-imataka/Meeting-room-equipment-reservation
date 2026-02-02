@@ -1,7 +1,7 @@
 // React難しすぎるでしょ
 "use client";
 
-import "./App.css"
+// import "./App.css" // ← スタイル崩れの原因になるのでコメントアウト推奨
 import useReservations from "./hooks/useReservations";
 import Sidebar from "./components/Sidebar";
 import CalendarView from "./components/CalendarView";
@@ -12,7 +12,6 @@ import ReservationModal from "./components/ReservationModal";
 export default function App() {
 
   // hooksに切り出した処理達分割代入でぶっこむ
-
   const {
     // reservables,
     reservations,
@@ -40,32 +39,68 @@ export default function App() {
 
 
   return (
-    // 画面
-    <div className="flex h-screen w-full bg-gradient-to-br from-gray-900 via-slate-800 to-black text-slate-100 font-sans p-4 gap-4 over-flow-hidden">
+    // 画面: V0のグラデーション背景を適用
+    <div className="flex h-screen w-full bg-gradient-to-br from-blue-900 via-purple-900 to-purple-800 text-slate-100 font-sans overflow-hidden relative">
 
-      {/* 左サイドバー */}
-      <aside className="w-20 shrink-0">
-        <Sidebar />
-      </aside>
+      {/* --- 背景の装飾（V0のデザイン要素） --- */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-40 w-96 h-96 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-20"></div>
+        <div className="absolute -bottom-20 left-40 w-80 h-80 bg-gradient-to-tr from-blue-400 to-cyan-400 rounded-full blur-3xl opacity-20"></div>
+      </div>
 
-      {/* 残りのエリア */}
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-2gap-4">
+      {/* メインコンテンツ（z-10で背景の上に表示） */}
+      <div className="relative z-10 flex w-full h-full">
 
-        {/* 中央のカレンダーエリア */}
-        <section className="h-full">
-          <CalendarView />
-        </section>
+        {/* 左サイドバー */}
+        {/* 固定幅を与えてレイアウトの安定性を向上させる */}
+        <aside className=" shrink-0 h-full">
+          <Sidebar />
+        </aside>
 
-        {/* 予約リストエリア */}
-        <section className="h-full">
-          <ReservationList
-            reservations={reservations}
-            // ※1 ボタンを押下したというpropsを渡す
-            onAddClick={() => setCreateOpen(true)}
-            onDelete={handleCancel}
-            onEdit={handleEditClick} />
-        </section>
-      </main>
+        {/* 残りのエリア */}
+        <main className="flex-1 flex flex-col p-6 lg:p-8 gap-6 overflow-hidden min-w-0">
+
+          {/* ヘッダーエリア */}
+          <div className="flex justify-between items-center shrink-0">
+            <h1 className="text-2xl font-bold text-white drop-shadow-md">予約室bboard</h1>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 text-sm text-slate-200">
+                <input type="checkbox" className="w-10 h-5 rounded-full appearance-none bg-slate-600 checked:bg-blue-500 relative shadow-inner" />
+                <span className="ml-2 hidden sm:inline">Timeline</span>
+              </label>
+              <button
+                onClick={() => setCreateOpen(true)}
+                className="px-4 py-2 bg-white/10 text-white rounded-lg border border-white/20 hover:bg-white/20 transition"
+              >
+                New Reservation
+              </button>
+            </div>
+          </div>
+
+          {/* コンテンツエリア：GridではなくFlexを使用 */}
+          <div className="flex flex-col lg:flex-row gap-6 h-full overflow-hidden">
+
+            {/* 中央のカレンダーエリア */}
+            {/* lg:w-[420px] のように固定幅を与えることで、画面が狭くなってもカレンダーが潰れるのを防ぎます */}
+            <section className="h-full w-full lg:w-[400px] xl:w-[450px] shrink-0">
+              <CalendarView />
+            </section>
+
+            {/* 予約リストエリア */}
+            {/* flex-1 で残りの幅を全て使います。min-w-0 はFlexboxの子要素がはみ出すのを防ぐ魔法の呪文です */}
+            <section className="h-full flex-1 min-w-0">
+              <ReservationList
+                reservations={reservations}
+                // ※1 ボタンを押下したというpropsを渡す
+                onAddClick={() => setCreateOpen(true)}
+                onDelete={handleCancel}
+                onEdit={handleEditClick} />
+            </section>
+
+          </div>
+        </main>
+      </div>
+
       {/* 新規予約用 */}
       <ReservationModal
         // Modalの表示可否の状態を渡す
@@ -98,102 +133,5 @@ export default function App() {
         saveTitle="変更を保存"
       ></ReservationModal>
     </div >
-    // <div>
-    //   <h2>予約システム&nbsp;v1.0</h2>
-    //   <label htmlFor="stTime">開始時刻</label>
-    //   {/* ユーザしか知らない時刻等はイベントオブジェクトとして渡したものをセットする必要がある */}
-    //   <input type="datetime-local" name="stTime" value={startTime} onChange={(e) => { setstartTime(e.target.value) }} />
-    //   <label htmlFor="edTime">終了時刻</label>
-    //   <input type="datetime-local" name="edTime" value={endTime} onChange={(e) => { setendTime(e.target.value) }} />
-    //   {/* 何を予約するか */}
-    //   <div style={{
-    //     display: "flex",
-    //     flexWrap: "wrap",
-    //     gap: "2rem",
-    //     justifyContent: "center",
-    //   }}>
-    //     {reservables.map((reservable) => (
-    //       <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservable.id}>
-    //         <header><strong>{reservable.name}</strong></header>
-    //         <p>タイプ：{reservable.type}</p>
-    //         <footer>
-    //           <button onClick={() => handleReserve(reservable.id)}
-    //             style={{ marginLeft: '10px' }}>予約する
-    //           </button>
-    //         </footer>
-    //       </article>
-    //     ))}
-    //   </div>
-    //   {/* いつ、誰が、何を予約したか */}
-    //   <div style={{
-    //     display: "flex",
-    //     flexWrap: "wrap",
-    //     gap: "2rem",
-    //     justifyContent: "center",
-    //   }}>
-    //     {reservations.map((reservation) => (
-    //       <article style={{ width: "45%", minWidth: "300px", maxWidth: "400px", marginBottom: "0" }} key={reservation.id}>
-    //         <header>予約者：{reservation.userId} </header>
-    //         <span style={{ display: "inline-block" }}>開始時刻：{reservation.startTime}</span>
-    //         <span style={{ display: "inline-block" }}>終了時刻：{reservation.endTime}</span>
-    //         <footer>
-    //           <button onClick={() => { handleEditClick(reservation) }} style={{ backgroundColor: "cyan", color: "black" }}>
-    //             内容を変更
-    //           </button>
-    //           <button onClick={() => handleCancel(reservation.id)}>キャンセル</button>
-    //         </footer>
-    //       </article>
-    //     ))}
-    //   </div>
-    //   {/* モーダルのパーツ */}
-    //   {
-    //     editId && (
-    //       <div style={{
-    //         position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
-    //         // 背景を半透明の黒に
-    //         backgroundColor: "rgba(0,0,0,0.5)",
-    //         display: "flex", justifyContent: "center", alignItems: "center"
-    //       }}>
-    //         <div style={{
-    //           backgroundColor: "white", padding: "30px", borderRadius: "8px", width: "300px",
-    //           boxShadow: "0 4px 10px rgba(0,0,0,0.3)"
-    //         }}>
-    //           {/* 中身 */}
-    //           <h3 style={{ marginBlock: 0, color: "#000" }}>予約時間の変更</h3>
-    //           <div style={{ marginBottom: "10px" }}>
-    //             <label style={{ color: "#000" }}> 開始時間</label>
-    //             <input type="datetime-local"
-    //               value={newstartTime}
-    //               onChange={(event) => { setnewStartTime(event.target.value) }}
-    //               onClick={e => { e.currentTarget.showPicker() }}
-    //               style={{ width: "100%", padding: "5px", }} />
-    //           </div>
-
-    //           <div style={{ marginBottom: "20px" }}>
-    //             <label style={{ color: "#000" }}> 終了時間</label>
-    //             <input type="datetime-local"
-    //               value={newendTime}
-    //               onChange={event => { setnewEndTime(event.target.value) }}
-    //               onClick={e => { e.currentTarget.showPicker() }}
-    //               style={{ width: "100%", padding: "5px", }} />
-    //           </div>
-
-    //           {/* 更新の実行か、キャンセルかのボタン */}
-    //           <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", fontSize: "16px" }}>
-    //             <button onClick={() => { setEditId(null) }}>キャンセル</button>
-    //             {/* 引数がなければ関数式を渡して、起動してという命令でok
-    //             引数がある場合等はラムダ式でワンクッション挟み、実行まで命令する必要がある
-    //             1. onClick={savingchange()} → 画面描画時瞬間にそのまま実行される
-    //             2. onClick={() => {savingchange} → ただ savingchange を確認してね（でも実行はしない）になる 
-    //             下は savingchange という行動をしてね、と命令している
-    //             一番は onClick = {savingchange} が可読性もよくスマート */}
-    //             <button onClick={() => { savingchange() }}
-    //               style={{ backgroundColor: "lightgreen", fontWeight: "bold" }}>予約更新</button>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     )
-    //   }
-    // </div >
   );
 }
