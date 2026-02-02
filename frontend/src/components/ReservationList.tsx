@@ -3,7 +3,7 @@
 // propsをインラインで受け取る記法の練習
 import { type Reservation } from "../api/reservationApi";
 import ReservationCard from "./ReservationCard";
-// import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon } from 'lucide-react';
 
 // 1.関数を渡しますと宣言
 // 2.該当の子コンポーネントに引数が渡されているか、その型定義がなされているかを確認しにいく
@@ -19,10 +19,10 @@ const ReservationList = ({ reservations, onDelete, onEdit, onAddClick, }: { rese
         <h2 className="text-2xl font-bold text-gray-800">本日の予約状況</h2>
 
         <div className="flex gap-3 shrink-0">
-          {/* Timeline Viewボタン: v0のスタイル (bg-gray-100 text-gray-800) を適用 */}
+          {/* Timeline Viewボタン */}
           <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-800 font-medium pointer-events-none">
-            {/* <CalendarIcon size={16} /> */}
-            <span>📅 Timeline View</span>
+            <CalendarIcon size={16} />Timeline View
+            {/* <span>📅 Timeline View</span> */}
           </button>
 
           {/* 新規予約ボタン: v0のテーマに合わせて少し調整 (青系アクセントを入れるか、グレーで統一するかですが、視認性のため既存の機能色は維持しつつ形を合わせます) */}
