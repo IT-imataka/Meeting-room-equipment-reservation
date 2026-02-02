@@ -28,7 +28,7 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
       />
 
       {/* モーダル本体 */}
-      <div className="relative w-full max-w-md bg-white/90 backdrop-blur-xl border border-white/50 rounded-3xl shadow-2xl p-6 transform transition-all scale-100">
+      <div className="bg-slate-800/95 backdrop-blur-sm border border-slate-700 p-6 rounded-2xl shadow-2xl w-full max-w-sm mx-4 transform transition-all">
 
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-bold text-slate-800">{title}</h3>
