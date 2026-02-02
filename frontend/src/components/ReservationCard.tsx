@@ -2,7 +2,7 @@
 
 // type 型エイリアス定義の練習
 import type { Reservation } from "../api/reservationApi";
-// import { Monitor, Mic, MoreHorizontal } from 'lucide-react';
+import { Monitor } from 'lucide-react';
 
 
 type Props = {
@@ -19,58 +19,47 @@ type Props = {
 }
 const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
   return (
-    // カード本体: 白ベースのガラスモーフィズム + ホバー時の浮き上がり
-    <div className="group relative w-full bg-white/95 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105 flex items-center gap-4">
+    // v0: bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 ...
+    <div className="group bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow border border-gray-200 flex items-center gap-4">
 
-      {/* アイコンエリア */}
-      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-purple-50 shadow-sm flex items-center justify-center text-slate-500 shrink-0 border border-slate-100">
-        {/* 仮のアイコンロジック: ID等によって出し分けも可能 */}
-        {/* <Monitor size={20} /> */}
+      {/* Icon Area: v0の w-12 h-12 rounded-lg bg-gray-200 ... */}
+      <div className="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-gray-600 shrink-0">
+        {/* アイコンはとりあえず固定ですが、種別があれば分岐可能 */}
+        <Monitor size={24} />
       </div>
 
-      {/* 情報エリア */}
+      {/* Content Area: flex-1 */}
       <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-1">
-          <h4 className="font-bold text-slate-700 text-sm truncate pr-2">
-            {reservation.useId || "名称未設定"}
-          </h4>
-          {/* ステータスバッジ */}
-          <span className="shrink-0 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200/50">
-            RESERVED
+        <div className="flex items-center gap-3 mb-1">
+          <h3 className="font-semibold text-gray-800 truncate">
+            {/* 名称（会議室の名前など） */}
+            {reservation.useId || "未設定"}
+          </h3>
+          {/* Status Badge: v0のスタイル (text-xs font-semibold px-3 py-1 rounded-full) */}
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-600 shrink-0">
+            予約中
           </span>
         </div>
 
-        <div className="flex justify-between items-end">
-          <div>
-            <p className="text-xs font-medium text-slate-400 mb-0.5">Time Slot</p>
-            <p className="text-xs font-bold text-slate-600 bg-slate-200/50 px-2 py-1 rounded-md inline-block">
-              {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </p>
-          </div>
+        <div className="text-sm text-gray-500 mb-0.5">Time Slot A</div>
+        <div className="text-sm font-medium text-gray-700">
+          {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </div>
+
+        {/* Edit/Delete Buttons: v0のデザインにはありませんでしたが、機能として必要なので、既存のロジック通り配置（ホバーで表示） */}
+        <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button onClick={() => onEdit(reservation)} className="text-xs font-bold text-blue-500 hover:text-blue-700">Edit</button>
+          <button onClick={() => onDelete(reservation.id)} className="text-xs font-bold text-red-400 hover:text-red-600">Delete</button>
         </div>
       </div>
 
-      {/* Avatar (placeholder) */}
-      <div className="absolute top-4 right-4">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-orange-300 text-white flex items-center justify-center text-xs font-bold shadow-sm">
-          {reservation.useId ? reservation.useId[0] : "U"}
-        </div>
-      </div>
-
-      {/* 操作ボタンエリア (ホバーで表示、あるいは常時表示でもおしゃれに) */}
-      <div className="flex flex-col gap-2 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-        <button
-          onClick={() => onEdit(reservation)}
-          className="text-[10px] font-bold bg-white text-blue-500 border border-blue-100 hover:bg-blue-50 px-3 py-1.5 rounded-lg shadow-sm transition-colors"
-        >
-          編集
-        </button>
-        <button
-          onClick={() => onDelete(reservation.id)}
-          className="text-[10px] font-bold bg-white text-rose-500 border border-rose-100 hover:bg-rose-50 px-3 py-1.5 rounded-lg shadow-sm transition-colors"
-        >
-          削除
-        </button>
+      {/* Avatar Area: v0の w-12 h-12 rounded-full border-2 ... */}
+      {/* ユーザーアバター画像がないため、userIdのイニシャルを表示するデザインにします */}
+      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0 bg-gray-100 flex items-center justify-center">
+        {/* <img src={...} /> の代わりに文字を表示 */}
+        <span className="text-xs text-gray-500 font-bold truncate px-1">
+          {reservation.userId || "User"}
+        </span>
       </div>
 
     </div>
