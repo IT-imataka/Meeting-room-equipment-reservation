@@ -46,7 +46,7 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
           {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
 
-        {/* Edit/Delete Buttons: v0のデザインにはありませんでしたが、機能として必要なので、既存のロジック通り配置（ホバーで表示） */}
+        {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}
         <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button onClick={() => onEdit(reservation)} className="text-xs font-bold text-blue-500 hover:text-blue-700">Edit</button>
           <button onClick={() => onDelete(reservation.id)} className="text-xs font-bold text-red-400 hover:text-red-600">Delete</button>
@@ -54,7 +54,7 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
       </div>
 
       {/* Avatar Area: v0の w-12 h-12 rounded-full border-2 ... */}
-      {/* ユーザーアバター画像がないため、userIdのイニシャルを表示するデザインにします */}
+      {/* ユーザーアバター画像がないため、userIdのイニシャルを表示 */}
       <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0 bg-gray-100 flex items-center justify-center">
         {/* <img src={...} /> の代わりに文字を表示 */}
         <span className="text-xs text-gray-500 font-bold truncate px-1">
