@@ -1,7 +1,6 @@
 // React難しすぎるでしょ
 "use client";
 
-import "./App.css"
 import useReservations from "./hooks/useReservations";
 import Sidebar from "./components/Sidebar";
 import CalendarView from "./components/CalendarView";
@@ -40,36 +39,38 @@ export default function App() {
 
 
   return (
-    // 画面
-    <div className="min-h-screen w-full bg-[#0f172a] flex items-center justify-center p-4 sm:p-8 font-sans overflow-hidden relative">
+    // 画面: v0のグラデーション背景とflexコンテナを適用
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-purple-800 font-sans">
 
-      {/* --- 背景の幾何学的な光の演出（ロジックに影響しない装飾要素） --- */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/40 rounded-full blur-[120px]" />
-      <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-blue-600/40 rounded-full blur-[100px]" />
-      <div className="absolute top-[20%] right-[20%] w-[300px] h-[300px] bg-orange-500/30 rounded-full blur-[80px]" />
+      {/* --- 背景の幾何学的な光の演出（v0の装飾スタイルを適用） --- */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-40 w-96 h-96 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-30"></div>
+        <div className="absolute -bottom-20 left-40 w-80 h-80 bg-gradient-to-tr from-blue-400 to-cyan-400 rounded-full blur-3xl opacity-20"></div>
+      </div>
 
-      {/* メインのガラスボードコンテナ */}
-      <div className="w-full max-w-6xl h-[85vh] bg-white/10 backdrop-blur-xl border border-white/20 rounded-[30px] shadow-2xl flex overflow-hidden relative z-10 text-slate-100">
+      {/* メインコンテンツエリア: v0の構造（relative z-10 flex w-full）を適用 */}
+      <div className="relative z-10 flex w-full">
 
-        {/* 左サイドバー */}
+        {/* 左サイドバー: ガラスカードの外に出して配置 */}
         <Sidebar />
 
-        {/* 残りのエリア */}
-        <main className="flex-1 flex flex-col p-8 overflow-y-auto">
+        {/* 残りのエリア: v0のパディングとスクロール設定を適用 */}
+        <main className="flex-1 flex flex-col p-8 overflow-hidden">
 
-          {/* ヘッダーエリア（タイトルと予約室bboardの表示位置調整） */}
-          <div className="flex justify-between items-center mb-6">
+          {/* ヘッダーエリア（タイトル） */}
+          <div className="flex justify-between items-center mb-6 shrink-0">
             <h1 className="text-2xl font-bold tracking-wide text-white drop-shadow-md">予約室bboard</h1>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-6 h-full">
+          {/* v0の gap-6 レイアウトを適用 */}
+          <div className="flex-1 flex gap-6 overflow-hidden">
             {/* 中央のカレンダーエリア */}
-            <div className="lg:w-5/12 h-full">
+            <div className="w-5/12 h-full">
               <CalendarView />
             </div>
 
             {/* 予約リストエリア */}
-            <div className="lg:w-7/12 h-full">
+            <div className="w-7/12 h-full">
               <ReservationList
                 reservations={reservations}
                 // ※1 ボタンを押下したというpropsを渡す

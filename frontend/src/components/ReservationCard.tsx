@@ -19,38 +19,50 @@ type Props = {
 }
 const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
   return (
-    // すりガラス
-    <div className="p-4 rounded-2xl flex items-center gap-4 shadow-sm border border-white/50 transition hover:shadow-md bg-white/80 group">
-      <div className="p-3 bg-white rounded-xl shadow-sm text-slate-600">
+    // v0: bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 ...
+    <div className="group bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow border border-gray-200 flex items-center gap-4">
+
+      {/* Icon Area: v0の w-12 h-12 rounded-lg bg-gray-200 ... */}
+      <div className="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-gray-600 shrink-0">
         {/* アイコンはとりあえず固定ですが、種別があれば分岐可能 */}
-        {/* <Monitor size={20} /> */}
+        {/* <Monitor size={24} /> */}
+        <span className="text-xl">📺</span>
       </div>
 
+      {/* Content Area: flex-1 */}
       <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-1">
-          <h4 className="font-bold text-slate-700 text-base truncate pr-2">
+        <div className="flex items-center gap-3 mb-1">
+          <h3 className="font-semibold text-gray-800 truncate">
             {/* 名称（会議室の名前など） */}
             {reservation.useId || "未設定"}
-          </h4>
-          <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-orange-100 text-orange-600 shrink-0">
+          </h3>
+          {/* Status Badge: v0のスタイル (text-xs font-semibold px-3 py-1 rounded-full) */}
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-600 shrink-0">
             予約中
           </span>
         </div>
 
-        <div className="flex justify-between items-end mt-1">
-          <div>
-            <p className="text-xs text-slate-400 mb-0.5">Time</p>
-            <p className="text-sm font-medium text-slate-600">
-              {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </p>
-          </div>
+        <div className="text-sm text-gray-500 mb-0.5">Time Slot A</div>
+        <div className="text-sm font-medium text-gray-700">
+          {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </div>
 
-          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={() => onEdit(reservation)} className="text-xs font-bold text-blue-500 hover:text-blue-700">Edit</button>
-            <button onClick={() => onDelete(reservation.id)} className="text-xs font-bold text-red-400 hover:text-red-600">Del</button>
-          </div>
+        {/* Edit/Delete Buttons: v0のデザインにはありませんでしたが、機能として必要なので、既存のロジック通り配置（ホバーで表示） */}
+        <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button onClick={() => onEdit(reservation)} className="text-xs font-bold text-blue-500 hover:text-blue-700">Edit</button>
+          <button onClick={() => onDelete(reservation.id)} className="text-xs font-bold text-red-400 hover:text-red-600">Delete</button>
         </div>
       </div>
+
+      {/* Avatar Area: v0の w-12 h-12 rounded-full border-2 ... */}
+      {/* ユーザーアバター画像がないため、userIdのイニシャルを表示するデザインにします */}
+      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0 bg-gray-100 flex items-center justify-center">
+        {/* <img src={...} /> の代わりに文字を表示 */}
+        <span className="text-xs text-gray-500 font-bold truncate px-1">
+          {reservation.userId || "User"}
+        </span>
+      </div>
+
     </div>
   )
 };
