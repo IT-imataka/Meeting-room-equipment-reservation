@@ -59,7 +59,7 @@ export default function App() {
 
           {/* ヘッダーエリア（タイトル） */}
           <div className="flex justify-between items-center mb-6 shrink-0">
-            <h1 className="text-2xl font-bold tracking-wide text-white drop-shadow-md">予約室bboard</h1>
+            <h1 className="text-2xl font-bold tracking-wide text-white drop-shadow-md">Bboard</h1>
           </div>
 
           {/* v0の gap-6 レイアウトを適用 */}

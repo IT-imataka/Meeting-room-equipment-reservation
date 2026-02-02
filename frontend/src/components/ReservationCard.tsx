@@ -2,7 +2,7 @@
 
 // type 型エイリアス定義の練習
 import type { Reservation } from "../api/reservationApi";
-// import { Mic, Monitor } from 'lucide-react';
+import { Mic, Monitor } from 'lucide-react';
 
 
 type Props = {
@@ -25,8 +25,7 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
       {/* Icon Area: v0の w-12 h-12 rounded-lg bg-gray-200 ... */}
       <div className="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-gray-600 shrink-0">
         {/* アイコンはとりあえず固定ですが、種別があれば分岐可能 */}
-        {/* <Monitor size={24} /> */}
-        <span className="text-xl">📺</span>
+        <Monitor size={24} />
       </div>
 
       {/* Content Area: flex-1 */}
