@@ -5,7 +5,7 @@ import { useState } from 'react'
 const CalendarView = () => {
   // --- v0からのロジック移植（見た目再現のため必要） ---
   // ※実際のアプリではpropsで渡すことが多いですが、現状ロジックがないため内部stateで持ちます
-  const [currentMonth, setCurrentMonth] = useState(new Date(2023, 8)) // 2023年9月固定
+  const [currentMonth] = useState(new Date(2023, 8)) // 2023年9月固定
   const [selectedDate, setSelectedDate] = useState(new Date(2023, 8, 10))
 
   const getDaysInMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
