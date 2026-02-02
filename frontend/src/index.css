@@ -1,12 +1,1 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* small custom scrollbar for the reservation list */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.08);
-  border-radius: 9999px;
-}
+@import "tailwindcss";
