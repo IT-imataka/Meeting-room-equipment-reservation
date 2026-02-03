@@ -78,7 +78,9 @@ export default function App() {
           <div className="flex-1 flex gap-6 overflow-hidden">
             {/* 中央のカレンダーエリア */}
             <div className="w-5/12 h-full">
-              <CalendarView />
+              <CalendarView
+                reservations={reservations}
+                onSelectDate={(date) => console.log("クリックされた日付", date)} />
             </div>
 
             {/* 予約リストエリア */}

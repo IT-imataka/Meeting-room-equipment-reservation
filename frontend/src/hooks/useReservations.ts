@@ -140,6 +140,7 @@ export default function useReservations() {
 
     setEditId(null);
   };
+
   return {
     reservables,
     reservations,
