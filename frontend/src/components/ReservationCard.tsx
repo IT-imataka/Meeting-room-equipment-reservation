@@ -7,7 +7,7 @@ import { Monitor } from 'lucide-react';
 
 type Props = {
 
-  reservation: Reservation,
+  reservation: Reservation;
 
   //  () => {}ではなく、 () => {}なのは、nullやundefinedが入ってくる可能性を考慮してスルーしたいから
   // :() => void のままだと、引数の指定がないため、渡ってきた予約情報の何をターゲットにするのか不明、バグの元なので指定する
