@@ -10,6 +10,7 @@ type Props = {
 
 const CalendarView = ({ reservations, onSelectDate }: Props) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [activeDate, setactiveDate] = useState<Date | null>(null);
 
   // 当月末日の取得関数
   const getDateInMonth = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -95,9 +96,15 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
     });
   };
 
-
-  // -----------------------------------------------------
-
+  const isSelected = (targetDate: Date): boolean => {
+    if (!activeDate) return false;
+    // 比較するのはミリ秒ごと
+    return (
+      activeDate.getFullYear() === targetDate.getFullYear() &&
+      activeDate.getMonth() === targetDate.getMonth() &&
+      activeDate.getDate() === targetDate.getDate()
+    );
+  };
   return (
     // v0: w-96 bg-white rounded-3xl p-8 shadow-2xl
     // 変更: 親要素にフィットさせるため w-full h-full を追加
@@ -131,27 +138,48 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
 
       {/* Calendar Grid */}
       <div className="flex-1 grid grid-cols-7 gap-2 relative">
-        {days.map((item, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              if (!item.currentMonth) return;
-              // 含まれていない年月は最初に定義したcurrentMonthから,
-              // 触れられた対象の日付を取得する この発想出なかった
-              const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day);
-              onSelectDate(date);
-            }}
+        {days.map((item, index) => {
+          // 含まれていない年月は最初に定義したcurrentMonthから,
+          // 触れられた対象の日付を取得する この発想出なかった
+          const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day);
+          const isActive = item.currentMonth && isSelected(date);
+          return (
+            <button
+              key={index}
+              onClick={() => {
+                if (!item.currentMonth) return;
 
-          >
-            {item.currentMonth && hasReservation(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day)) && (
-              <div className="absolute top-10 w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-            )}
-
-            {item.day}
-          </button>
-        ))}
+                onSelectDate(date);
+                // アクティブな日付のセット
+                setactiveDate(date);
+              }}
+              // relative: ドットの基準点にする
+              // flex flex-col: 中身を縦積みにする（数字とドットの重なり制御もしやすい）
+              className={`
+                relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300
+                ${!item.currentMonth ?
+                  'text-slate-300 cursor-default'
+                  : isActive
+                    // 選択中（ホバーで濃い青にする）
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/40 hover:bg-blue-700'
+                    // 未選択（ホバーで白く光る）
+                    : 'text-slate-700 cursor-pointer hover:bg-white/50'}`}>
+              < span className="z-10">{item.day}</span>
+              {
+                item.currentMonth && hasReservation(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day)) && (
+                  <div className="absolute bottom-1.5 flex items-center justify-center -space-x-1">
+                    {/* // 数字の下に小さく光るc点を配置 */}
+                    {/* // 選択されている日(isSelected)は背景が青なので、ドットを白くするなどの分岐を入れるとおしゃれです */}
+                    <span className=" w-1 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] z-0" />
+                    <span className={`w-1.5 h-1.5 bg-rose-800 rounded-full shadow-sm ring-1 ring-white/50 z-10 opacity-90`} />
+                  </div>
+                )
+              }
+            </button>
+          )
+        })}
       </div>
-    </div>
+    </div >
   )
 };
 export default CalendarView;
