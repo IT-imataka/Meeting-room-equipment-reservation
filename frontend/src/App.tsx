@@ -80,7 +80,25 @@ export default function App() {
             <div className="w-5/12 h-full">
               <CalendarView
                 reservations={reservations}
-                onSelectDate={(date) => console.log("クリックされた日付", date)} />
+                // クリックされた日付でモーダルを開くように
+                onSelectDate={(date) => {
+                  // デフォルトの開始と終了時刻のセット
+                  const start = new Date(date);
+                  start.setHours(9, 0, 0);
+                  const end = new Date(date);
+                  end.setHours(10, 0, 0);
+
+                  // stateに保存するためにYYYY-MM-DDThh:mm形式でフォーマットしたい
+                  const format = (fdate: Date) => {
+                    const pad = (n: number) => n.toString().padStart(2, "0");
+                    // pafstartで接頭に0をつける関数を作り包む
+                    return `${fdate.getFullYear()}-${pad(fdate.getMonth() + 1)}-${pad(fdate.getDate())}T${pad(fdate.getHours())}:${pad(fdate.getMinutes())}`;
+                  }
+                  setstartTime(format(start));
+                  setendTime(format(end));
+                  // モーダルopen
+                  setCreateOpen(true);
+                }} />
             </div>
 
             {/* 予約リストエリア */}
