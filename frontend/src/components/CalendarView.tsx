@@ -156,27 +156,30 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
               // relative: ドットの基準点にする
               // flex flex-col: 中身を縦積みにする（数字とドットの重なり制御もしやすい）
               className={`
-        relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300
-        ${!item.currentMonth ? 'text-slate-300 cursor-default' : 'cursor-pointer hover:bg-white/40'}
-        ${/* 選択時のスタイル */ isActive ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : item.currentMonth ? 'text-slate-700' : ''}
-      `}
-            >
-
-              {item.currentMonth && hasReservation(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day)) && (
-                <div className="absolute top-10 w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-              )}
-
-              <span className="z-10">{item.day}</span>
-              {item.currentMonth && hasReservation(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day)) && (
-                // 数字の下に小さく光る点を配置
-                // 選択されている日(isSelected)は背景が青なので、ドットを白くするなどの分岐を入れるとおしゃれです
-                <span className={`absolute bottom-1.5 w-1.5 h-1.5 rounded-full shadow-sm ${isActive ? 'bg-white' : 'bg-rose-400 shadow-rose-400/50'}`} />
-              )}
+                relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300
+                ${!item.currentMonth ?
+                  'text-slate-300 cursor-default'
+                  : isActive
+                    // 選択中（ホバーで濃い青にする）
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/40 hover:bg-blue-700'
+                    // 未選択（ホバーで白く光る）
+                    : 'text-slate-700 cursor-pointer hover:bg-white/50'}`}>
+              < span className="z-10">{item.day}</span>
+              {
+                item.currentMonth && hasReservation(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day)) && (
+                  <div className="absolute bottom-1.5 flex items-center justify-center -space-x-1">
+                    {/* // 数字の下に小さく光るc点を配置 */}
+                    {/* // 選択されている日(isSelected)は背景が青なので、ドットを白くするなどの分岐を入れるとおしゃれです */}
+                    <span className=" w-1 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] z-0" />
+                    <span className={`w-1.5 h-1.5 bg-rose-800 rounded-full shadow-sm ring-1 ring-white/50 z-10 opacity-90`} />
+                  </div>
+                )
+              }
             </button>
           )
         })}
       </div>
-    </div>
+    </div >
   )
 };
 export default CalendarView;

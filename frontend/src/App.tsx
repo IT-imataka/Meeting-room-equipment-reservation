@@ -43,9 +43,22 @@ export default function App() {
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-purple-800 font-sans">
 
       {/* --- 背景の幾何学的な光の演出（v0の装飾スタイルを適用） --- */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      {/* <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-40 w-96 h-96 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-30"></div>
         <div className="absolute -bottom-20 left-40 w-80 h-80 bg-gradient-to-tr from-blue-400 to-cyan-400 rounded-full blur-3xl opacity-20"></div>
+      </div> */}
+      {/* --- 背景画像設定 --- */}
+      {/* 以前の幾何学模様divを削除し、imgタグに置き換え */}
+      <div className="fixed inset-0">
+        <img
+          // publicフォルダに配置した画像ファイル名
+          src="../public/bg-image.png"
+          alt="Background"
+          // object-coverで画面サイズに合わせてトリミングしつつ埋める
+          className="w-full h-full object-cover"
+        />
+        {/* 画像が明るすぎる場合に備えて、薄い黒フィルターをかけると文字が見やすくなります（お好みで調整） */}
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* メインコンテンツエリア: v0の構造（relative z-10 flex w-full）を適用 */}
