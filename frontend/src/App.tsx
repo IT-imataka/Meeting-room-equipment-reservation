@@ -41,32 +41,42 @@ export default function App() {
 
   return (
     // 画面: CSSアートに合わせた深い濃紺ベースに変更 (bg-[#0b0e1b])
-    <div className="relative !flex h-screen w-full items-center justify-center bg-[#0b0e1b] text-slate-100 font-sans p-4 lg:p-8 overflow-hidden">
+    <div className="relative !flex h-screen w-full items-center justify-center bg-[#0B1A45] text-slate-100 font-sans p-4 lg:p-8 overflow-hidden">
 
-      {/* --- 背景の幾何学的な光の演出（Tailwindだけで再現したCSSアート） --- */}
+      {/* --- 背景の幾何学的な光の演出（高発色・強配置バージョン） --- */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* 1. 左上の青紫の巨大な光 */}
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-900/40 rounded-full blur-[120px]" />
 
-        {/* 2. 右上のオレンジの菱形 */}
-        <div className="absolute top-[10%] right-[15%] w-64 h-64 bg-gradient-to-br from-orange-500/30 to-rose-500/30 rotate-45 blur-[50px]" />
-        <div className="absolute top-[12%] right-[17%] w-40 h-40 bg-orange-400/40 rotate-45 blur-[40px] mix-blend-overlay" />
+        {/* 1. 左上の青紫の巨大な光（色を濃く、不透明度アップ） */}
+        <div className="absolute bottom-[15%] right-[20%] w-32 h-32 bg-gradient-to-t from-yellow-500 to-orange-500 rotate-[30deg] blur-2xl opacity-90" />
 
-        {/* 3. 左下の青い三角形っぽい光 */}
-        <div className="absolute bottom-[10%] left-[5%] w-80 h-80 bg-blue-600/20 rotate-12 blur-[80px] rounded-[3rem]" />
+        <div className="absolute top-[5%] left-[-20%] w-[50%] h-[50%] bg-cyan-600/50 rounded-full blur-[90px]" />
+        <div className="absolute bottom-[-10%] left-[5%] w-72 h-72 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full blur-[90px]" />
 
-        {/* 4. 中央右寄りの紫のオーブ */}
-        <div className="absolute top-[40%] right-[-5%] w-[500px] h-[500px] bg-purple-800/20 rounded-full blur-[100px]" />
+        {/* 2. 右上のオレンジの菱形（鮮やかなグラデーションに変更） */}
+        {/* mix-blend-screen を追加して、光っているように見せています */}
+        <div className="absolute top-[5%] right-[10%] w-72 h-72 bg-gradient-to-br from-orange-500 to-pink-600 rotate-45 blur-4 opacity-70 mix-blend-screen" />
+        <div className="absolute bottom-[5%] left-[20%] w-72 h-72 bg-gradient-to-br from-orange-500 to-pink-600 rotate-45 blur-[60px] opacity-70 rounded-full" />
+        <div className="absolute bottom-[15%] left-[15%] w-32 h-32 bg-gradient-to-br from-purple-500 to-white-500/90 rotate-45 blur-[5px] rounded-full" />
 
-        {/* 5. 手前にある小さなオレンジの三角形アクセント */}
-        <div className="absolute bottom-[20%] right-[25%] w-24 h-24 bg-gradient-to-t from-orange-600/40 to-yellow-500/40 rotate-[30deg] blur-[30px]" />
+        {/* 3. 左下の青い三角形（位置を少し上に、色を明るく） */}
+        <div className="absolute top-[-5%] left-[-5%] w-96 h-96 bg-cyan-600/40 rotate-12 blur-[8px] rounded-full" />
+        <div className="absolute top-[-5%] left-[-5%] w-96 h-96 bg-cyan-600/40 rotate-12 blur-[80px] rounded-full" />
+        <div className="absolute top-[5%] right-[10%] w-72 h-72 bg-gradient-to-br from-orange-500 to-pink-600 rotate-45 blur-xs opacity-70 mix-blend-screen" />
+
+        {/* 4. 中央右寄りの紫のオーブ（存在感を強調） */}
+        <div className="absolute top-[30%] right-[5%] w-[400px] h-[400px] bg-purple-600/40 rounded-full blur-[80px]" />
+        <div className="absolute top-[5%] right-[10%] w-72 h-72 bg-purple-600/40 rounded-full blur-[80px]" />
+        <div className="absolute bottom-[5%] left-[20%]  w-72 h-72 bg-purple-600/40 rounded-full blur-[50px]" />
+
+        {/* 5. 手前にある小さなオレンジの三角形（アクセント） */}
+        <div className="absolute bottom-[15%] right-[20%] w-32 h-32 bg-gradient-to-t from-yellow-500 to-orange-500 rotate-[30deg] blur-[40px] opacity-80" />
 
         {/* 6. ノイズフィルター */}
-        <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay"></div>
+        {/* <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay"></div> */}
       </div>
 
       {/* メインのガラスボードコンテナ: v0の構造を維持しつつCSSアート用に微調整 */}
-      <div className="relative z-10 !flex h-full w-full max-w-[1920px] overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
+      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-90 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
 
         {/* 左サイドバー: ガラスカードの外に出して配置 */}
         <aside className="w-20 shrink-0 border-r border-white/5 bg-white/[0.02] !flex flex-col py-8 items-center shadow-2xl">
@@ -90,7 +100,7 @@ export default function App() {
 
               <button
                 onClick={() => setCreateOpen(true)}
-                className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 border border-white/10"
+                className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-xl backdrop-blur-md border border-white/20 shadow-lg transition-all active:scale-95"
               >
                 New Reservation
               </button>

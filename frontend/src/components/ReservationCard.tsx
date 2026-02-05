@@ -1,12 +1,14 @@
 // ReservationListの子コンポーネント、App.tsxの孫コンポーネント
 
 // type 型エイリアス定義の練習
-import type { Reservation } from "../api/reservationApi";
+// import { useState } from "react";
 import { Monitor } from 'lucide-react';
+import type { Reservation } from "../api/reservationApi";
 
 
 type Props = {
 
+  // reserveble: Reservable;
   reservation: Reservation;
 
   //  () => {}ではなく、 () => {}なのは、nullやundefinedが入ってくる可能性を考慮してスルーしたいから
@@ -18,6 +20,7 @@ type Props = {
   onEdit: (reservation: Reservation) => void;
 }
 const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
+
   return (
     // v0: bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 ...
     <div className="group bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow border border-gray-200 flex items-center gap-4">
@@ -34,6 +37,7 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
           <h3 className="font-semibold text-gray-800 truncate">
             {/* 名称（会議室の名前など） */}
             {reservation.useId || "未設定"}
+            {/* {reserveble.type} */}
           </h3>
           {/* Status Badge: v0のスタイル (text-xs font-semibold px-3 py-1 rounded-full) */}
           <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-600 shrink-0">
@@ -41,15 +45,15 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
           </span>
         </div>
 
-        <div className="text-sm text-gray-500 mb-0.5">Time Slot A</div>
+        <div className="text-sm text-gray-500 mb-0.5">{new Date(reservation.startTime).toLocaleDateString()} - {new Date(reservation.endTime).toLocaleDateString()}</div>
         <div className="text-sm font-medium text-gray-700">
           {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
 
         {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}
         <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={() => onEdit(reservation)} className="text-xs font-bold text-blue-500 hover:text-blue-700">Edit</button>
-          <button onClick={() => onDelete(reservation.id)} className="text-xs font-bold text-red-400 hover:text-red-600">Delete</button>
+          <button onClick={() => onEdit(reservation)} className="text-sm font-bold text-blue-500 hover:text-blue-700">編集<span className="text-xs pl-2 block text-center">Edit</span></button>
+          <button onClick={() => onDelete(reservation.id)} className="text-sm font-bold text-red-400 hover:text-red-600">削除<span className="text-xs pl-2 block text-center">Delete</span></button>
         </div>
       </div>
 
