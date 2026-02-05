@@ -1,5 +1,5 @@
 // v0が生成したロジックを利用して見た目を構築しますが、既存の構成（default exportなど）は維持します
-import { ChevronLeft, ChevronRight, Text } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import type { Reservation } from '../api/reservationApi';
 
@@ -129,7 +129,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
 
       {/* Week Days */}
       <div className="grid grid-cols-7 gap-2 mb-4 shrink-0">
-        {weekDays.map((day, index) => (
+        {weekDays.map((day) => (
           <div key={day} className="h-10 flex items-center justify-center text-gray-500 font-medium text-sm">
             {day}
           </div>
