@@ -50,7 +50,7 @@ export class ReservationService {
     // Reservation型に成型する
     const newreservation: Reservation = {
       id: newID,
-      useId: data.useId,
+      useId: crypto.randomUUID(),
       userId: data.userId,
       startTime: data.startTime,
       endTime: data.endTime,

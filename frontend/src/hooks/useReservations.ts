@@ -20,9 +20,10 @@ export default function useReservations() {
   const [newstartTime, setnewStartTime] = useState("");
   const [newendTime, setnewEndTime] = useState("");
 
+  const saveNumber: string = "0";
   // ※1 中身
   const onSaveCreate = async () => {
-    await handleReserve("1");
+    await handleReserve(saveNumber);
     setCreateOpen(false);
   };
 

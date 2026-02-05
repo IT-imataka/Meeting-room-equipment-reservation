@@ -3,7 +3,7 @@ import { Home, Users, Folder, Settings, LogOut } from 'lucide-react';
 const Sidebar = () => {
   return (
     // v0: w-24 bg-gradient-to-b ...
-    <div className="w-24 bg-gradient-to-b from-slate-800/40 to-slate-900/40 backdrop-blur-lg border-r border-white/10 flex flex-col items-center py-8 gap-8 h-full">
+    <div className="w-full bg-gradient-to-b from-slate-200/40 to-slate-400/40 backdrop-blur-lg border-r border-white/10 flex flex-col items-center py-8 gap-8 h-full">
       {/* ロゴ代わりのアイコン: v0のデザイン (rounded-lg, textあり) を適用 */}
       <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 flex items-center justify-center shadow-lg shadow-purple-500/20 shrink-0">
         <span className="text-white font-bold text-lg">B</span>
