@@ -1,5 +1,5 @@
 // v0が生成したロジックを利用して見た目を構築しますが、既存の構成（default exportなど）は維持します
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Text } from 'lucide-react'
 import { useState } from 'react'
 import type { Reservation } from '../api/reservationApi';
 
@@ -32,7 +32,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
   const firstDay = getFirstDayOfMonth(currentMonth);
   const prevMonthDate = getDateInMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
 
-  const TOTAL_DAYS = 42;
+  const TOTAL_DAYS = 35;
 
   const days = [];
   // 当月日付の生成
@@ -129,7 +129,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
 
       {/* Week Days */}
       <div className="grid grid-cols-7 gap-2 mb-4 shrink-0">
-        {weekDays.map((day) => (
+        {weekDays.map((day, index) => (
           <div key={day} className="h-10 flex items-center justify-center text-gray-500 font-medium text-sm">
             {day}
           </div>
@@ -156,14 +156,18 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
               // relative: ドットの基準点にする
               // flex flex-col: 中身を縦積みにする（数字とドットの重なり制御もしやすい）
               className={`
-                relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300
+                relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 
                 ${!item.currentMonth ?
                   'text-slate-300 cursor-default'
                   : isActive
                     // 選択中（ホバーで濃い青にする）
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/40 hover:bg-blue-700'
-                    // 未選択（ホバーで白く光る）
-                    : 'text-slate-700 cursor-pointer hover:bg-white/50'}`}>
+                    : index % 7 === 0
+                      ? 'text-red-500 hover:bg-white/50'
+                      : index % 7 === 6
+                        ? 'text-blue-500 hover:bg-white/50'
+                        // 未選択（ホバーで白く光る）
+                        : 'text-slate-700 cursor-pointer hover:bg-white/50'}`}>
               < span className="z-10">{item.day}</span>
               {
                 item.currentMonth && hasReservation(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), item.day)) && (
