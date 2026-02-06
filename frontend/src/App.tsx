@@ -76,15 +76,15 @@ export default function App() {
       </div>
 
       {/* メインのガラスボードコンテナ: v0の構造を維持しつつCSSアート用に微調整 */}
-      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-90 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
+      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-95 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
 
         {/* 左サイドバー: ガラスカードの外に出して配置 */}
-        <aside className="w-20 shrink-0 border-r border-white/5 bg-white/[0.02] !flex flex-col py-8 items-center shadow-2xl">
+        <aside className="w-20 shrink-0 border-r border-white/5 bg-white/[0.02] !flex flex-col items-center shadow-2xl">
           <Sidebar />
         </aside>
 
         {/* 残りのエリア: v0のパディングとスクロール設定を適用 */}
-        <main className="flex-1 flex flex-col p-8 overflow-hidden">
+        <main className="flex-1 flex flex-col p-8 overflow-y-auto lg:overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
 
           {/* ヘッダーエリア（タイトル） */}
           <div className="flex justify-between items-center mb-6 shrink-0">
@@ -108,7 +108,7 @@ export default function App() {
           </div>
 
           {/* v0の gap-6 レイアウトを適用 */}
-          <div className="flex-1 !grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-hidden">
+          <div className="flex-1 !grid grid-cols-1 lg:grid-cols-2 gap-8 lg:overflow-hidden">
             {/* 中央のカレンダーエリア */}
             <section className="h-full !flex flex-col min-w-0">
               {/* カレンダーの外枠を少し暗くして奥行きを出すコンテナ */}
