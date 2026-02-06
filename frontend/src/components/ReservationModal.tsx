@@ -33,7 +33,7 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
 
         <div className="flex justify-between items-center mb-6 relative z-10">
           <h3 className="text-xl font-bold text-slate-800 tracking-tight">{title}</h3>
-          <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full text-slate-500 transition-colors">
+          <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full text-slate-500 transition-colors cursor-pointer">
             <X size={20} />
           </button>
         </div>
@@ -47,7 +47,7 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
               value={startTime}
               onChange={(e) => setstartTime(e.target.value)}
               onClick={(e) => e.currentTarget.showPicker()}
-              className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all"
+              className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer"
             />
           </div>
         </div>
@@ -60,7 +60,7 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
             value={endTime}
             onChange={(e) => setendTime(e.target.value)}
             onClick={(e) => e.currentTarget.showPicker()}
-            className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all"
+            className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer"
           />
         </div>
 
@@ -69,7 +69,7 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
           {/* キャンセルボタンは上の×で代用できるため、ここは保存ボタンを強調 */}
           <button
             onClick={onSave}
-            className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all"
+            className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all cursor-pointer"
           >
             {saveTitle}
           </button>

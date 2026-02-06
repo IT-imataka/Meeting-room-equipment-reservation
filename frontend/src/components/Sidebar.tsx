@@ -11,22 +11,22 @@ const Sidebar = () => {
 
       <nav className="flex flex-col gap-6 flex-1 w-full items-center">
         {/* 各ボタン: v0のスタイル (w-12 h-12 rounded-lg bg-slate-700/30...) を適用 */}
-        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white shadow-inner">
+        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white cursor-pointer shadow-inner">
           <Home size={24} />
         </button>
-        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white">
+        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white cursor-pointer">
           <Users size={24} />
         </button>
-        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white">
+        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white cursor-pointer">
           <Folder size={24} />
         </button>
-        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white">
+        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white cursor-pointer">
           <Settings size={24} />
         </button>
       </nav>
 
       <div className="mt-auto">
-        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white">
+        <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white cursor-pointer">
           <LogOut size={24} />
         </button>
       </div>

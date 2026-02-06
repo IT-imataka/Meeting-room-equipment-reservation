@@ -111,10 +111,12 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
     <div className="w-full h-full bg-white rounded-3xl p-8 shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between mb-8 shrink-0">
+        {/* <input type="month"> */}
         <button className="flex items-center gap-2 text-gray-800 font-semibold hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors">
           <span>{monthYear}</span>
           <ChevronRight size={20} />
         </button>
+        {/* </input> */}
         <div className="flex gap-2">
           <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600"
             onClick={preMonth}>
