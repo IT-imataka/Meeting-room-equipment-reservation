@@ -76,7 +76,7 @@ export default function App() {
       </div>
 
       {/* メインのガラスボードコンテナ: v0の構造を維持しつつCSSアート用に微調整 */}
-      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-90 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
+      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-95 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
 
         {/* 左サイドバー: ガラスカードの外に出して配置 */}
         <aside className="w-20 shrink-0 border-r border-white/5 bg-white/[0.02] !flex flex-col py-8 items-center shadow-2xl">
