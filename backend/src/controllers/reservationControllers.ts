@@ -38,7 +38,7 @@ export class ReservationController {
   };
 
   // 全予約状況の取得
-  // Controllerで受け取り受付から割り振る
+  // 受付からControllerで受け取り割り振る
   getAll = async (req: Request, res: Response) => {
     try {
       // ビジネスロジックからデータを貰う

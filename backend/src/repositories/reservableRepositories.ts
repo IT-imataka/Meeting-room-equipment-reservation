@@ -2,6 +2,12 @@ import { Reservable } from "../types/models";
 import pool from "../db";
 
 export class ReservableRepository {
+  // デフォルトでpublicだが、明示的に宣言
+  public repository: ReservableRepository;
+
+  constructor() {
+    this.repository = new ReservableRepository();
+  }
   // 予約対象の登録 登録する情報：型の中身全て
   async create(reservable: Reservable): Promise<void> {
     // クエリ発行

@@ -22,8 +22,7 @@ export class ReservableService {
         continue;
       }
       if (being) {
-        console.error("予約が重複しています！", error);
-        throw new Error("既に予約が入っています");
+        throw new Error("既に設定されています");
       }
     }
     // idは同様に日付で採番
@@ -40,8 +39,8 @@ export class ReservableService {
     return newReservables;
   }
 
-  // 表示
-  async getAllreservable(id: string): Promise<Reservable[]> {
+  // 取得
+  async getAllreservable(): Promise<Reservable[]> {
     // 返す
     return await reservableRepositories.findAll();
   }
@@ -74,10 +73,11 @@ export class ReservableService {
     const updated = await reservableRepositories.update(id, newData);
     // 更新内容の確認
     if (!updated) {
-      console.error("更新内容が見つかりません", error);
-      throw new Error("更新内容がありません");
+      console.error("更新項目が見つかりません", error);
+      throw new Error("更新項目がありません");
     }
     // 返す
     return updated;
   }
 }
+export default new ReservableService();
