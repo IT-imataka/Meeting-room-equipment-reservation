@@ -1,4 +1,4 @@
-import { fetchReservables } from "./reservationApi";
+// import { fetchReservables } from "./reservationApi";
 import type { Reservable } from "./reservationApi";
 
 // ポートは同じ場所を使う、エンドポイントを分ける
