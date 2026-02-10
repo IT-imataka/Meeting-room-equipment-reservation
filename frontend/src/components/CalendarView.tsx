@@ -132,7 +132,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
       {/* Week Days */}
       <div className="grid grid-cols-7 gap-2 mb-4 shrink-0">
         {weekDays.map((day) => (
-          <div key={day} className="h-10 flex items-center justify-center text-gray-500 font-medium text-sm">
+          <div key={day} className="h-10 flex items-center justify-center text-gray-500 font-medium text-xl">
             {day}
           </div>
         ))}
@@ -158,7 +158,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
               // relative: ドットの基準点にする
               // flex flex-col: 中身を縦積みにする（数字とドットの重なり制御もしやすい）
               className={`
-                relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 
+                relative w-full h-10 sm:h-12 rounded-xl flex items-center justify-center text-xl font-bold transition-all duration-300 
                 ${!item.currentMonth ?
                   'text-slate-300 cursor-default'
                   : isActive
