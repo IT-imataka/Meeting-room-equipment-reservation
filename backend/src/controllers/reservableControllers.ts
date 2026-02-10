@@ -1,14 +1,16 @@
 // コントローラーの役割はrouterきたリクエストを捌いてserviceに渡して戻りにラベルをつけるイメージ
 // 必要なもの req,res service,型定義
 import { Request, Response } from "express";
-import reservableService from "../services/reservableService";
+import reservableService, {
+  ReservableService,
+} from "../services/reservableService";
 import { Reservable } from "../types/models";
 
 export class ReservableController {
   // コンストラクタのため明示的に！
-  public Controller: ReservableController;
+  public Service: ReservableService;
   constructor() {
-    this.Controller = new ReservableController();
+    this.Service = new ReservableService();
   }
   // 作成
   create = async (req: Request, res: Response) => {

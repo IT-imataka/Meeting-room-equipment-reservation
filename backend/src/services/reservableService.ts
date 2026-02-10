@@ -1,5 +1,7 @@
 import { Reservable } from "../types/models";
-import reservableRepositories from "../repositories/reservableRepositories";
+import reservableRepositories, {
+  ReservableRepository,
+} from "../repositories/reservableRepositories";
 import { error } from "node:console";
 
 // データ型の用意
@@ -12,6 +14,11 @@ type CreateReservableRequset = {
 
 // controllerに渡せるような状態に db経由による非同期処理
 export class ReservableService {
+  private repository: ReservableRepository;
+
+  constructor() {
+    this.repository = new ReservableRepository();
+  }
   // 作成
   async CreateReservale(data: CreateReservableRequset): Promise<Reservable> {
     // repoからの取り出し
@@ -35,6 +42,7 @@ export class ReservableService {
     };
     // 保存
     await reservableRepositories.create(newReservables);
+    // await this.repository.create(newReservables);
     // 返す
     return newReservables;
   }
