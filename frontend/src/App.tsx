@@ -9,6 +9,9 @@ import CalendarView from "./components/CalendarView";
 import ReservationList from "./components/ReservationList";
 import ReservationModal from "./components/ReservationModal";
 
+// テスト用
+import Testfunc from "./pages/settingPage";
+
 export default function App() {
 
   // hooksに切り出した処理達分割代入でぶっこむ
@@ -81,6 +84,7 @@ export default function App() {
         {/* 左サイドバー: ガラスカードの外に出して配置 */}
         <aside className="w-20 shrink-0 border-r border-white/5 bg-white/[0.02] !flex flex-col items-center shadow-2xl">
           <Sidebar />
+          <Testfunc />
         </aside>
 
         {/* 残りのエリア: v0のパディングとスクロール設定を適用 */}
