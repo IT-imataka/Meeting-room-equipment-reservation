@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Reservable, Reservation } from "../api/reservationApi";
+import type { Reservable } from "../api/reservationApi";
 import { fetchReservables } from "../api/reservationApi";
 
 // 名前自由関数で
