@@ -1,12 +1,20 @@
 // こちらはinterfaceで定義する記法の練習
 
 import { X } from 'lucide-react';
+// いらん これらがあると、状態を共有しないReactは別の状態として扱ってしまう
+// import { useReservables } from '../hooks/useReservables';
+// import useReservations from '../hooks/useReservations';
+import type { Reservable } from '../api/reservationApi';
 
 interface Props {
   // 新規予約でも使いまわすためにpropsを汎用化
+  reservable: Reservable[];
+  selectedRevId: number | null;
+  // setSelectedRevId: (id: number | null) => void;
   isOpen: boolean;
   onSave: () => void;
   onClose: () => void;
+  onSet: (num: number) => void;
   // もらうpropsの名前は知らなくてよい
   startTime: string;
   setstartTime: (value: string) => void;
@@ -16,7 +24,16 @@ interface Props {
   saveTitle?: string;
 }
 
-const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstartTime, setendTime, title = "予約時間の変更", saveTitle = "変更を保存" }: Props) => {
+const ReservationModal = ({
+  reservable,
+  selectedRevId,
+  // setSelectedRevId,
+  isOpen, onSave, onClose, onSet, startTime, endTime, setstartTime, setendTime,
+  title = "予約時間の変更", saveTitle = "変更を保存" }: Props) => {
+  // 呼び出すために使っていたこれらも不要 後学のために残す
+  // const { reservables } = useReservables();
+  // const { selectedRevId, setSelectedRevId } = useReservations();
+
   // 開いていないときはnullで早期リターン
   if (!isOpen) return null;
   return (
@@ -62,6 +79,25 @@ const ReservationModal = ({ isOpen, onSave, onClose, startTime, endTime, setstar
             onClick={(e) => e.currentTarget.showPicker()}
             className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer"
           />
+        </div>
+
+        <div className='mb-6'>
+          <label htmlFor="" className='block text-xs font-medium text-slate-600 uppercase mb-2 mb-1'>予約するものを選択してください</label>
+          <select name="" id=""
+            value={selectedRevId ?? ""}
+            onChange={(e) => {
+              // setSelectedRevId(Number(e.target.value))
+              const newval = Number(e.target.value);
+              onSet(newval)
+            }}
+            className='w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer'>
+            <option value="">選択してください</option>
+            {reservable.map((items) => (
+              <option key={items.id} value={items.id}>
+                {items.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* ボタンエリア */}

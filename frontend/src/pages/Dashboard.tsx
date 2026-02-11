@@ -16,7 +16,7 @@ export default function Dashboard() {
   // hooksに切り出した処理達分割代入でぶっこむ
 
   const {
-    // reservables,
+    reservables,
     reservations,
     // 予約ボタンの開閉
     isCreateOpen,
@@ -24,6 +24,8 @@ export default function Dashboard() {
     onSaveCreate,
     // 新規予約用
     // handleReserve,
+    selectedRevId,
+    setSelectedRevId,
     startTime,
     setstartTime,
     endTime,
@@ -155,12 +157,19 @@ export default function Dashboard() {
 
       {/* 新規予約用 */}
       <ReservationModal
+        // 登録リスト
+        reservable={reservables}
+        // リスト更新時の状態定義をpropsとして渡した方がよいと閃いた
+        selectedRevId={selectedRevId}
+        // setSelectedRevId={setSelectedRevId}　値渡しみたいなやつ
         // Modalの表示可否の状態を渡す
         isOpen={isCreateOpen}
         // 新規の時はその予約を保存し、開閉状態を更新する関数としてpropsを渡す
         onSave={onSaveCreate}
         // 新規の時はfalseを宣言した状態を更新する関数を渡して閉じる
         onClose={() => setCreateOpen(false)}
+        // 参照渡しみたいなやつ
+        onSet={(id) => setSelectedRevId(id)}
         startTime={startTime}
         setstartTime={setstartTime}
         endTime={endTime}
@@ -171,12 +180,19 @@ export default function Dashboard() {
       </ReservationModal>
       {/* modal用 */}
       <ReservationModal
+        // 登録リスト
+        reservable={reservables}
+        // 同上
+        selectedRevId={selectedRevId}
+        // setSelectedRevId={setSelectedRevId}
         // Modalの表示可否の状態を渡す
         isOpen={!!editId}
         // 既存の時は対象の予約を変更し、開閉状態ではなく対象のidをnullにする事で閉じる
         onSave={savingchange}
         // 既存の時は変更対象の予約idをなかったことにして閉じる
         onClose={() => setEditId(null)}
+        // 参照渡しみたいなやつ
+        onSet={(id) => setSelectedRevId(id)}
         startTime={newstartTime}
         setstartTime={setnewStartTime}
         endTime={newendTime}
