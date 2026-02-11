@@ -13,7 +13,7 @@ export type Reservable = {
 
 export type Reservation = {
   id: string;
-  useId: string;
+  reservableId: string;
   userId: string;
   startTime: string;
   endTime: string;
@@ -64,7 +64,7 @@ export const handleReserve = async (
       },
       // 中身
       body: JSON.stringify({
-        useId: reserveId,
+        reservableId: reserveId,
         userId: "XXXX",
         startTime: startTime,
         endTime: endTime,

@@ -14,12 +14,12 @@ export class ReservationController {
       // クライアントからのjsonデータを受け取る
       // index.tsでexpress.jsonのミドルの設定をしているのでbodyにある
       // 分割代入でぶっこむ
-      const { useId, userId, startTime, endTime } = req.body;
+      const { reservableId, userId, startTime, endTime } = req.body;
 
       // Serviceのビジネスロジックに渡して処理
       // 変数は同じ変数名でもう一度宣言する
       const newreservation = await reservationService.createReservation({
-        useId,
+        reservableId,
         userId,
         startTime,
         endTime,

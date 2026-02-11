@@ -12,7 +12,7 @@ export interface Reservable {
 export interface Reservation {
   id: string;
   // なにを
-  useId: string;
+  reservableId: string;
   // 誰が
   userId: string;
   // いつ

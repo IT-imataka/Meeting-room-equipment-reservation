@@ -36,7 +36,7 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
         <div className="flex items-center gap-3 mb-1">
           <h3 className="font-semibold text-gray-800 truncate">
             {/* 名称（会議室の名前など） */}
-            {reservation.useId || "未設定"}
+            {reservation.reservableId || "未設定"}
             {/* {reserveble.type} */}
           </h3>
           {/* Status Badge: v0のスタイル (text-xs font-semibold px-3 py-1 rounded-full) */}
