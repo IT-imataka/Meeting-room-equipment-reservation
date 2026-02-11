@@ -65,7 +65,7 @@ export class ReservableService {
 
   // 更新
   async UpdateReservable(
-    id: string,
+    id: number,
     name: string,
     type: "ROOM" | "EQUIPMENT",
     isActive: boolean,

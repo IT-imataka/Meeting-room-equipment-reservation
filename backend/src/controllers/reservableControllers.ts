@@ -85,16 +85,17 @@ export class ReservableController {
     // エラーハンドリング
     try {
       // 受け取ったリクエストを渡すために保存するのは大体分割代入とこれ？
-      const id = req.params.id;
+      const idstr = req.params.id;
       const { name, type, isActive } = req.body;
 
       // 存在チェックにもステータスコードの設定が必要
-      if (!id || !name || !type || !isActive) {
+      if (!idstr || !name || !type || !isActive) {
         res
           .status(404)
           .json({ message: "入力情報に誤りがあるか、不足があります" });
         return;
       }
+      const id = Number(idstr);
       const updReservable = await reservableService.UpdateReservable(
         id,
         name,

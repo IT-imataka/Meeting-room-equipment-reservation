@@ -8,17 +8,17 @@ export class ReservationRepository {
   // private reservations: Reservation[] = [];
 
   // 予約保存機能
-  async create(reservation: Reservation): Promise<void> {
+  async create(reservation: Omit<Reservation, "id">): Promise<void> {
     // メモリはもう使わない
     // this.reservations.push(reservation);
 
     // 保存クエリ発行
     // $1~$5 プレースホルダー SQLインジェクション対策
     const query =
-      "INSERT INTO reservations (id,use_id,user_id,start_time,end_time)VALUES($1,$2,$3,$4,$5)";
+      "INSERT INTO reservations (use_id,user_id,start_time,end_time)VALUES($1,$2,$3,$4)";
 
     const values = [
-      reservation.id,
+      // reservation.id,
       reservation.reservableId,
       reservation.userId,
       reservation.startTime,
@@ -41,7 +41,7 @@ export class ReservationRepository {
   // 予約情報の更新機能
   // utility typeのPartialを使い、変更されるであろう各オブジェクトを任意にする
   async update(
-    id: string,
+    id: number,
     newData: Partial<Reservation>,
   ): Promise<Reservation | null> {
     //
