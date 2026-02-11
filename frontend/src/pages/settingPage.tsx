@@ -5,7 +5,6 @@ import ReservableList from "../components/ReservableList";
 
 export default function SettingPage() {
   const { reservables, handleRegister, name, setName, type, setType } = useReservables();
-  // console.log(reservables);
   return (
     <div className="p-4 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">会議室・備品の管理</h1>

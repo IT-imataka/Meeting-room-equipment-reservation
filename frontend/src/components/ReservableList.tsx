@@ -14,7 +14,7 @@ const ReservableList = ({ reservables }: Props) => {
 
       {/* Header: v0のレイアウト (flex items-center justify-between) を適用 */}
       <div className="flex items-center justify-between mb-4 shrink-0 flex-wrap">
-        <h2 className="text-2xl font-bold text-gray-800">本日の予約状況</h2>
+        <h2 className="text-2xl font-bold text-gray-800">登録状況</h2>
 
         <div className="flex gap-3 shrink-0 mt-2">
           {/* Timeline Viewボタン */}
