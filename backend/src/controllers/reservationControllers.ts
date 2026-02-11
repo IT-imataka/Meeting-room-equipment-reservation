@@ -81,16 +81,17 @@ export class ReservationController {
   // 更新したい予約の内容だけを更新する関数
   update = async (req: Request, res: Response) => {
     // 更新する情報を用意する
-    const id = req.params.id;
+    const idstr = req.params.id;
     // console.log("id", id);
     const { startTime, endTime } = req.body;
     // console.log("【Controller】受け取ったID:", id);
     // console.log("【Controller】受け取ったBody:", req.body);
     // ガード節
-    if (!id || !startTime || !endTime) {
+    if (!idstr || !startTime || !endTime) {
       res.status(400).json({ message: "id,startTime,endTimeは必須です" });
       return;
     }
+    const id = Number(idstr);
     try {
       const update = await reservationService.updateReservation(
         id,
