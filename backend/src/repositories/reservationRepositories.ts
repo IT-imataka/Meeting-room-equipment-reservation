@@ -19,7 +19,7 @@ export class ReservationRepository {
 
     const values = [
       reservation.id,
-      reservation.useId,
+      reservation.reservableId,
       reservation.userId,
       reservation.startTime,
       reservation.endTime,
@@ -62,7 +62,7 @@ export class ReservationRepository {
     const row = result.rows[0];
     return {
       id: row.id,
-      useId: row.use_id,
+      reservableId: row.use_id,
       userId: row.user_id,
       startTime: row.start_time,
       endTime: row.end_time,
@@ -83,7 +83,7 @@ export class ReservationRepository {
     // キャメル : スネーク
     return result.rows.map((row) => ({
       id: row.id,
-      useId: row.use_id,
+      reservableId: row.use_id,
       userId: row.user_Id,
       startTime: row.start_time,
       endTime: row.end_time,

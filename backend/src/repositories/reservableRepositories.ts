@@ -3,12 +3,17 @@ import pool from "../db";
 
 export class ReservableRepository {
   // 予約対象の登録 登録する情報：型の中身全て
-  async create(reservable: Reservable): Promise<void> {
+  async create(reservable: Omit<Reservable, "id">): Promise<void> {
     // クエリ発行
     // SQLインジェクション対策 $1...$n
     const query =
-      "INSERT INTO reservables(id,name,type,isActive) VALUES($1,$2,$3,$4)";
-    const values = [reservable.id, reservable.name, reservable.type];
+      "INSERT INTO reservables(name,type,isActive) VALUES($1,$2,$3)";
+    const values = [
+      // reservable.id,
+      reservable.name,
+      reservable.type,
+      reservable.isActive,
+    ];
     await pool.query(query, values);
   }
 

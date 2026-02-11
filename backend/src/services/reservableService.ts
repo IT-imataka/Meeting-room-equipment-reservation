@@ -6,7 +6,7 @@ import { error } from "node:console";
 
 // データ型の用意
 type CreateReservableRequset = {
-  id: string;
+  // id: string;
   name: string;
   type: "ROOM" | "EQUIPMENT";
   isActive: boolean;
@@ -20,22 +20,24 @@ export class ReservableService {
     this.repository = new ReservableRepository();
   }
   // 作成
-  async CreateReservale(data: CreateReservableRequset): Promise<Reservable> {
+  async CreateReservale(
+    data: CreateReservableRequset,
+  ): Promise<Omit<Reservable, "id">> {
     // repoからの取り出し
     const allReservables = await reservableRepositories.findAll();
     // 重複チェック
-    for (const being of allReservables) {
-      if (being.id !== data.id) {
-        continue;
-      }
-      if (being) {
-        throw new Error("既に設定されています");
-      }
-    }
+    // for (const being of allReservables) {
+    //   if (being.id !== data.id) {
+    //     continue;
+    //   }
+    //   if (being) {
+    //     throw new Error("既に設定されています");
+    //   }
+    // }
     // idは同様に日付で採番
-    const newId = new Date().toString();
-    const newReservables: Reservable = {
-      id: newId,
+    // const newId = crypto.randomUUID();
+    const newReservables: Omit<Reservable, "id"> = {
+      // id: newId,
       name: data.name,
       type: data.type,
       isActive: data.isActive,
