@@ -48,7 +48,7 @@ export const fetchReservations = async (): Promise<Reservation[]> => {
 // 予約処理の関数
 // 時間あればまた型明示する
 export const handleReserve = async (
-  reserveId: string,
+  reserveId: number,
   startTime: string,
   endTime: string,
 ) => {

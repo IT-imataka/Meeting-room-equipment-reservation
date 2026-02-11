@@ -20,10 +20,15 @@ export default function useReservations() {
   const [newstartTime, setnewStartTime] = useState("");
   const [newendTime, setnewEndTime] = useState("");
 
-  const saveNumber: string = "0";
+  const [selectedRevId, setSelectedRevId] = useState<number | null>(null);
+
   // ※1 中身
   const onSaveCreate = async () => {
-    await handleReserve(saveNumber);
+    if (selectedRevId === null) {
+      alert("登録タイプを選択してください");
+      return;
+    }
+    await handleReserve(selectedRevId);
     setCreateOpen(false);
   };
 
@@ -44,7 +49,7 @@ export default function useReservations() {
   }, []);
 
   // 予約処理
-  const handleReserve = async (reserveId: string) => {
+  const handleReserve = async (reserveId: number) => {
     // APIを叩く
     // 入力時刻のバリデーション
     if (!startTime || !endTime) {
@@ -150,6 +155,8 @@ export default function useReservations() {
     setCreateOpen,
     onSaveCreate,
     handleReserve,
+    selectedRevId,
+    setSelectedRevId,
     startTime,
     setstartTime,
     endTime,
