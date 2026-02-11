@@ -20,8 +20,8 @@ export const useReservables = () => {
       } catch (error) {
         console.error("データを取得できませんでした", error);
       }
-      loadData();
     };
+    loadData();
   }, []);
 
   // hooksの中は処理だけさせる

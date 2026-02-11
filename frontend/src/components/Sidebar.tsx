@@ -1,4 +1,5 @@
 import { Home, Users, Folder, Settings, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -21,7 +22,9 @@ const Sidebar = () => {
           <Folder size={24} />
         </button>
         <button className="w-12 h-12 rounded-lg bg-slate-700/30 hover:bg-slate-600/40 hover:scale-110 transition-colors flex items-center justify-center text-slate-300 hover:text-white cursor-pointer">
-          <Settings size={24} />
+          <Link to="/settings">
+            <Settings size={24} />
+          </Link>
         </button>
       </nav>
 
