@@ -7,7 +7,7 @@ import { error } from "node:console";
 
 // クライアントからくるデータの形
 type CreateReservationRequest = {
-  reservableId: string;
+  reservableId: number;
   userId: string;
   startTime: string;
   endTime: string;
@@ -22,7 +22,7 @@ type CreateReservationRequest = {
 export class ReservationService {
   async createReservation(
     data: CreateReservationRequest,
-  ): Promise<Reservation> {
+  ): Promise<Omit<Reservation, "id">> {
     // こっからビジネスロジック
     // 既存予約の取得
     const allReservations = await reservationRepository.findAll();
@@ -46,11 +46,11 @@ export class ReservationService {
     }
 
     // 日付で自動採番
-    const newID = Date.now().toString();
+    // const newID = Date.now().toString();
     // Reservation型に成型する
-    const newreservation: Reservation = {
-      id: newID,
-      reservableId: crypto.randomUUID(),
+    const newreservation: Omit<Reservation, "id"> = {
+      // id: newID,
+      reservableId: data.reservableId,
       userId: data.userId,
       startTime: data.startTime,
       endTime: data.endTime,
@@ -81,7 +81,7 @@ export class ReservationService {
   // ビジネスロジックを経由してControllerからRepoを呼ぶ
   // 窓口作成
   async updateReservation(
-    id: string,
+    id: number,
     startTime: string,
     endTime: string,
   ): Promise<Reservation> {

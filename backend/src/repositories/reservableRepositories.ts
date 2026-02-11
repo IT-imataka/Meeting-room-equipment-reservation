@@ -29,7 +29,7 @@ export class ReservableRepository {
 
   // 予約対象の更新　更新する情報：name,type ポスグレはCRUDの結果をreturningで返せる 忘れない
   async update(
-    id: string,
+    id: number,
     newData: Partial<Reservable>,
   ): Promise<Reservable | null> {
     const query =

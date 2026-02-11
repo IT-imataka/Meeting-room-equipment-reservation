@@ -2,7 +2,7 @@
 
 // 1.モノ
 export interface Reservable {
-  id: string;
+  id: number;
   name: string;
   type: "ROOM" | "EQUIPMENT";
   isActive: boolean;
@@ -10,9 +10,9 @@ export interface Reservable {
 
 // 2.コト
 export interface Reservation {
-  id: string;
+  id: number;
   // なにを
-  reservableId: string;
+  reservableId: number;
   // 誰が
   userId: string;
   // いつ
