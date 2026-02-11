@@ -17,10 +17,11 @@ export class ReservableController {
     // エラーハンドリング
     try {
       // bodyから取ってきて、代入し直す 覚えておく
-      const { id, name, type, isActive } = req.body;
+      // const { id, name, type, isActive } = req.body;
+      const { name, type, isActive } = req.body;
       // serviceに渡して処理してもらうだけだから、分割代入の値を入れるだけ
       const newReservable = await reservableService.CreateReservale({
-        id,
+        // id,
         name,
         type,
         isActive,
