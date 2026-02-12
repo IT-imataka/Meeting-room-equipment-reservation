@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Reservable } from "../api/reservationApi";
 import { fetchReservables } from "../api/reservationApi";
-import { regReservables } from "../api/reservableApi";
+import * as reservableAPI from "../api/reservableApi";
 
 // 名前自由関数で
 export const useReservables = () => {
@@ -25,10 +25,11 @@ export const useReservables = () => {
   }, []);
 
   // hooksの中は処理だけさせる
+  // フェッチしたデータで更新
   const handleRegister = async () => {
     try {
       // 実行
-      await regReservables(name, type);
+      await reservableAPI.regReservables(name, type);
       // 更新後を取得
       const data = await fetchReservables();
       setReservables(data);
@@ -36,5 +37,39 @@ export const useReservables = () => {
       console.error("登録に失敗しました", error);
     }
   };
-  return { reservables, handleRegister, name, setName, type, setType };
+
+  // 削除
+  // フェッチしたデータで更新
+  const deleteRegister = async (id: number) => {
+    try {
+      await reservableAPI.deleteReservable(id);
+      const data = await fetchReservables();
+      setReservables(data);
+    } catch (error) {
+      console.error("削除に失敗しました", error);
+    }
+  };
+
+  // 更新
+  // fetchしたデータで更新
+  const updateRegister = async (name: string, type: "ROOM" | "EQUIPMENT") => {
+    try {
+      await reservableAPI.updateReservable(name, type);
+      const data = await fetchReservables();
+      setReservables(data);
+    } catch (error) {
+      console.error("更新に失敗しました", error);
+    }
+  };
+
+  return {
+    reservables,
+    handleRegister,
+    deleteRegister,
+    updateRegister,
+    name,
+    setName,
+    type,
+    setType,
+  };
 };

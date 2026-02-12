@@ -5,8 +5,10 @@ import ReservableCard from "./ReservableCard";
 
 type Props = {
   reservables: Reservable[];
+  onDelete: (id: number) => void,
+  onEdit: (reservable: Reservable) => void,
 }
-const ReservableList = ({ reservables }: Props) => {
+const ReservableList = ({ reservables, onDelete, onEdit }: Props) => {
   return (
     // propsはタグを属性として渡すのではなく、要素として中身を展開する
     // v0: bg-white/95 rounded-3xl p-8 shadow-2xl overflow-auto
@@ -45,8 +47,8 @@ const ReservableList = ({ reservables }: Props) => {
           <ReservableCard
             key={reservables.id}
             reservable={reservables}
-          // onDelete={onDelete}
-          // onEdit={onEdit}
+            onDelete={onDelete}
+            onEdit={onEdit}
           />))}
       </div>
 
