@@ -5,14 +5,14 @@ const API_env_URL =
   import.meta.env.VITE_API_URL || `http://localhost:${API_BASE_PORT}`;
 
 export type Reservable = {
-  id: string;
+  id: number;
   name: string;
   type: "ROOM" | "EQUIPMENT";
   isActive: boolean;
 };
 
 export type Reservation = {
-  id: string;
+  id: number;
   reservableId: string;
   userId: string;
   startTime: string;
@@ -86,7 +86,7 @@ export const handleReserve = async (
 
 // 削除処理の関数
 // 時間あればまた型明示する
-export const handleCancel = async (reservationId: string) => {
+export const handleCancel = async (reservationId: number) => {
   // methodの更新だけだが,App.tsxに返すため変数に入れる
   const res = await fetch(`${API_env_URL}/reservations/${reservationId}`, {
     method: "DELETE",
@@ -98,7 +98,7 @@ export const handleCancel = async (reservationId: string) => {
 // 予約更新
 // 時間あればまた型明示する
 export const handleUpdate = async (
-  id: string,
+  id: number,
   startTime: string,
   endTime: string,
 ) => {

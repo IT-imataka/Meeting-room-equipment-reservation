@@ -16,7 +16,7 @@ export default function useReservations() {
   const [endTime, setendTime] = useState<string>("");
 
   // 予約編集モーダル用
-  const [editId, setEditId] = useState<string | null>(null);
+  const [editId, setEditId] = useState<number | null>(null);
   const [newstartTime, setnewStartTime] = useState("");
   const [newendTime, setnewEndTime] = useState("");
 
@@ -77,7 +77,7 @@ export default function useReservations() {
   };
 
   // // 削除処理
-  const handleCancel = async (reservationId: string) => {
+  const handleCancel = async (reservationId: number) => {
     // if (window.confirm("本当に消しますか？")) {
     //   await fetch(`http://localhost:3000/reservations${reservationId}`, {
     //     method: "DELETE",
@@ -107,7 +107,7 @@ export default function useReservations() {
 
   // 予約更新
   const handleUpdate = async (
-    id: string,
+    id: number,
     startTime: string,
     endTime: string,
   ) => {

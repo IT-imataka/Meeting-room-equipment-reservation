@@ -37,7 +37,7 @@ const ReservableCard = ({ reservable, onDelete, onEdit }: Props) => {
           {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}
           <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button onClick={() => onEdit(reservable)} className="text-sm font-bold text-blue-500 hover:text-blue-700">編集<span className="text-xs pl-2 block text-center">Edit</span></button>
-            <button onClick={() => onDelete(Number(reservable.id))} className="text-sm font-bold text-red-400 hover:text-red-600">削除<span className="text-xs pl-2 block text-center">Delete</span></button>
+            <button onClick={() => onDelete(reservable.id)} className="text-sm font-bold text-red-400 hover:text-red-600">削除<span className="text-xs pl-2 block text-center">Delete</span></button>
           </div>
         </div>
 

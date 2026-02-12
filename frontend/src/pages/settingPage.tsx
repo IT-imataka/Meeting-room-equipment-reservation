@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 
 
 export default function SettingPage() {
-  const { reservables, handleRegister, deleteRegister, updateRegister, name, setName, type, setType } = useReservables();
+  const { reservables, handleRegister, deleteRegister, updateRegister, handleEditClick, name, setName, type, setType } = useReservables();
   return (
     <div className="relative !flex h-screen w-full items-center justify-center bg-[#0B1A45] text-slate-100 font-sans p-4 lg:p-8 overflow-hidden">
       {/* <h1 className="text-2xl font-bold mb-6">会議室・備品の管理</h1> */}
@@ -130,7 +130,7 @@ export default function SettingPage() {
               <ReservableList
                 reservables={reservables}
                 onDelete={deleteRegister}
-                onEdit={updateRegister} />
+                onEdit={handleEditClick} />
             </div>
           </div>
         </main>
