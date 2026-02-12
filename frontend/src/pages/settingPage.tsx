@@ -2,10 +2,26 @@
 import { useReservables } from "../hooks/useReservables";
 import ReservableList from "../components/ReservableList";
 import Sidebar from "../components/Sidebar";
-
+import ReservableModal from "../components/ReservableModal";
 
 export default function SettingPage() {
-  const { reservables, handleRegister, deleteRegister, handleEditClick, name, setName, type, setType } = useReservables();
+  const {
+    reservables,
+    name,
+    setName,
+    type,
+    setType,
+    editId,
+    setEditId,
+    isCreateOpen,
+    setCreateOpen,
+    selectedRevId,
+    setSelectedRevId,
+    handleRegister,
+    deleteRegister,
+    onSaveCreate,
+    savingChange,
+    handleEditClick, } = useReservables();
   return (
     <div className="relative !flex h-screen w-full items-center justify-center bg-[#0B1A45] text-slate-100 font-sans p-4 lg:p-8 overflow-hidden">
       {/* <h1 className="text-2xl font-bold mb-6">会議室・備品の管理</h1> */}
@@ -129,12 +145,52 @@ export default function SettingPage() {
               {/* リストコンポーネント */}
               <ReservableList
                 reservables={reservables}
+                onAddClick={() => setCreateOpen(true)}
+                setSelectedRevId={setSelectedRevId}
                 onDelete={deleteRegister}
                 onEdit={handleEditClick} />
             </div>
           </div>
         </main>
       </div>
+
+      {/* 新規登録 */}
+      <ReservableModal
+        // 登録リスト
+        reservable={reservables}
+        // リスト更新時の状態定義をpropsとして渡した方がよいと閃いた
+        selectedRevId={selectedRevId}
+        // setSelectedRevId={setSelectedRevId}　値渡しみたいなやつ
+        // Modalの表示可否の状態を渡す
+        isOpen={isCreateOpen}
+        // 新規の時はその予約を保存し、開閉状態を更新する関数としてpropsを渡す
+        onSave={onSaveCreate}
+        // 新規の時はfalseを宣言した状態を更新する関数を渡して閉じる
+        onClose={() => setCreateOpen(false)}
+        // 参照渡しみたいなやつ
+        onSet={(id) => setSelectedRevId(id)}
+        title="新規登録"
+        saveTitle="新しく登録する"
+        changeTitle="名前"
+      ></ReservableModal>
+
+      {/* 既存変更 */}
+      <ReservableModal
+        // 登録リスト
+        reservable={reservables}
+        // リスト更新時の状態定義をpropsとして渡した方がよいと閃いた
+        selectedRevId={selectedRevId}
+        // setSelectedRevId={setSelectedRevId}　値渡しみたいなやつ
+        // Modalの表示可否の状態を渡す
+        isOpen={!!editId}
+        onSave={savingChange}
+        // 既存の時は変更対象の予約idをなかったことにして閉じる
+        onClose={() => setEditId(null)}
+        // 参照渡しみたいなやつ
+        onSet={(id) => setSelectedRevId(id)}
+        title="登録対象の変更"
+        saveTitle="変更を保存"
+      ></ReservableModal>
     </div>
   );
 };

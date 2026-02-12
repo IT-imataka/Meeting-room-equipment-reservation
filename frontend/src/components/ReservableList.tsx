@@ -5,10 +5,12 @@ import ReservableCard from "./ReservableCard";
 
 type Props = {
   reservables: Reservable[];
+  onAddClick: () => void,
+  setSelectedRevId: (num: number | null) => void,
   onDelete: (id: number) => void,
   onEdit: (reservable: Reservable) => void,
 }
-const ReservableList = ({ reservables, onDelete, onEdit }: Props) => {
+const ReservableList = ({ reservables, onDelete, onEdit, onAddClick }: Props) => {
   return (
     // propsはタグを属性として渡すのではなく、要素として中身を展開する
     // v0: bg-white/95 rounded-3xl p-8 shadow-2xl overflow-auto
@@ -19,16 +21,10 @@ const ReservableList = ({ reservables, onDelete, onEdit }: Props) => {
         <h2 className="text-2xl font-bold text-gray-800">登録状況</h2>
 
         <div className="flex gap-3 shrink-0 mt-2">
-          {/* Timeline Viewボタン */}
-          {/* <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-800 font-medium cursor-pointer"> */}
-          {/* <CalendarIcon size={16} />Timeline View */}
-          {/* <span>📅 Timeline View</span> */}
-          {/* </button> */}
-
-          {/* 新規予約ボタン: v0のテーマに合わせて少し調整 (青系アクセントを入れるか、グレーで統一するかですが、視認性のため既存の機能色は維持しつつ形を合わせます) */}
           <button
             // ※1
-            // onClick={onAddClick}
+            // onClick={() => setSelectedRevId(null)}
+            onClick={onAddClick}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium shadow-md shadow-blue-500/30 cursor-pointer"
           >
             New Registaration
