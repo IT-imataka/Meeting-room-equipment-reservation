@@ -10,6 +10,9 @@ export const useReservables = () => {
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<"ROOM" | "EQUIPMENT">("ROOM");
 
+  // モーダル用
+  const [editId, setEditId] = useState<number | null>(null);
+
   // 画面描画時にレンダリング
   // フェッチしたデータで状態の更新を行う
   useEffect(() => {
@@ -61,15 +64,21 @@ export const useReservables = () => {
       console.error("更新に失敗しました", error);
     }
   };
+  const handleEditClick = (reservable: Reservable) => {
+    setEditId(reservable.id);
+  };
 
   return {
     reservables,
     handleRegister,
     deleteRegister,
     updateRegister,
+    handleEditClick,
     name,
     setName,
     type,
     setType,
+    editId,
+    setEditId,
   };
 };
