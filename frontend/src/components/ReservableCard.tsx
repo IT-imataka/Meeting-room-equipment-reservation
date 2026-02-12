@@ -6,12 +6,11 @@ import { Monitor } from 'lucide-react';
 import type { Reservable } from '../api/reservationApi';
 
 type Props = {
-
   reservable: Reservable;
-  // onDelete: (id: string) => void;
-  // onEdit: (reservation: Reservation) => void;
+  onDelete: (id: number) => void;
+  onEdit: (reservable: Reservable) => void;
 }
-const ReservableCard = ({ reservable }: Props) => {
+const ReservableCard = ({ reservable, onDelete, onEdit }: Props) => {
 
   return (
     // v0: bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 ...
@@ -35,6 +34,11 @@ const ReservableCard = ({ reservable }: Props) => {
           <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-100 text-orange-600 shrink-0">
             登録中
           </span>
+          {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}
+          <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button onClick={() => onEdit(reservable)} className="text-sm font-bold text-blue-500 hover:text-blue-700">編集<span className="text-xs pl-2 block text-center">Edit</span></button>
+            <button onClick={() => onDelete(reservable.id)} className="text-sm font-bold text-red-400 hover:text-red-600">削除<span className="text-xs pl-2 block text-center">Delete</span></button>
+          </div>
         </div>
 
         {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}

@@ -39,5 +39,29 @@ export const regReservables = async (
 };
 
 // 削除処理
+export const deleteReservable = async (id: number) => {
+  // method更新
+  const res = await fetch(`${API_BASE_URL}/reservables/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("削除に失敗しました");
+  return res.json();
+};
 
 // 更新処理
+export const updateReservable = async (
+  name: string,
+  type: "ROOM" | "EQUIPMENT",
+) => {
+  const res = await fetch(`${API_BASE_URL}/reservables`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      name: name,
+      type: type,
+    }),
+  });
+  return res.json();
+};

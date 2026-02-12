@@ -8,7 +8,7 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 // 1.関数を渡しますと宣言
 // 2.該当の子コンポーネントに引数が渡されているか、その型定義がなされているかを確認しにいく
 // 3.その子コンポーネントの中の孫コンポーネントにしっかり配線されているか
-const ReservationList = ({ reservations, onDelete, onEdit, onAddClick, }: { reservations: Reservation[], onDelete: (id: string) => void, onEdit: (reservation: Reservation) => void, onAddClick: () => void }) => {
+const ReservationList = ({ reservations, onDelete, onEdit, onAddClick, }: { reservations: Reservation[], onDelete: (id: number) => void, onEdit: (reservation: Reservation) => void, onAddClick: () => void }) => {
   return (
     // propsはタグを属性として渡すのではなく、要素として中身を展開する
     // v0: bg-white/95 rounded-3xl p-8 shadow-2xl overflow-auto
