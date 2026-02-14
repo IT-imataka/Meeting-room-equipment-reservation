@@ -71,6 +71,7 @@ export const useReservables = () => {
   // modalをクリックした時（編集モードを開く）
   const handleEditClick = (reservable: Reservable) => {
     // 編集対象のIDをセットし、編集モードのモーダルを開く
+    // 沼
     setEditId(reservable.id);
     setSelectedRevId(reservable.id);
     setCreateOpen(false);

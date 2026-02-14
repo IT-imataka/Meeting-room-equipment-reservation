@@ -145,8 +145,8 @@ export default function SettingPage() {
               {/* リストコンポーネント */}
               <ReservableList
                 reservables={reservables}
-                // setSelectedRevId={setSelectedRevId}
                 // key={selectedRevId}
+                // 沼ったポイント setSelectedRevId(null);の追加
                 onAddClick={() => { setSelectedRevId(null); setCreateOpen(true); }}
                 onDelete={deleteRegister}
                 onEdit={handleEditClick} />

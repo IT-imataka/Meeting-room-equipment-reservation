@@ -29,7 +29,6 @@ const ReservableModal = ({
   // setSelectedRevId,
   isOpen, onSave, onClose, onSet,
   title = "", saveTitle = "", changeTitle = "" }: Props) => {
-  // console.log(selectedRevId)
   // 呼び出すために使っていたこれらも不要 後学のために残す
   // const { reservables } = useReservables();
   // const { selectedRevId, setSelectedRevId } = useReservations();
