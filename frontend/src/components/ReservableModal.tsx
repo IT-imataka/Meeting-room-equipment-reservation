@@ -29,6 +29,7 @@ const ReservableModal = ({
   // setSelectedRevId,
   isOpen, onSave, onClose, onSet,
   title = "", saveTitle = "", changeTitle = "" }: Props) => {
+  // console.log(selectedRevId)
   // 呼び出すために使っていたこれらも不要 後学のために残す
   // const { reservables } = useReservables();
   // const { selectedRevId, setSelectedRevId } = useReservations();
@@ -56,22 +57,19 @@ const ReservableModal = ({
           </button>
         </div>
 
-        {/* <label className="text-lg font-bold text-white mb-4 pl-1">新規登録</label>*/}
-
-
-        <div className='mb-6'>
+        < div className='mb-6'>
           <label htmlFor="" className='block text-xs font-medium text-slate-600 uppercase mb-2 mb-1'>{changeTitle}</label>
-          {!selectedRevId ? (
+          {selectedRevId === null ? (
             <div className="flex gap-4 mb-4">
               <input
                 type="text"
-                className="bg-white/5 border border-white/10 text-white placeholder-slate-400 p-3 rounded-xl flex-1 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
-                placeholder="名前を変更してください"
+                className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer"
+                placeholder="例: 会議室A"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <select
-                className="block text-2xs font-medium text-slate-600 uppercase mb-2 mb-1"
+                className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer"
                 value={type}
                 onChange={(e) => setType(e.target.value as "ROOM" | "EQUIPMENT")}
               >
@@ -84,7 +82,7 @@ const ReservableModal = ({
               <input
                 type="text"
                 className="bg-white/5 border border-white/10 text-white placeholder-slate-400 p-3 rounded-xl flex-1 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
-                placeholder="名前を登録してください"
+                placeholder="名前を変更してください"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -99,7 +97,7 @@ const ReservableModal = ({
                 <option value="">選択してください</option>
                 {reservable.map((items) => (
                   <option key={items.id} value={items.id}>
-                    {items.name}
+                    {items.type}
                   </option>
                 ))}
               </select>

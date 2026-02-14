@@ -68,35 +68,31 @@ export const useReservables = () => {
     }
   };
 
-  // modalをクリックした時
+  // modalをクリックした時（編集モードを開く）
   const handleEditClick = (reservable: Reservable) => {
-    // if (!editId) {
-    // setSelectedRevId(reservable.id);
-    // } else {
+    // 編集対象のIDをセットし、編集モードのモーダルを開く
     setEditId(reservable.id);
-    // }
-    setCreateOpen(true);
+    setSelectedRevId(reservable.id);
+    setCreateOpen(false);
   };
 
-  // modalで保存した時
+  // modalで保存した時（新規登録用）
   const onSaveCreate = async () => {
-    if (selectedRevId === null) {
-      return;
-    }
     // 登録
     await handleRegister();
-    // null渡して閉じる
+    // 閉じる
     setCreateOpen(false);
+    setSelectedRevId(null);
   };
 
   // modalで変更をしたとき
   const savingChange = async () => {
     // 存在チェック
-    if (!editId) {
+    if (editId === null) {
       alert("変更対象を選んでください。例：会議室など");
       return;
     }
-    if (selectedRevId) {
+    if (selectedRevId !== null) {
       // 変更
       await updateRegister(name, type);
     } else {
@@ -104,6 +100,7 @@ export const useReservables = () => {
       await handleRegister();
     }
     setEditId(null);
+    setSelectedRevId(null);
   };
 
   return {

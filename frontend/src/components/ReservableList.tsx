@@ -6,11 +6,12 @@ import ReservableCard from "./ReservableCard";
 type Props = {
   reservables: Reservable[];
   onAddClick: () => void,
-  setSelectedRevId: (num: number | null) => void,
+  // setSelectedRevId: (id: number | null) => void;
   onDelete: (id: number) => void,
   onEdit: (reservable: Reservable) => void,
 }
 const ReservableList = ({ reservables, onDelete, onEdit, onAddClick }: Props) => {
+  // console.log(sele);
   return (
     // propsはタグを属性として渡すのではなく、要素として中身を展開する
     // v0: bg-white/95 rounded-3xl p-8 shadow-2xl overflow-auto
@@ -23,7 +24,7 @@ const ReservableList = ({ reservables, onDelete, onEdit, onAddClick }: Props) =>
         <div className="flex gap-3 shrink-0 mt-2">
           <button
             // ※1
-            // onClick={() => setSelectedRevId(null)}
+            // onClick={() => { setSelectedRevId(null); onAddClick(); }}
             onClick={onAddClick}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium shadow-md shadow-blue-500/30 cursor-pointer"
           >

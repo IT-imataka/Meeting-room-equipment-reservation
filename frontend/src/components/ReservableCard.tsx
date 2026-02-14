@@ -7,6 +7,7 @@ import type { Reservable } from '../api/reservationApi';
 
 type Props = {
   reservable: Reservable;
+  // setSelectedRevId: (id: number | null) => void;
   onDelete: (id: number) => void;
   onEdit: (reservable: Reservable) => void;
 }
