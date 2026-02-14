@@ -33,7 +33,7 @@ export class ReservableRepository {
     newData: Partial<Reservable>,
   ): Promise<Reservable | null> {
     const query =
-      "UPDATE reservables set name = $2,type = $3, isActive = $4,where id = $1 RETURNING *";
+      "UPDATE reservables SET name = $2, type = $3, isActive = $4 WHERE id = $1 RETURNING *";
     const values = [id, newData.name, newData.type, newData.isActive];
     const result = await pool.query(query, values);
 

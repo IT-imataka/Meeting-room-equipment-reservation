@@ -32,7 +32,7 @@ export const useReservables = () => {
 
   // hooksの中は処理だけさせる
   // フェッチしたデータで更新
-  const handleRegister = async () => {
+  const handleRegister = async (name: string, type: "ROOM" | "EQUIPMENT") => {
     try {
       // 実行
       await reservableAPI.regReservables(name, type);
@@ -58,9 +58,13 @@ export const useReservables = () => {
 
   // 更新
   // fetchしたデータで更新 modalが開いた時にだけ実行する関数にのみ呼び出す
-  const updateRegister = async (name: string, type: "ROOM" | "EQUIPMENT") => {
+  const updateRegister = async (
+    id: number,
+    name: string,
+    type: "ROOM" | "EQUIPMENT",
+  ) => {
     try {
-      await reservableAPI.updateReservable(name, type);
+      await reservableAPI.updateReservable(id, name, type);
       const data = await fetchReservables();
       setReservables(data);
     } catch (error) {
@@ -68,42 +72,40 @@ export const useReservables = () => {
     }
   };
 
-  // modalをクリックした時
+  // modalをクリックした時（編集モードを開く）
   const handleEditClick = (reservable: Reservable) => {
-    // if (!editId) {
-    // setSelectedRevId(reservable.id);
-    // } else {
+    // 編集対象のIDをセットし、編集モードのモーダルを開く
+    // 沼
     setEditId(reservable.id);
-    // }
-    setCreateOpen(true);
+    setSelectedRevId(reservable.id);
+    setCreateOpen(false);
   };
 
-  // modalで保存した時
-  const onSaveCreate = async () => {
-    if (selectedRevId === null) {
-      return;
-    }
+  // modalで保存した時（新規登録用）
+  const onSaveCreate = async (name: string, type: "ROOM" | "EQUIPMENT") => {
     // 登録
-    await handleRegister();
-    // null渡して閉じる
+    await handleRegister(name, type);
+    setSelectedRevId(null);
+    // 閉じる
     setCreateOpen(false);
   };
 
   // modalで変更をしたとき
-  const savingChange = async () => {
+  const savingChange = async (name: string, type: "ROOM" | "EQUIPMENT") => {
     // 存在チェック
-    if (!editId) {
+    if (editId === null) {
       alert("変更対象を選んでください。例：会議室など");
       return;
     }
-    if (selectedRevId) {
+    if (selectedRevId !== null) {
       // 変更
-      await updateRegister(name, type);
+      await updateRegister(editId, name, type);
     } else {
       // 登録
-      await handleRegister();
+      await handleRegister(name, type);
     }
     setEditId(null);
+    setSelectedRevId(null);
   };
 
   return {

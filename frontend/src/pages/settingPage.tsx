@@ -115,7 +115,7 @@ export default function SettingPage() {
                 </select>
               </div>
               <button
-                onClick={handleRegister}
+                onClick={() => { handleRegister(name, type) }}
                 className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-3 rounded-xl w-full font-bold shadow-lg shadow-blue-600/30 transition-all active:scale-95"
               >
                 追加する
@@ -145,8 +145,9 @@ export default function SettingPage() {
               {/* リストコンポーネント */}
               <ReservableList
                 reservables={reservables}
-                onAddClick={() => setCreateOpen(true)}
-                setSelectedRevId={setSelectedRevId}
+                // key={selectedRevId}
+                // 沼ったポイント setSelectedRevId(null);の追加
+                onAddClick={() => { setSelectedRevId(null); setCreateOpen(true); }}
                 onDelete={deleteRegister}
                 onEdit={handleEditClick} />
             </div>
@@ -160,15 +161,15 @@ export default function SettingPage() {
         reservable={reservables}
         // リスト更新時の状態定義をpropsとして渡した方がよいと閃いた
         selectedRevId={selectedRevId}
-        // setSelectedRevId={setSelectedRevId}　値渡しみたいなやつ
+        // setSelectedRevId={setSelectedRevId} // 値渡しみたいなやつ
         // Modalの表示可否の状態を渡す
         isOpen={isCreateOpen}
         // 新規の時はその予約を保存し、開閉状態を更新する関数としてpropsを渡す
         onSave={onSaveCreate}
         // 新規の時はfalseを宣言した状態を更新する関数を渡して閉じる
-        onClose={() => setCreateOpen(false)}
+        onClose={() => { setCreateOpen(false); setSelectedRevId(null); }}
         // 参照渡しみたいなやつ
-        onSet={(id) => setSelectedRevId(id)}
+        // onSet={(id) => setSelectedRevId(id)}
         title="新規登録"
         saveTitle="新しく登録する"
         changeTitle="名前"
@@ -180,16 +181,17 @@ export default function SettingPage() {
         reservable={reservables}
         // リスト更新時の状態定義をpropsとして渡した方がよいと閃いた
         selectedRevId={selectedRevId}
-        // setSelectedRevId={setSelectedRevId}　値渡しみたいなやつ
+        // setSelectedRevId={setSelectedRevId} //　値渡しみたいなやつ
         // Modalの表示可否の状態を渡す
         isOpen={!!editId}
         onSave={savingChange}
         // 既存の時は変更対象の予約idをなかったことにして閉じる
-        onClose={() => setEditId(null)}
+        onClose={() => { setEditId(null); setSelectedRevId(null); }}
         // 参照渡しみたいなやつ
-        onSet={(id) => setSelectedRevId(id)}
+        // onSet={(id) => setSelectedRevId(id)}
         title="登録対象の変更"
         saveTitle="変更を保存"
+        changeTitle="aaaa"
       ></ReservableModal>
     </div>
   );
