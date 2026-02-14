@@ -115,7 +115,7 @@ export default function SettingPage() {
                 </select>
               </div>
               <button
-                onClick={handleRegister}
+                onClick={() => { handleRegister(name, type) }}
                 className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-3 rounded-xl w-full font-bold shadow-lg shadow-blue-600/30 transition-all active:scale-95"
               >
                 追加する
@@ -169,7 +169,7 @@ export default function SettingPage() {
         // 新規の時はfalseを宣言した状態を更新する関数を渡して閉じる
         onClose={() => { setCreateOpen(false); setSelectedRevId(null); }}
         // 参照渡しみたいなやつ
-        onSet={(id) => setSelectedRevId(id)}
+        // onSet={(id) => setSelectedRevId(id)}
         title="新規登録"
         saveTitle="新しく登録する"
         changeTitle="名前"
@@ -188,7 +188,7 @@ export default function SettingPage() {
         // 既存の時は変更対象の予約idをなかったことにして閉じる
         onClose={() => { setEditId(null); setSelectedRevId(null); }}
         // 参照渡しみたいなやつ
-        onSet={(id) => setSelectedRevId(id)}
+        // onSet={(id) => setSelectedRevId(id)}
         title="登録対象の変更"
         saveTitle="変更を保存"
         changeTitle="aaaa"

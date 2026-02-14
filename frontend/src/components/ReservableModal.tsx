@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 // import { useReservables } from '../hooks/useReservables';
 // import useReservations from '../hooks/useReservations';
 import type { Reservable } from '../api/reservationApi';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import { useReservables } from '../hooks/useReservables';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
   isOpen: boolean;
   onSave: (name: string, type: "ROOM" | "EQUIPMENT") => void;
   onClose: () => void;
-  onSet: (num: number) => void;
+  // onSet: (num: number) => void;
   // もらうpropsの名前は知らなくてよい
   title?: string;
   saveTitle?: string;
@@ -27,13 +27,28 @@ const ReservableModal = ({
   reservable,
   selectedRevId,
   // setSelectedRevId,
-  isOpen, onSave, onClose, onSet,
+  isOpen, onSave, onClose,
   title = "", saveTitle = "", changeTitle = "" }: Props) => {
   // 呼び出すために使っていたこれらも不要 後学のために残す
   // const { reservables } = useReservables();
   // const { selectedRevId, setSelectedRevId } = useReservations();
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<"ROOM" | "EQUIPMENT">("ROOM");
+
+  // 物の更新をしたいときのstate設定
+  useEffect(() => {
+    if (isOpen && selectedRevId) {
+      const target = reservable.find(f => { f.id === selectedRevId });
+      if (target) {
+        setName(target.name);
+        setType(target.type);
+      }
+    } else if (isOpen && selectedRevId !== null) {
+      setName("");
+      setType("ROOM");
+    }
+    // 開閉状態、対象の選択可否状態、
+  }, [isOpen, selectedRevId, reservable])
 
   // 開いていないときはnullで早期リターン
   if (!isOpen) return null;
@@ -86,19 +101,12 @@ const ReservableModal = ({
                 onChange={(e) => setName(e.target.value)}
               />
               <select name="" id=""
-                value={selectedRevId ?? ""}
-                onChange={(e) => {
-                  // setSelectedRevId(Number(e.target.value))
-                  const newval = Number(e.target.value);
-                  onSet(newval)
-                }}
+                value={type}
+                onChange={(e) => setType(e.target.value as "ROOM" | "EQUIPMENT")}
                 className='w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer'>
                 <option value="">選択してください</option>
-                {reservable.map((items) => (
-                  <option key={items.id} value={items.id}>
-                    {items.type}
-                  </option>
-                ))}
+                <option value="ROOM">会議室</option>
+                <option value="EQUIPMENT">備品</option>
               </select>
             </div>
           )}
