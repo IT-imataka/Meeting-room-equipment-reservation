@@ -86,6 +86,7 @@ export class ReservableController {
     try {
       // 受け取ったリクエストを渡すために保存するのは大体分割代入とこれ？
       const idstr = req.params.id;
+      // console.log("ステータス", res.status);
       const { name, type, isActive } = req.body;
 
       // 存在チェックにもステータスコードの設定が必要
@@ -108,7 +109,9 @@ export class ReservableController {
         res.status(404).json({ message: "failed update" });
         return;
       }
-      return res.status(204).json(updReservable);
+      // 更新成功時は更新内容をクライアントに返すため 200 を返す
+      // 204 はボディを持てないため、フロントでの json() 呼び出しで失敗する原因になる
+      return res.status(200).json(updReservable);
     } catch (error) {
       console.error("エラーが発生しました", error);
       return res.status(500).json({ message: "server error" });

@@ -46,23 +46,31 @@ export const deleteReservable = async (id: number) => {
     method: "DELETE",
   });
   if (!res.ok) throw new Error("削除に失敗しました");
+  // 204 No Content の場合はボディが空のため json() を呼ばない
+  console.log("ステータス", res.status);
+  if (res.status === 204) return undefined;
   return res.json();
 };
 
 // 更新処理
 export const updateReservable = async (
+  id: number,
   name: string,
   type: "ROOM" | "EQUIPMENT",
 ) => {
-  const res = await fetch(`${API_BASE_URL}/reservables`, {
+  const res = await fetch(`${API_BASE_URL}/reservables/${id}`, {
     method: "PUT",
     headers: {
-      "content-type": "application/json",
+      "Content-type": "application/json",
     },
     body: JSON.stringify({
       name: name,
       type: type,
+      isActive: true,
     }),
   });
+  if (!res.ok) throw new Error("予約を更新できませんでした");
+  // サーバーは更新成功時に 204 を返す設計のため、ボディが空の可能性がある
+  // if (res.status === 204) return undefined;
   return res.json();
 };

@@ -9,8 +9,8 @@ router.get("/", reservableControllers.getAll);
 
 router.post("/", reservableControllers.create);
 
-router.put("/", reservableControllers.update);
+router.put("/:id", reservableControllers.update);
 
-router.delete("/", reservableControllers.delete);
+router.delete("/:id", reservableControllers.delete);
 
 export default router;

@@ -32,7 +32,7 @@ export const useReservables = () => {
 
   // hooksの中は処理だけさせる
   // フェッチしたデータで更新
-  const handleRegister = async () => {
+  const handleRegister = async (name: string, type: "ROOM" | "EQUIPMENT") => {
     try {
       // 実行
       await reservableAPI.regReservables(name, type);
@@ -58,9 +58,13 @@ export const useReservables = () => {
 
   // 更新
   // fetchしたデータで更新 modalが開いた時にだけ実行する関数にのみ呼び出す
-  const updateRegister = async (name: string, type: "ROOM" | "EQUIPMENT") => {
+  const updateRegister = async (
+    id: number,
+    name: string,
+    type: "ROOM" | "EQUIPMENT",
+  ) => {
     try {
-      await reservableAPI.updateReservable(name, type);
+      await reservableAPI.updateReservable(id, name, type);
       const data = await fetchReservables();
       setReservables(data);
     } catch (error) {
@@ -78,16 +82,16 @@ export const useReservables = () => {
   };
 
   // modalで保存した時（新規登録用）
-  const onSaveCreate = async () => {
+  const onSaveCreate = async (name: string, type: "ROOM" | "EQUIPMENT") => {
     // 登録
-    await handleRegister();
+    await handleRegister(name, type);
+    setSelectedRevId(null);
     // 閉じる
     setCreateOpen(false);
-    setSelectedRevId(null);
   };
 
   // modalで変更をしたとき
-  const savingChange = async () => {
+  const savingChange = async (name: string, type: "ROOM" | "EQUIPMENT") => {
     // 存在チェック
     if (editId === null) {
       alert("変更対象を選んでください。例：会議室など");
@@ -95,10 +99,10 @@ export const useReservables = () => {
     }
     if (selectedRevId !== null) {
       // 変更
-      await updateRegister(name, type);
+      await updateRegister(editId, name, type);
     } else {
       // 登録
-      await handleRegister();
+      await handleRegister(name, type);
     }
     setEditId(null);
     setSelectedRevId(null);

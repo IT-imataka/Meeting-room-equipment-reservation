@@ -14,7 +14,7 @@ interface Props {
   selectedRevId: number | null;
   // setSelectedRevId: (id: number | null) => void;
   isOpen: boolean;
-  onSave: () => void;
+  onSave: (name: string, type: "ROOM" | "EQUIPMENT") => void;
   onClose: () => void;
   onSet: (num: number) => void;
   // もらうpropsの名前は知らなくてよい
@@ -80,7 +80,7 @@ const ReservableModal = ({
             <div className="flex gap-4 mb-4">
               <input
                 type="text"
-                className="bg-white/5 border border-white/10 text-white placeholder-slate-400 p-3 rounded-xl flex-1 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
+                className="w-full px-4 py-2 rounded-xl bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-500 text-slate-700 font-medium transition-all cursor-pointer"
                 placeholder="名前を変更してください"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -108,7 +108,7 @@ const ReservableModal = ({
         <div className="flex justify-end gap-3 pt-2">
           {/* キャンセルボタンは上の×で代用できるため、ここは保存ボタンを強調 */}
           <button
-            onClick={onSave}
+            onClick={() => onSave(name, type)}
             className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all cursor-pointer"
           >
             {saveTitle}
