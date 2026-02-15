@@ -5,7 +5,7 @@ import resevationRouter from "./routes/reservationRoutes";
 import reservableRouter from "./routes/reservableRoutes";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 // ここでミドルウェアを定義することで、クライアントから来たリクエストをexpressがjsonと判断し、それをparseしてhttp bodyに引っ付ける
