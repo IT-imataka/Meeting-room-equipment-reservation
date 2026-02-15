@@ -1,4 +1,4 @@
-# Meeting-room-equipment-reservation
+# Bboard
 
 ## 開発は完了しました
 ### [bboard00.vercel.app/](https://bboard00.vercel.app/)
@@ -12,3 +12,4 @@ https://bboard-xpn6.onrender.com/reservations<br>
 https://bboard-xpn6.onrender.com/reservables
 
 ![Architecture diagram ](./images/mermaid_mvcs_model.png)
+
