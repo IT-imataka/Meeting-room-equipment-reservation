@@ -16,12 +16,12 @@ export default function useReservations() {
     const normalizedRid =
       rawRid != null && rawRid !== "" ? Number(rawRid) : undefined;
     // debug: show how rawRid converts
-    console.log("normalizeReservation", {
-      raw: rawRid,
-      asNumber: Number(rawRid),
-      type: typeof rawRid,
-      original: r,
-    });
+    // console.log("normalizeReservation", {
+    //   raw: rawRid,
+    //   asNumber: Number(rawRid),
+    //   type: typeof rawRid,
+    //   original: r,
+    // });
     return {
       ...r,
       id: Number(r.id),
@@ -60,8 +60,8 @@ export default function useReservations() {
         const reservationData = await reservationAPI.fetchReservations();
 
         // debug: raw payloads
-        console.log("raw reservables", reservablesData);
-        console.log("raw reservations", reservationData);
+        // console.log("raw reservables", reservablesData);
+        // console.log("raw reservations", reservationData);
 
         // 受け取ったデータを数値に正規化し、画面更新
         setReservables(
@@ -94,7 +94,7 @@ export default function useReservations() {
 
       // 更新されたデータを再取得
       const data = await reservationAPI.fetchReservations();
-      console.log("reservations after reserve raw:", data);
+      // console.log("reservations after reserve raw:", data);
       // 受け取ったデータを数値に正規化し、画面更新
       setReservations(data.map((r) => normalizeReservation(r)));
       alert(`予約完了`);
@@ -121,7 +121,7 @@ export default function useReservations() {
 
       // 更新データを再取得
       const data = await reservationAPI.fetchReservations();
-      console.log("reservations after cancel raw:", data);
+      // console.log("reservations after cancel raw:", data);
       // 受け取ったデータを数値に正規化し、画面更新
       setReservations(data.map((r) => normalizeReservation(r)));
 
@@ -143,7 +143,7 @@ export default function useReservations() {
 
       // データ再取得
       const data = await reservationAPI.fetchReservations();
-      console.log("reservations after update raw:", data);
+      // console.log("reservations after update raw:", data);
       // 受け取ったデータを数値に正規化し、画面更新
       setReservations(data.map((r) => normalizeReservation(r)));
 

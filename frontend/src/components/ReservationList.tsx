@@ -54,7 +54,7 @@ const ReservationList = ({ reservations, reservable, onDelete, onEdit, onAddClic
           );
           return reservations.map((reservation) => {
             const target = reservableMap.get(String(reservation.reservableId));
-            console.log(reservation.id, reservation.reservableId, '->', target?.id);
+            // console.log(reservation.id, reservation.reservableId, '->', target?.id);
             return (
               <ReservationCard
                 key={reservation.id}

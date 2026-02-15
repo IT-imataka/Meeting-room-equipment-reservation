@@ -21,7 +21,7 @@ type Props = {
   onEdit: (reservation: Reservation) => void;
 }
 const ReservationCard = ({ reservation, reservable, onDelete, onEdit }: Props) => {
-  console.log(reservable);
+  // console.log(reservable);
   return (
     // v0: bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 ...
     <div className="group bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow border border-gray-200 flex items-center gap-4">
