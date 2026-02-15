@@ -66,8 +66,8 @@ export default function Dashboard() {
 
       {/* === 📱 スマホ用ボトムナビゲーション === */}
       {/* Sidebarコンポーネントの中にボトムナビ機能が含まれているので、
-          スマホ画面(md:hidden)の時だけここに配置して表示させます */}
-      <div className="md:hidden">
+          スマホ画面(lg:hidden)の時だけここに配置して表示させます */}
+      <div className="lg:hidden">
         <Sidebar />
         {/* <MobileNavbar></MobileNavbar> */}
       </div>
@@ -82,7 +82,7 @@ export default function Dashboard() {
         </aside>
 
         {/* コンテンツエリア */}
-        <main className="flex-1 flex flex-col p-4 md:p-8 overflow-y-auto relative scrollbar-glass pb-24 md:pb-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
+        <main className="flex-1 flex flex-col p-4 lg:p-8 overflow-y-auto relative scrollbar-glass pb-24 lg:pb-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
 
           {/* ヘッダーエリア */}
           <div className="flex justify-between items-center mb-6 shrink-0">
@@ -106,12 +106,12 @@ export default function Dashboard() {
           </div>
 
           {/* Gridレイアウト */}
-          <div className="flex-1 !grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex-1 !grid grid-cols-1 lg:grid-cols-2 gap-8 lg:overflow-hidden">
 
             {/* カレンダーエリア */}
             {/* WeeklyCalendarの記述を削除し、CalendarView一本化 */}
             {/* CalendarViewが内部でレスポンシブ対応(スマホ週表示/PC月表示)するため、ここではシンプルに配置 */}
-            <section className="h-auto md:h-full !flex flex-col min-w-0 shrink-0">
+            <section className="h-auto lg:h-full !flex flex-col min-w-0 shrink-0">
               <div className="flex-1 h-full w-full">
                 <CalendarView
                   reservations={reservations}
