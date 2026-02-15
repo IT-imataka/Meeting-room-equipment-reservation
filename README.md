@@ -2,6 +2,8 @@
 
 ## 現在開発中
 
-APIエンドポイント: https://meeting-room-equipment-reservation.onrender.com/reservations
+APIエンドポイント: 
+https://bboard-xpn6.onrender.com/reservations
+https://bboard-xpn6.onrender.com/reservables
 
 ![Architecture diagram ](./images/mermaid_mvcs_model.png)
