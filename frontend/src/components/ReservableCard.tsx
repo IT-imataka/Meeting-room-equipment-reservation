@@ -25,7 +25,7 @@ const ReservableCard = ({ reservable, onDelete, onEdit }: Props) => {
 
       {/* Content Area: flex-1 */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-3 mb-1">
+        <div className="flex flex-col lg:flex-row items-center gap-1 lg:gap-3 mb-1">
           <h3 className="font-semibold text-gray-800 truncate">
             {/* 名称（会議室の名前など） */}
             {reservable.name || "未設定"}
@@ -39,7 +39,7 @@ const ReservableCard = ({ reservable, onDelete, onEdit }: Props) => {
             登録中
           </span>
           {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}
-          <div className="flex gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex gap-2 mt-2 lg:opacity-0 group-hover:opacity-100 transition-opacity">
             <button onClick={() => onEdit(reservable)} className="text-sm font-bold text-blue-500 hover:text-blue-700">編集<span className="text-xs pl-2 block text-center">Edit</span></button>
             <button onClick={() => onDelete(reservable.id)} className="text-sm font-bold text-red-400 hover:text-red-600">削除<span className="text-xs pl-2 block text-center">Delete</span></button>
           </div>

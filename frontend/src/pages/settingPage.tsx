@@ -23,7 +23,9 @@ export default function SettingPage() {
     savingChange,
     handleEditClick, } = useReservables();
   return (
-    <div className="relative !flex h-screen w-full items-center justify-center bg-[#0B1A45] text-slate-100 font-sans p-4 lg:p-8 overflow-hidden">
+    // 画面: CSSアートに合わせた深い濃紺ベースに変更 (bg-[#0b0e1b])
+    // スマホ時はp-0、PC(lg)時はp-8
+    <div className="relative !flex h-screen w-full items-center justify-center bg-[#0B1A45] text-slate-100 font-sans p-0 lg:p-8 overflow-hidden">
       {/* <h1 className="text-2xl font-bold mb-6">会議室・備品の管理</h1> */}
 
       {/* --- 背景の幾何学的な光の演出（高発色・強配置バージョン） --- */}
@@ -58,21 +60,30 @@ export default function SettingPage() {
         {/* <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay"></div> */}
       </div>
 
+      {/* スマホ時のみ表示するボトムナビ用の領域 */}
+      <div className="lg:hidden">
+        <Sidebar />
+      </div>
+
       {/* メインのガラスボードコンテナ: v0の構造を維持しつつCSSアート用に微調整 */}
-      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-95 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.01] shadow-2xl backdrop-blur-3xl">
+      {/* スマホ時はフル画面(scale-100)、PC時はscale-95 */}
+      <div className="relative z-10 !flex h-full w-full max-w-[1920px] scale-100 lg:scale-95 overflow-hidden lg:rounded-[2.5rem] border-white/10 bg-white/[0.01] lg:border shadow-2xl backdrop-blur-3xl">
 
         {/* 左サイドバー: ガラスカードの外に出して配置 */}
-        <aside className="w-20 shrink-0 border-r border-white/5 bg-white/[0.02] !flex flex-col items-center shadow-2xl">
+        {/* スマホ時は非表示 */}
+        <aside className="hidden lg:flex w-20 shrink-0 border-r border-white/5 bg-white/[0.02] flex-col items-center shadow-2xl">
           <Sidebar />
           {/* <Testfunc /> */}
         </aside>
 
         {/* 残りのエリア */}
-        <main className="flex-1 flex flex-col p-8 overflow-hidden">
+        {/* PC: overflow-hidden, スマホ: overflow-y-auto */}
+        <main className="flex-1 flex flex-col p-4 lg:p-8 overflow-y-auto lg:overflow-hidden pb-24 lg:pb-8">
 
           {/* ヘッダーエリア（タイトル） */}
           <div className="flex justify-between items-center mb-6 shrink-0">
-            <h1 className="text-3xl font-black tracking-wide text-white drop-shadow-md">Bboard | 会議室・備品の管理</h1>
+            {/* スマホで文字が大きすぎる場合に備えてサイズ調整 */}
+            <h1 className="text-xl lg:text-3xl font-black tracking-wide text-white drop-shadow-md">Bboard | 会議室・備品の管理</h1>
             <div className="flex items-center gap-6">
               <label className="flex items-center gap-3 text-sm font-bold text-slate-400 cursor-pointer hover:text-slate-200 transition-colors">
                 <div className="relative">
@@ -92,12 +103,14 @@ export default function SettingPage() {
           </div>
 
           {/* ▼▼ レイアウト修正: flex-1 と min-h-0 を追加して、このエリアが高さいっぱいに広がるように設定 ▼▼ */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start flex-1 min-h-0">
+          {/* スマホ: 1カラム(縦積み), PC: 2カラム */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start flex-1 min-h-0 lg:overflow-hidden overflow-y-scroll ">
 
             {/* --- 入力フォームエリア (ガラス化) --- */}
-            <div className="h-full bg-white/5 p-6 rounded-[2rem] shadow-xl border border-white/10 backdrop-blur-md">
+            {/* スマホ: h-auto(中身に合わせて伸縮), PC: h-full(画面いっぱい) */}
+            <div className="h-auto lg:h-full bg-white/5 p-6 rounded-[2rem] shadow-xl border border-white/10 backdrop-blur-md flex flex-col">
               <h2 className="text-lg font-bold text-white mb-4 pl-1">新規登録</h2>
-              <div className="flex gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <input
                   type="text"
                   className="bg-white/5 border border-white/10 text-white placeholder-slate-400 p-3 rounded-xl flex-1 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all"
@@ -139,7 +152,8 @@ export default function SettingPage() {
 
             {/* --- リスト表示エリア (スクロール対応＆ガラス化) --- */}
             {/* ▼ ここに h-full と overflow-y-auto を追加して、この箱の中でスクロールさせる ▼ */}
-            <div className="h-full overflow-y-auto bg-white/5 rounded-[2.5rem] border border-white/10 shadow-inner p-4 
+            {/* PC: h-full(固定高さでスクロール), スマホ: h-auto(全体スクロールの一部) */}
+            <div className="h-96 lg:h-full overflow-y-auto bg-white/5 rounded-[2.5rem] border border-white/10 shadow-inner p-4 
               [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
 
               {/* リストコンポーネント */}
