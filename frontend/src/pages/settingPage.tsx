@@ -172,7 +172,7 @@ export default function SettingPage() {
         // onSet={(id) => setSelectedRevId(id)}
         title="新規登録"
         saveTitle="新しく登録する"
-        changeTitle="名前"
+        changeTitle="Name"
       ></ReservableModal>
 
       {/* 既存変更 */}
@@ -190,8 +190,8 @@ export default function SettingPage() {
         // 参照渡しみたいなやつ
         // onSet={(id) => setSelectedRevId(id)}
         title="登録対象の変更"
-        saveTitle="変更を保存"
-        changeTitle="aaaa"
+        saveTitle="変更を保存 change save"
+        changeTitle="NAME"
       ></ReservableModal>
     </div>
   );
