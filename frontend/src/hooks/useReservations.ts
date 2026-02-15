@@ -9,6 +9,26 @@ export default function useReservations() {
   const [reservables, setReservables] = useState<Reservable[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
+  // normalize helper: handle different API field names like reservable_id
+  const normalizeReservation = (r: any): Reservation => {
+    const rawRid =
+      r.reservableId ?? r.reservable_id ?? r.reservable?.id ?? undefined;
+    const normalizedRid =
+      rawRid != null && rawRid !== "" ? Number(rawRid) : undefined;
+    // debug: show how rawRid converts
+    console.log("normalizeReservation", {
+      raw: rawRid,
+      asNumber: Number(rawRid),
+      type: typeof rawRid,
+      original: r,
+    });
+    return {
+      ...r,
+      id: Number(r.id),
+      reservableId: normalizedRid as unknown as number,
+    } as Reservation;
+  };
+
   // 入力フォーム用
   // 新規予約ボタン
   const [isCreateOpen, setCreateOpen] = useState(false);
@@ -39,8 +59,15 @@ export default function useReservations() {
         const reservablesData = await reservationAPI.fetchReservables();
         const reservationData = await reservationAPI.fetchReservations();
 
-        setReservables(reservablesData);
-        setReservations(reservationData);
+        // debug: raw payloads
+        console.log("raw reservables", reservablesData);
+        console.log("raw reservations", reservationData);
+
+        // 受け取ったデータを数値に正規化し、画面更新
+        setReservables(
+          reservablesData.map((r) => ({ ...r, id: Number(r.id) })),
+        );
+        setReservations(reservationData.map((r) => normalizeReservation(r)));
       } catch (error) {
         console.error("データ取得エラー", error);
       }
@@ -67,9 +94,9 @@ export default function useReservations() {
 
       // 更新されたデータを再取得
       const data = await reservationAPI.fetchReservations();
-
-      // 受け取ったデータで画面更新
-      setReservations(data);
+      console.log("reservations after reserve raw:", data);
+      // 受け取ったデータを数値に正規化し、画面更新
+      setReservations(data.map((r) => normalizeReservation(r)));
       alert(`予約完了`);
     } catch (error) {
       console.error("エラーです", error);
@@ -94,9 +121,9 @@ export default function useReservations() {
 
       // 更新データを再取得
       const data = await reservationAPI.fetchReservations();
-
-      // 受け取ったデータで画面更新
-      setReservations(data);
+      console.log("reservations after cancel raw:", data);
+      // 受け取ったデータを数値に正規化し、画面更新
+      setReservations(data.map((r) => normalizeReservation(r)));
 
       alert("キャンセル完了");
     } catch (error) {
@@ -116,9 +143,9 @@ export default function useReservations() {
 
       // データ再取得
       const data = await reservationAPI.fetchReservations();
-
-      // 受け取ったデータで画面更新
-      setReservations(data);
+      console.log("reservations after update raw:", data);
+      // 受け取ったデータを数値に正規化し、画面更新
+      setReservations(data.map((r) => normalizeReservation(r)));
 
       alert(`予約更新完了`);
     } catch (error) {

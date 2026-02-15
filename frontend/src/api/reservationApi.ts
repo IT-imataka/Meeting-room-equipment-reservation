@@ -13,7 +13,7 @@ export type Reservable = {
 
 export type Reservation = {
   id: number;
-  reservableId: string;
+  reservableId: number;
   userId: string;
   startTime: string;
   endTime: string;
@@ -22,7 +22,7 @@ export type Reservation = {
 // 何を予約するのかを取得する関数
 export const fetchReservables = async (): Promise<Reservable[]> => {
   console.log("データ取得中...");
-  const res = await fetch(API_env_URL);
+  const res = await fetch(`${API_env_URL}/reservables`);
 
   // try-catchは削除し、ここでエラーを返すように
   if (!res.ok) throw new Error("データ取得失敗");

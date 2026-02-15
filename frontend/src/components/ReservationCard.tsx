@@ -4,11 +4,12 @@
 // import { useState } from "react";
 import { Monitor } from 'lucide-react';
 import type { Reservation } from "../api/reservationApi";
+import type { Reservable } from '../api/reservationApi';
 
 
 type Props = {
 
-  // reserveble: Reservable;
+  reservable?: Reservable;
   reservation: Reservation;
 
   //  () => {}ではなく、 () => {}なのは、nullやundefinedが入ってくる可能性を考慮してスルーしたいから
@@ -19,8 +20,8 @@ type Props = {
   // reservation.idとすると、idのみを参照しに行く。onDeleteの際はそれでも問題ないが、onEditの場合は異なる
   onEdit: (reservation: Reservation) => void;
 }
-const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
-
+const ReservationCard = ({ reservation, reservable, onDelete, onEdit }: Props) => {
+  console.log(reservable);
   return (
     // v0: bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 ...
     <div className="group bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg transition-shadow border border-gray-200 flex items-center gap-4">
@@ -36,7 +37,7 @@ const ReservationCard = ({ reservation, onDelete, onEdit }: Props) => {
         <div className="flex items-center gap-3 mb-1">
           <h3 className="font-semibold text-gray-800 truncate">
             {/* 名称（会議室の名前など） */}
-            {reservation.reservableId || "未設定"}
+            {reservable?.name ?? "未設定"}
             {/* {reserveble.type} */}
           </h3>
           {/* Status Badge: v0のスタイル (text-xs font-semibold px-3 py-1 rounded-full) */}
