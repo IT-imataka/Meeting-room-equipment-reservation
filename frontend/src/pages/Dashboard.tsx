@@ -82,7 +82,7 @@ export default function Dashboard() {
         </aside>
 
         {/* コンテンツエリア */}
-        <main className="flex-1 flex flex-col p-4 lg:p-8 overflow-y-auto relative scrollbar-glass pb-24 lg:pb-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
+        <main className="flex-1 flex flex-col p-4 lg:p-8 overflow-y-auto relative scrollbar-glass overflow-y-auto lg:overflow-hidden pb-24 lg:pb-8">
 
           {/* ヘッダーエリア */}
           <div className="flex justify-between items-center mb-6 shrink-0">
@@ -106,7 +106,7 @@ export default function Dashboard() {
           </div>
 
           {/* Gridレイアウト */}
-          <div className="flex-1 !grid grid-cols-1 lg:grid-cols-2 gap-8 lg:overflow-hidden">
+          <div className="flex-1 !grid grid-cols-1 lg:grid-cols-2 gap-8 lg:overflow-hidden overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
 
             {/* カレンダーエリア */}
             {/* WeeklyCalendarの記述を削除し、CalendarView一本化 */}
