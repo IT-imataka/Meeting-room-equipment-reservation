@@ -145,6 +145,7 @@ export default function Dashboard() {
             {/* 予約リストエリア */}
             <section className="h-full overflow-y-auto min-w-0 !flex flex-col">
               <ReservationList
+                reservable={reservables}
                 reservations={reservations}
                 // ※1 ボタンを押下したというpropsを渡す
                 onAddClick={() => setCreateOpen(true)}

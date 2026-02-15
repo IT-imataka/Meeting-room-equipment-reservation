@@ -15,7 +15,7 @@ export class ReservationRepository {
     // 保存クエリ発行
     // $1~$5 プレースホルダー SQLインジェクション対策
     const query =
-      "INSERT INTO reservations (use_id,user_id,start_time,end_time)VALUES($1,$2,$3,$4)";
+      "INSERT INTO reservations (reservable_id,user_id,start_time,end_time)VALUES($1,$2,$3,$4)";
 
     const values = [
       // reservation.id,
@@ -61,9 +61,9 @@ export class ReservationRepository {
     // キャメル(key) : スネーク(value)
     const row = result.rows[0];
     return {
-      id: row.id,
-      reservableId: row.use_id,
-      userId: row.user_id,
+      id: Number(row.id),
+      reservableId: Number(row.reservable_id),
+      userId: String(row.user_id),
       startTime: row.start_time,
       endTime: row.end_time,
     };
@@ -75,19 +75,26 @@ export class ReservationRepository {
     // return this.reservations;
 
     // 取得クエリ発行
-    const query = `SELECT * FROM reservations`;
-    const result = await pool.query(query);
+    // 明示的に必要なカラムだけを取得し、数値/文字列の型を保証する
+    const query = `SELECT id, reservable_id, user_id, start_time, end_time FROM reservations`;
+    try {
+      const result = await pool.query(query);
 
-    // DBのスネークケースをキャメルケースに変換
-    // key : value
-    // キャメル : スネーク
-    return result.rows.map((row) => ({
-      id: row.id,
-      reservableId: row.use_id,
-      userId: row.user_Id,
-      startTime: row.start_time,
-      endTime: row.end_time,
-    }));
+      // debug: log raw rows to help trace upstream issues
+      console.log("reservationRepository.findAll rows:", result.rows);
+
+      // DBのスネークケースをキャメルケースに変換しつつ型を正規化して返す
+      return result.rows.map((row) => ({
+        id: Number(row.id),
+        reservableId: Number(row.reservable_id),
+        userId: String(row.user_id),
+        startTime: row.start_time,
+        endTime: row.end_time,
+      }));
+    } catch (err) {
+      console.error("reservationRepository.findAll error:", err);
+      return [];
+    }
   }
 }
 export default new ReservationRepository();

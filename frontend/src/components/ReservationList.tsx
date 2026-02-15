@@ -1,14 +1,17 @@
 //App.tsxの子コンポーネント 
 
 // propsをインラインで受け取る記法の練習
-import { type Reservation } from "../api/reservationApi";
+import { type Reservation, type Reservable } from "../api/reservationApi";
+import { useMemo } from 'react';
 import ReservationCard from "./ReservationCard";
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 // 1.関数を渡しますと宣言
 // 2.該当の子コンポーネントに引数が渡されているか、その型定義がなされているかを確認しにいく
 // 3.その子コンポーネントの中の孫コンポーネントにしっかり配線されているか
-const ReservationList = ({ reservations, onDelete, onEdit, onAddClick, }: { reservations: Reservation[], onDelete: (id: number) => void, onEdit: (reservation: Reservation) => void, onAddClick: () => void }) => {
+const ReservationList = ({ reservations, reservable, onDelete, onEdit, onAddClick, }:
+  { reservations: Reservation[], reservable: Reservable[], onDelete: (id: number) => void, onEdit: (reservation: Reservation) => void, onAddClick: () => void }) => {
+  if (!reservable || !reservations) return <div>読み込み中</div>
   return (
     // propsはタグを属性として渡すのではなく、要素として中身を展開する
     // v0: bg-white/95 rounded-3xl p-8 shadow-2xl overflow-auto
@@ -43,13 +46,26 @@ const ReservationList = ({ reservations, onDelete, onEdit, onAddClick, }: { rese
 
       {/* List Area: v0の space-y-4 を適用 */}
       <div className="flex-1 overflow-y-auto pr-2 space-y-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-black [&::-webkit-scrollbar-thumb]:bg-transparent/90 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/80">
-        {reservations.map((reservation) => (
-          <ReservationCard
-            key={reservation.id}
-            reservation={reservation}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />))}
+        {/** create a lookup map to avoid repeated finds and unify id types */}
+        {(() => {
+          const reservableMap = useMemo(
+            () => new Map(reservable.map((r) => [String(r.id), r])),
+            [reservable],
+          );
+          return reservations.map((reservation) => {
+            const target = reservableMap.get(String(reservation.reservableId));
+            console.log(reservation.id, reservation.reservableId, '->', target?.id);
+            return (
+              <ReservationCard
+                key={reservation.id}
+                reservable={target}
+                reservation={reservation}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
+            );
+          });
+        })()}
       </div>
 
       {/* Footer Info: v0にあるフッター装飾を追加（ロジックには影響しません） */}
