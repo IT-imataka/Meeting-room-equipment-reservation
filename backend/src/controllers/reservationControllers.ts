@@ -15,14 +15,18 @@ export class ReservationController {
       // index.tsでexpress.jsonのミドルの設定をしているのでbodyにある
       // 分割代入でぶっこむ
       const { reservableId, userId, startTime, endTime } = req.body;
+      const toJST = (dateSTr: string) => {
+        if (dateSTr.includes("Z") || dateSTr.includes("+")) return dateSTr;
+        return `${dateSTr}+9:00`;
+      };
 
       // Serviceのビジネスロジックに渡して処理
       // 変数は同じ変数名でもう一度宣言する
       const newreservation = await reservationService.createReservation({
         reservableId,
         userId,
-        startTime,
-        endTime,
+        startTime: toJST(startTime),
+        endTime: toJST(endTime),
       });
 
       res.status(201).json(newreservation);
