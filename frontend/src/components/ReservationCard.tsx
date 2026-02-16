@@ -46,9 +46,12 @@ const ReservationCard = ({ reservation, reservable, onDelete, onEdit }: Props) =
           </span>
         </div>
 
-        <div className="text-sm text-gray-500 mb-0.5">{new Date(reservation.startTime).toLocaleDateString()} - {new Date(reservation.endTime).toLocaleDateString()}</div>
+        <div className="text-sm text-gray-500 mb-0.5">
+          {new Date(reservation.startTime).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })}
+          - {new Date(reservation.endTime).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })}</div>
         <div className="text-sm font-medium text-gray-700">
-          {new Date(reservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(reservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {new Date(reservation.startTime).toLocaleTimeString("ja-JP", { hour: '2-digit', minute: '2-digit', timeZone: "Asia/Tokyo" })}
+          - {new Date(reservation.endTime).toLocaleTimeString("ja-JP", { hour: '2-digit', minute: '2-digit', timeZone: "Asia/Tokyo" })}
         </div>
 
         {/* Edit/Delete Buttons:既存のロジック通り配置（ホバーで表示） */}
