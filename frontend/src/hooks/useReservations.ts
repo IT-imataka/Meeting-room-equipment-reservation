@@ -90,7 +90,11 @@ export default function useReservations() {
     try {
       // 処理だけさせる
       // const data = await reservationAPI.handleReserve(reserveId, startTime, endTime);
-      await reservationAPI.handleReserve(reserveId, startTime, endTime);
+      await reservationAPI.handleReserve(
+        reserveId,
+        new Date(startTime).toISOString(),
+        new Date(endTime).toISOString(),
+      );
 
       // 更新されたデータを再取得
       const data = await reservationAPI.fetchReservations();
