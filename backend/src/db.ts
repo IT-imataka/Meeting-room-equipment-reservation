@@ -6,7 +6,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const isLocal =
-  process.env.DATABASE_URL?.includes("localhost") || !process.env.DATABASE_URL;
+  process.env.DATABASE_URL?.includes("localhost") ||
+  process.env.DATABASE_URL?.includes("127.0.0.1") ||
+  !process.env.DATABASE_URL;
 
 // 接続プールを作成
 const pool = new Pool({
