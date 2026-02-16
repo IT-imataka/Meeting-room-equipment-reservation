@@ -47,6 +47,7 @@ const ReservationCard = ({ reservation, reservable, onDelete, onEdit }: Props) =
         </div>
 
         <div className="text-sm text-gray-500 mb-0.5">
+          {(() => { console.log("届いている時間データ:", reservation.startTime); return null })()}
           {new Date(reservation.startTime).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })}
           - {new Date(reservation.endTime).toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })}</div>
         <div className="text-sm font-medium text-gray-700">
