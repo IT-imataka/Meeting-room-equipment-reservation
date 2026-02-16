@@ -60,7 +60,7 @@
       WHERE v.id IS NULL
     );
     ```
-  - あるいは正しい `reservable_id` に更新する（业务判断が必要）。
+  - あるいは正しい `reservable_id` に更新する（判断が必要）。
 - 再発防止: `reservations.reservable_id` に外部キー制約を付与して参照整合性を強制する（マイグレーションで適用）。
 
 作業範囲（ファイル変更の要約）
