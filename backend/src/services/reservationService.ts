@@ -3,6 +3,7 @@ import { Reservation } from "../types/models";
 
 // * as で名前空間としてインポートしていたオブジェクトたちをインスタンス化された1つの箱としてインポートする
 import reservationRepository from "../repositories/reservationRepositories";
+import reservableRepositories from "../repositories/reservableRepositories";
 import { error } from "node:console";
 
 // クライアントからくるデータの形
@@ -26,6 +27,9 @@ export class ReservationService {
     // こっからビジネスロジック
     // 既存予約の取得
     const allReservations = await reservationRepository.findAll();
+    // 既存登録の取得
+    const allRegistered = await reservableRepositories.findAll();
+    // console.log(allRegistered[0]);
 
     // 重複チェック 既存予約それぞれにチェックを行う
     // 1. 会議室ID
@@ -33,18 +37,32 @@ export class ReservationService {
 
     // 会議室IDが同じの時のロジックでも悪くはないが、違う時に抜けた方がやりやすい
     for (const existing of allReservations) {
-      if (existing.reservableId !== data.reservableId) {
-        console.log("existing", existing.reservableId);
-        console.log("data", data.reservableId);
+      if (String(existing.reservableId) !== String(data.reservableId)) {
         continue;
       }
+      // Dateオブジェクトと文字列による型の食い違いを修正
+      // DBから取得してきたデータはDateオブジェクトに変換されていることが多い。そのため渡ってきたデータとで比較すると型の不整合により
+      // 判定ではfalseを返すことがある
+      const newStart = new Date(data.startTime).getTime();
+      const newEnd = new Date(data.endTime).getTime();
+      const existStart = new Date(existing.startTime).getTime();
+      const existEnd = new Date(existing.endTime).getTime();
+
+      // 一旦会議室の時のみ重複チェックを出すように修正 find便利すぎワロタ
+      const registered = allRegistered.find(
+        (f) => f.id === existing.reservableId,
+      );
+      // if (registered?.type === "ROOM") {
       // 重複時間の領域はflagにしておく
-      const overlapflag =
-        data.startTime < existing.endTime && existing.startTime < data.endTime;
+      const overlapflag = existStart <= newEnd && newStart <= existEnd;
+      // data.startTime <= existing.endTime &&
+      // existing.startTime <= data.endTime;
+      // console.log("確認", overlapflag);
       if (overlapflag) {
         console.error("予約が重複しています！", error);
         throw new Error("既に予約が入っています。");
       }
+      // }
     }
 
     // 日付で自動採番

@@ -71,7 +71,10 @@ export const handleReserve = async (
       }),
     });
     if (!res.ok) {
-      throw new Error("予約失敗");
+      // レスポンスの中のJSONのメッセージを取り出す
+      const errorData = await res.json();
+      // その中身のmessageを投げる
+      throw new Error(errorData.message || "予約失敗");
     }
     // データを受け取らず、値だけを返す
     // const data = await res.json();
@@ -81,6 +84,7 @@ export const handleReserve = async (
     // × fetchReservables();
   } catch (error) {
     console.error("エラーです", error);
+    throw error;
   }
 };
 

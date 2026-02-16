@@ -97,9 +97,15 @@ export default function useReservations() {
       // console.log("reservations after reserve raw:", data);
       // 受け取ったデータを数値に正規化し、画面更新
       setReservations(data.map((r) => normalizeReservation(r)));
+
       alert(`予約完了`);
     } catch (error) {
       console.error("エラーです", error);
+      const apiError = error as any;
+      const message =
+        apiError.response?.data?.message ||
+        "予約に失敗しました（重複している可能性があります）";
+      alert(message);
     }
   };
 
