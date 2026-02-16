@@ -62,7 +62,7 @@ export class ReservableController {
     try {
       // 受け取ったリクエストを渡すために保存するのは大体分割代入とこれ？
       const id = req.params.id;
-      console.log(req);
+      // console.log(req);
       // idとかは必ず存在チェック！
       if (!id) return;
       const delReservable = await reservableService.DeleteReservable(id);

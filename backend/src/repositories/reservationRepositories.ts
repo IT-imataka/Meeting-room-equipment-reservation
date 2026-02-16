@@ -81,7 +81,7 @@ export class ReservationRepository {
       const result = await pool.query(query);
 
       // debug: log raw rows to help trace upstream issues
-      console.log("reservationRepository.findAll rows:", result.rows);
+      // console.log("reservationRepository.findAll rows:", result.rows);
 
       // DBのスネークケースをキャメルケースに変換しつつ型を正規化して返す
       return result.rows.map((row) => ({

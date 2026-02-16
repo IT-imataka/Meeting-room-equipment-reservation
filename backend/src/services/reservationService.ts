@@ -34,6 +34,8 @@ export class ReservationService {
     // 会議室IDが同じの時のロジックでも悪くはないが、違う時に抜けた方がやりやすい
     for (const existing of allReservations) {
       if (existing.reservableId !== data.reservableId) {
+        console.log("existing", existing.reservableId);
+        console.log("data", data.reservableId);
         continue;
       }
       // 重複時間の領域はflagにしておく
