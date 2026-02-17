@@ -149,7 +149,11 @@ export default function useReservations() {
     endTime: string,
   ) => {
     try {
-      await reservationAPI.handleUpdate(id, startTime, endTime);
+      await reservationAPI.handleUpdate(
+        id,
+        new Date(startTime).toISOString(),
+        new Date(endTime).toISOString(),
+      );
 
       // データ再取得
       const data = await reservationAPI.fetchReservations();
