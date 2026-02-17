@@ -8,6 +8,10 @@ import { Reservation } from "../types/models";
 export class ReservationController {
   // Expressのルータがメソッドを関数として扱ってしまうため、Controllerではアロー関数プロパティなるものを使う
 
+  toJST = (dateSTr: string) => {
+    if (dateSTr.includes("Z") || dateSTr.includes("+")) return dateSTr;
+    return `${dateSTr}+9:00`;
+  };
   createReservation = async (req: Request, res: Response) => {
     // Serviceで返ってきたエラーをここでハンドリングしてステータスコードを返す
     try {
@@ -15,18 +19,14 @@ export class ReservationController {
       // index.tsでexpress.jsonのミドルの設定をしているのでbodyにある
       // 分割代入でぶっこむ
       const { reservableId, userId, startTime, endTime } = req.body;
-      const toJST = (dateSTr: string) => {
-        if (dateSTr.includes("Z") || dateSTr.includes("+")) return dateSTr;
-        return `${dateSTr}+9:00`;
-      };
 
       // Serviceのビジネスロジックに渡して処理
       // 変数は同じ変数名でもう一度宣言する
       const newreservation = await reservationService.createReservation({
         reservableId,
         userId,
-        startTime: toJST(startTime),
-        endTime: toJST(endTime),
+        startTime: this.toJST(startTime),
+        endTime: this.toJST(endTime),
       });
 
       res.status(201).json(newreservation);
@@ -99,8 +99,8 @@ export class ReservationController {
     try {
       const update = await reservationService.updateReservation(
         id,
-        startTime,
-        endTime,
+        this.toJST(startTime),
+        this.toJST(endTime),
       );
       if (!update) {
         console.log("IDが見つからないため 404 を返します");
