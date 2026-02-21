@@ -109,7 +109,6 @@ export default function Dashboard() {
           <div className="flex-1 !grid grid-cols-1 lg:grid-cols-2 gap-8 lg:overflow-hidden overflow-y-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
 
             {/* カレンダーエリア */}
-            {/* WeeklyCalendarの記述を削除し、CalendarView一本化 */}
             {/* CalendarViewが内部でレスポンシブ対応(スマホ週表示/PC月表示)するため、ここではシンプルに配置 */}
             <section className="h-auto lg:h-full !flex flex-col min-w-0 shrink-0">
               <div className="flex-1 h-full w-full">
