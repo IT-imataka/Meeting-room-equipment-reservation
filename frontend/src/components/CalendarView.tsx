@@ -63,10 +63,14 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
   const getWeekDays = () => {
     const week = [];
     const start = new Date(currentWeekStart);
-    // 日曜日を基準にセット
+    // 日曜日を基準にセット　今日の日付の添字から曜日の添字を引くことで、その週初めの日付を返し続けるようにする
+    // console.log(start.getDay()); console.log(start.getDate());
     start.setDate(start.getDate() - start.getDay());
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < TOTAL_DAYS; i++) {
+      // 一度Date型を持つ別の変数に格納せず、仮にstartをsetDateし続け、startをpushした場合
+      // ループの回数分週初めの日付に対して加算し続け、最終的に5週間後のループの最後の日付である値がpushされ続けることになる
       const d = new Date(start);
+      // 週初めの日付に対して一定にループ分加算
       d.setDate(start.getDate() + i);
       week.push(d);
     }
@@ -88,43 +92,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
     setCurrentWeekStart(d);
   };
 
-
-  // ==========================================
-  // 共通ロジック
-  // ==========================================
-
-  // Color mapping for calendar dates based on the design
-  // const getDateColor = (day: number): string => {
-  //   if (!day) return ''
-  //   // v0のカラーマップをそのまま利用してカラフルなデザインを再現
-  //   const colorMap: { [key: number]: string } = {
-  //     1: 'bg-white text-gray-800',
-  //     2: 'bg-cyan-200 text-gray-800',
-  //     3: 'bg-cyan-200 text-gray-800',
-  //     4: 'bg-blue-300 text-white',
-  //     5: 'bg-blue-200 text-white',
-  //     6: 'bg-blue-300 text-white',
-  //     10: 'bg-cyan-400 text-white',
-  //     11: 'bg-blue-400 text-white',
-  //     12: 'bg-purple-300 text-white',
-  //     13: 'bg-cyan-200 text-gray-800',
-  //     14: 'bg-blue-300 text-white',
-  //     15: 'bg-blue-400 text-white',
-  //     16: 'bg-purple-300 text-white',
-  //     17: 'bg-purple-400 text-white',
-  //     18: 'bg-pink-300 text-white',
-  //     19: 'bg-pink-200 text-white',
-  //     20: 'bg-purple-200 text-gray-800',
-  //     21: 'bg-pink-200 text-white',
-  //     22: 'bg-yellow-100 text-gray-800',
-  //     23: 'bg-yellow-100 text-gray-800',
-  //     24: 'bg-yellow-200 text-gray-800',
-  //     25: 'bg-pink-100 text-gray-800',
-  //     26: 'bg-orange-100 text-gray-800',
-  //   }
-  //   return colorMap[day] || 'bg-white text-gray-800'
-  // }
-
+  // 指定した日付に予約があるかどうかの関数
   const hasReservation = (target: Date) => {
     return reservations.some((val) => {
       const reserveDateYear = new Date(val.startTime).getFullYear();
@@ -138,6 +106,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
     });
   };
 
+  // 選択された日付が現在の状態の日付と同じか判定する関数
   const isSelected = (targetDate: Date): boolean => {
     if (!activeDate) return false;
     // 比較するのはミリ秒ごと
@@ -160,7 +129,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
   return (
     // コンテナ：PCでは白カード、スマホでは背景になじむように調整するか、
     // ここでは構造を変えずにレスポンシブクラスで中身を切り替えます。
-    <div className="w-full h-full md:bg-white md:rounded-3xl md:p-8 md:shadow-2xl flex flex-col overflow-hidden">
+    <div className="w-full h-full md:bg-white md:rounded-3xl md:p-8 md:shadow-2xl flex flex-col ">
 
       {/* ================================================================
           📱 スマホ表示 (lg:hidden) - 週間カレンダー
@@ -178,7 +147,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
         </div>
 
         {/* 週間グリッド (横並び) */}
-        <div className="flex justify-between items-center bg-white/10 rounded-2xl p-3 backdrop-blur-md border border-white/10 shadow-lg">
+        <div className="flex items-center bg-white/10 rounded-2xl p-1.5 backdrop-blur-md border border-white/10 shadow-lg overflow-x-auto snap-x snap-mandatory">
           {weekDates.map((date, i) => {
             const active = isSelected(date);
             const reserved = hasReservation(date);
@@ -186,7 +155,7 @@ const CalendarView = ({ reservations, onSelectDate }: Props) => {
               <button
                 key={i}
                 onClick={() => handleDateClick(date)}
-                className={`flex flex-col items-center justify-center w-[13%] aspect-[3/5] rounded-full transition-all duration-300 relative
+                className={`shrink-0 snap-center flex flex-col items-center justify-center w-[calc(100%/7)] aspect-[3/5] rounded-full transition-all duration-300 relative
                         ${active
                     ? "bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.6)] scale-110 z-10 text-white"
                     : "hover:bg-white/10 text-slate-300"
