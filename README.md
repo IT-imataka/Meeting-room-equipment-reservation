@@ -12,7 +12,6 @@
 
 ---
 
-**上記からアクセスできます。**
 
 ## 📄 概要
 社内の会議室や備品などの管理状況を可視化し、業務が円滑に進むためのツールです。カレンダーから直感的に操作を行えるため、
@@ -90,5 +89,6 @@ PostgreSQLを使用し以下のリレーションでデータを管理してい�
 APIエンドポイント: <br>
 https://bboard-xpn6.onrender.com/reservations<br>
 https://bboard-xpn6.onrender.com/reservables
+
 
 
